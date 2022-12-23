@@ -7,12 +7,8 @@ export const withAuthRedirect = (Component) => {
         debugger
         const navigate = useNavigate();
         const { isAuth } = props;
-        console.log(isAuth);
 
         useEffect(() => {
-            // if (props.isAuth === false) {
-            //     return navigate("/login");
-            // }
             !isAuth && navigate("/login");
         }, [isAuth]);
 
