@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 
 export const withAuthRedirect = (Component) => {
     function RedirectComponent(props) {
-        debugger
         const navigate = useNavigate();
         const { isAuth } = props;
 

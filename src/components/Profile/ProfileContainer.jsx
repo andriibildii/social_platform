@@ -11,22 +11,10 @@ const ProfileContainer = (props) => {
     if (!userId) {
         userId = 2;
     }
+
     useEffect(() => {
         // use Thunk
         props.profileThunkCreator(userId);
-
-        // use DAL (data access layer) for api requests
-        // userAPI.getProfile(userId)
-        //     .then((data) => props.setUserProfile(data));
-
-        // use async request in UI
-        // axios
-        //     .get(
-        //         `https://social-network.samuraijs.com/api/1.0/profile/${userId}`
-        //     )
-        //     .then((res) => {
-        //         props.setUserProfile(res.data);
-        //     });
     }, []);
 
     return <Profile {...props} profile={props.profile} />;

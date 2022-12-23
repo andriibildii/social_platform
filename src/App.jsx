@@ -18,14 +18,15 @@ function App() {
             <NavBar />
             <div className="app-wrapper-content">
                 <Routes>
-                    {/*<Route path="profile">/>*/}
-                    {/*	<Route path=":userId?" element={<ProfileContainer />} />*/}
-                    {/*</Route>*/}
-
-                    <Route
-                        path="profile/:userId?"
-                        element={<ProfileContainer />}
-                    />
+                    <Route path="profile">
+                        <Route path=":userId" element={<ProfileContainer />} />
+                        <Route path="" element={<ProfileContainer />} />
+                    </Route>
+                    {/*<Route path="profile/" element={<ProfileContainer />} />*/}
+                    {/*<Route*/}
+                    {/*    path="profile/:userId"*/}
+                    {/*    element={<ProfileContainer />}*/}
+                    {/*/>*/}
                     <Route
                         path="dialogs"
                         element={<DialogsContainerConnect />}
