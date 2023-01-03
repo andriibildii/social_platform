@@ -1,12 +1,15 @@
 import { authAPI } from "../api/api";
 
 const SET_USER_DATA = "SET_USER_DATA";
+const SET_ERROR = "SET_ERROR";
 
 let initialState = {
     userId: null,
     email: null,
     login: null,
     isAuth: false,
+    hasError: false,
+    errorLog: '',
 };
 
 /// REDUCER
@@ -15,8 +18,13 @@ const authReducer = (state = initialState, action) => {
         case SET_USER_DATA:
             return {
                 ...state,
-                ...action.data,
-                isAuth: true,
+                ...action.payload,
+            };
+
+        case SET_ERROR:
+            return {
+                ...state,
+                ...action.payload,
             };
 
         default:
@@ -25,18 +33,45 @@ const authReducer = (state = initialState, action) => {
 };
 
 /// ACTION CREATORS
-export const setAuthUserData = (userId, email, login) => ({
+export const setAuthUserData = (userId, email, login, isAuth, hasError, errorLog) => ({
     type: SET_USER_DATA,
-    data: { userId, email, login },
+    payload: { userId, email, login, isAuth, hasError, errorLog },
 });
 
-export const AuthUserDataThunkCreator = () => (dispatch) => {
-        authAPI.getAuth().then((data) => {
-            if (data.resultCode === 0) {
-                const { id, email, login } = data.data;
-                dispatch(setAuthUserData(id, email, login));
+export const setError = (hasError, errorLog) => ({
+    type: SET_ERROR,
+    payload: { hasError, errorLog },
+});
+
+export const authUserDataThunkCreator = () => (dispatch) => {
+    authAPI.getAuth().then((data) => {
+        if (data.resultCode === 0) {
+            const { id, email, login } = data.data;
+            dispatch(setAuthUserData(id, email, login, true, false, ''));
+        }
+    });
+};
+
+// THUNKS
+export const loginThunkCreator =
+    (email, password, rememberMe) => (dispatch) => {
+        authAPI.login(email, password, rememberMe).then((res) => {
+            if (res.data.resultCode === 0) {
+                return dispatch(authUserDataThunkCreator());
+            }
+            if (res.data.resultCode !== 0) {
+                return dispatch(setError(true, res.data.messages[res.data.messages.length - 1]))
+
             }
         });
+    };
+
+export const logoutThunkCreator = () => (dispatch) => {
+    authAPI.logout().then((res) => {
+        if (res.data.resultCode === 0) {
+            dispatch(setAuthUserData(null, null, null, false));
+        }
+    });
 };
 
 export default authReducer;

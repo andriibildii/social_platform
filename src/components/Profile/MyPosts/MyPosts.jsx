@@ -1,30 +1,18 @@
 import Post from "./Post/Post";
 import style from "./MyPosts.module.css";
+import AddPostForm from "./MyPostsForm/MyPostsForm";
 
-const MyPosts = ({ posts, newPostText, addPost, updateNewPostText }) => {
-    const addMessageClick = () => {
-        addPost();
-    };
+const MyPosts = ({ posts, addPost }) => {
 
-    const inputChange = (e) => {
-        updateNewPostText(e.target.value);
+    const addNewPost = (formData) => {
+        console.log("new post", formData.newPost);
+        addPost(formData.newPost);
     };
 
     return (
         <div className={style.postsBlock}>
             <h3>My posts</h3>
-            <div>
-                <div>
-                    <textarea
-                        onChange={inputChange}
-                        value={newPostText}
-                        placeholder="add a new post..."
-                    ></textarea>
-                </div>
-                <div>
-                    <button onClick={addMessageClick}>Add post</button>
-                </div>
-            </div>
+            <AddPostForm onSubmit={addNewPost} />
             <div className={style.posts}>
                 {posts.map((post) => (
                     <Post

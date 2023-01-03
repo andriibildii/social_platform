@@ -3,29 +3,21 @@ import Messages from "./Messages/Messages";
 import style from "./Dialogs.module.css";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import AddMessageForm from "./AddMessageForm/AddMessageForm";
 
-const Dialogs = ({
-    dialogsPage,
-    sendMessage,
-    updateNewMessageBody,
-    isAuth,
-}) => {
+const Dialogs = ({ dialogsPage, sendMessage, isAuth }) => {
     // const navigate = useNavigate();
     const dialogs = dialogsPage.dialogs;
     const messages = dialogsPage.messages;
-    const inputText = dialogsPage.newMessageBody;
-
-    const sendMessageClick = () => {
-        sendMessage();
-    };
-
-    const inputChange = (e) => {
-        updateNewMessageBody(e.target.value);
-    };
 
     // useEffect(() => {
     //     !isAuth && navigate("/login");
     // }, [isAuth]);
+
+    const addNewMessage = (formData) => {
+        console.log("new mess", formData.newMessage);
+        sendMessage(formData.newMessage);
+    };
 
     return (
         <div className={style.dialogs}>
@@ -47,16 +39,7 @@ const Dialogs = ({
                         />
                     ))}
                 </div>
-                <div>
-                    <textarea
-                        onChange={inputChange}
-                        value={inputText}
-                        placeholder="add new message..."
-                    />
-                </div>
-                <div>
-                    <button onClick={sendMessageClick}>Send Message</button>
-                </div>
+                <AddMessageForm onSubmit={addNewMessage} />
             </div>
         </div>
     );

@@ -36,7 +36,6 @@ export const userAPI = {
     follow(userId) {
         return axiosInstance.post(`follow/${userId}`).then((res) => res.data);
     },
-
     unFollow(userId) {
         return axiosInstance.delete(`follow/${userId}`).then((res) => res.data);
     },
@@ -46,19 +45,27 @@ export const authAPI = {
     getAuth() {
         return axiosInstance.get(`auth/me`).then((res) => res.data);
     },
+    login(email, password, rememberMe = false) {
+        return axiosInstance.post(`auth/login`, {
+            email,
+            password,
+            rememberMe,
+        });
+    },
+    logout() {
+        return axiosInstance.delete(`auth/login`);
+    },
 };
 
 export const profileAPI = {
     getProfile(userId) {
         return axiosInstance.get(`profile/${userId}`).then((res) => res.data);
     },
-
     getStatus(userId) {
         return axiosInstance
             .get(`profile/status/${userId}`)
             .then((res) => res.data);
     },
-
     updateStatus(status) {
         return axiosInstance.put(`profile/status`, { status: status });
     },
