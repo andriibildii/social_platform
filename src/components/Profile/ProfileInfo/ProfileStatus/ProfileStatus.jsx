@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 
 const ProfileStatus = (props) => {
     const initialStatus = props.status;
-    // console.log("initialStatus", initialStatus)
     const [status, setStatus] = useState(initialStatus);
     const [editMode, setEditMode] = useState(false);
 
@@ -10,14 +9,13 @@ const ProfileStatus = (props) => {
         setEditMode(true);
     };
 
-    const deactivateEditMode = (e) => {
+    const deactivateEditMode = () => {
         setEditMode(false);
         props.updateStatus(status);
     };
 
     useEffect(() => {
-        // console.log('update', initialStatus)
-        status !== initialStatus && setStatus(initialStatus);
+        setStatus(initialStatus);
     }, [initialStatus]);
 
     const handleStatusChange = (e) => {

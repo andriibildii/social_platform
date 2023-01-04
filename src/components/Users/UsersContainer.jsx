@@ -1,6 +1,5 @@
 import { connect } from "react-redux";
 import {
-    setCurrentPage,
     getUsersThunkCreator,
     followThunkCreator,
     unfollowThunkCreator,
@@ -8,8 +7,16 @@ import {
 import { useEffect } from "react";
 import UserItem from "./UserItem/UserItem";
 import Preloader from "../../common/preloader/Preloader";
-import { withAuthRedirect } from "../../hoc/withAuthRedirect";
+// import { withAuthRedirect } from "../../hoc/withAuthRedirect";
 import { compose } from "redux";
+import {
+    getCurrentPage,
+    getFollowingInProgress,
+    getIsFetching,
+    getPageSize,
+    getTotalUsersCount,
+    getUsers
+} from "../../redux/users-selectors";
 
 const UsersContainer = ({
     users,
@@ -18,7 +25,6 @@ const UsersContainer = ({
     currentPage,
     followUser,
     unFollowUser,
-    setCurrentPage,
     isFetching,
     followingInProgress,
     getUsersThunkCreator,
@@ -30,7 +36,6 @@ const UsersContainer = ({
     }, []);
 
     const onPageChanged = (page) => {
-        setCurrentPage(page);
         getUsersThunkCreator(page, pageSize);
     };
 
@@ -53,34 +58,33 @@ const UsersContainer = ({
     );
 };
 
+// const mapUsers = (state) => {
+//     return {
+//         users: state.usersPage.users,
+//         pageSize: state.usersPage.pageSize,
+//         totalUsersCount: state.usersPage.totalUsersCount,
+//         currentPage: state.usersPage.currentPage,
+//         isFetching: state.usersPage.isFetching,
+//         followingInProgress: state.usersPage.followingInProgress,
+//     };
+// };
+
 const mapUsers = (state) => {
     return {
-        users: state.usersPage.users,
-        pageSize: state.usersPage.pageSize,
-        totalUsersCount: state.usersPage.totalUsersCount,
-        currentPage: state.usersPage.currentPage,
-        isFetching: state.usersPage.isFetching,
-        followingInProgress: state.usersPage.followingInProgress,
+        users: getUsers(state),
+        pageSize: getPageSize(state),
+        totalUsersCount: getTotalUsersCount(state),
+        currentPage: getCurrentPage(state),
+        isFetching: getIsFetching(state),
+        followingInProgress: getFollowingInProgress(state),
     };
 };
 
 export default compose(
     connect(mapUsers, {
-        setCurrentPage,
         getUsersThunkCreator,
         followThunkCreator,
         unfollowThunkCreator,
     }),
-    withAuthRedirect
+    // withAuthRedirect
 )(UsersContainer);
-
-/// VERSION WITHOUT COMPOSE
-// const AuthRedirectComponent = withAuthRedirect(UsersContainer);
-// // the second parameter of connect its object that contain links to the Action Creator.
-// // Connect automatically do callback above each Action Creator and do dispatch by itself
-// export default connect(mapUsers, {
-// 	setCurrentPage,
-// 	getUsersThunkCreator,
-// 	followThunkCreator,
-// 	unfollowThunkCreator
-// })(AuthRedirectComponent);

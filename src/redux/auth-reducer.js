@@ -43,6 +43,8 @@ export const setError = (hasError, errorLog) => ({
     payload: { hasError, errorLog },
 });
 
+// THUNKS
+
 export const authUserDataThunkCreator = () => (dispatch) => {
     authAPI.getAuth().then((data) => {
         if (data.resultCode === 0) {
@@ -52,16 +54,14 @@ export const authUserDataThunkCreator = () => (dispatch) => {
     });
 };
 
-// THUNKS
 export const loginThunkCreator =
     (email, password, rememberMe) => (dispatch) => {
         authAPI.login(email, password, rememberMe).then((res) => {
             if (res.data.resultCode === 0) {
-                return dispatch(authUserDataThunkCreator());
+                dispatch(authUserDataThunkCreator());
             }
             if (res.data.resultCode !== 0) {
-                return dispatch(setError(true, res.data.messages[res.data.messages.length - 1]))
-
+                dispatch(setError(true, res.data.messages[res.data.messages.length - 1]))
             }
         });
     };

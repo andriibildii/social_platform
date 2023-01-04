@@ -22,9 +22,10 @@ const UserItem = ({
     return (
         <div>
             <div>
-                {pages.map((page) => (
+                {pages.map((page, index) => (
                     <span
-                        className={currentPage === page && style.selectedPage}
+                        key={index}
+                        className={currentPage === page ? style.selectedPage : ''}
                         onClick={() => {
                             onPageChanged(page);
                         }}

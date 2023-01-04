@@ -1,8 +1,11 @@
+import React from "react";
 import Post from "./Post/Post";
 import style from "./MyPosts.module.css";
 import AddPostForm from "./MyPostsForm/MyPostsForm";
 
-const MyPosts = ({ posts, addPost }) => {
+const MyPosts = React.memo(({ posts, addPost }) => {
+
+  console.log("RENDER MY POSTS");
 
     const addNewPost = (formData) => {
         console.log("new post", formData.newPost);
@@ -24,6 +27,6 @@ const MyPosts = ({ posts, addPost }) => {
             </div>
         </div>
     );
-};
+});
 
 export default MyPosts;

@@ -10,7 +10,8 @@ import { withAuthRedirect } from "../../hoc/withAuthRedirect";
 import { withRouter } from "../../hoc/withRouter";
 import { compose } from "redux";
 
-const ProfileContainer = (props) => {
+const ProfileContainer = ({profile, status, profileThunkCreator, getStatusThunkCreator, updateStatusThunkCreator,  ...props}) => {
+
     let userId = props.router.params.userId;
     if (!userId) {
         userId = props.authorizedUserId;
@@ -18,16 +19,16 @@ const ProfileContainer = (props) => {
 
     useEffect(() => {
         // use Thunk
-        props.profileThunkCreator(userId);
-        props.getStatusThunkCreator(userId);
-    }, []);
+        profileThunkCreator(userId);
+        getStatusThunkCreator(userId);
+    }, [profileThunkCreator, getStatusThunkCreator]);
 
     return (
         <Profile
             {...props}
-            profile={props.profile}
-            status={props.status}
-            updateStatus={props.updateStatusThunkCreator}
+            profile={profile}
+            status={status}
+            updateStatus={updateStatusThunkCreator}
         />
     );
 };
@@ -48,12 +49,3 @@ export default compose(
     withRouter
     // withAuthRedirect
 )(ProfileContainer);
-
-/// VERSION WITHOUT COMPOSE
-// const AuthRedirectComponent = withAuthRedirect(ProfileContainer);
-//
-// const WithUrlDataProfileComponent = withRouter(AuthRedirectComponent);
-//
-// export default connect(mapStateToProps, { profileThunkCreator })(
-//     WithUrlDataProfileComponent
-// );
