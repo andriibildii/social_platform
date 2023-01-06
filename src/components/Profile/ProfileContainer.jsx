@@ -9,13 +9,34 @@ import {
 import { withAuthRedirect } from "../../hoc/withAuthRedirect";
 import { withRouter } from "../../hoc/withRouter";
 import { compose } from "redux";
+import { useNavigate } from "react-router-dom";
+import {
+    getAuthInfo,
+    getAuthUserId,
+    getProfile,
+    getStatus,
+} from "../../redux/profile-selectors";
 
-const ProfileContainer = ({profile, status, profileThunkCreator, getStatusThunkCreator, updateStatusThunkCreator,  ...props}) => {
-
+const ProfileContainer = ({
+    profile,
+    status,
+    profileThunkCreator,
+    getStatusThunkCreator,
+    updateStatusThunkCreator,
+    ...props
+}) => {
+    const navigate = useNavigate();
+    const authorizedUserId = props.authorizedUserId;
     let userId = props.router.params.userId;
     if (!userId) {
-        userId = props.authorizedUserId;
+        userId = authorizedUserId;
     }
+
+    useEffect(() => {
+        if (!userId && !authorizedUserId) {
+            navigate("/login");
+        }
+    }, [userId, authorizedUserId]);
 
     useEffect(() => {
         // use Thunk
@@ -33,11 +54,18 @@ const ProfileContainer = ({profile, status, profileThunkCreator, getStatusThunkC
     );
 };
 
+// const mapStateToProps = (state) => ({
+//     profile: state.profilePage.profile,
+//     status: state.profilePage.status,
+//     authorizedUserId: state.auth.userId,
+//     isAuth: state.auth.isAuth,
+// });
+
 const mapStateToProps = (state) => ({
-    profile: state.profilePage.profile,
-    status: state.profilePage.status,
-    authorizedUserId: state.auth.userId,
-    isAuth: state.auth.isAuth,
+    profile: getProfile(state),
+    status: getStatus(state),
+    authorizedUserId: getAuthUserId(state),
+    isAuth: getAuthInfo(state),
 });
 
 export default compose(

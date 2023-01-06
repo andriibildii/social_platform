@@ -1,12 +1,12 @@
 import Header from "./Header";
 import { useEffect } from "react";
 import { connect } from "react-redux";
-import { authUserDataThunkCreator, logoutThunkCreator } from "../../redux/auth-reducer";
+import { logoutThunkCreator } from "../../redux/auth-reducer";
 
 const HeaderContainer = (props) => {
-    useEffect(() => {
-        props.authUserDataThunkCreator();
-    }, []);
+    // useEffect(() => {
+    //     props.authUserDataThunkCreator();
+    // }, []);
 
     return <Header {...props} />;
 };
@@ -16,6 +16,6 @@ const mapStateToProps = (state) => ({
     login: state.auth.login,
 });
 
-export default connect(mapStateToProps, {
-    authUserDataThunkCreator, logoutThunkCreator
-})(HeaderContainer);
+export default connect(mapStateToProps, { logoutThunkCreator })(
+    HeaderContainer
+);

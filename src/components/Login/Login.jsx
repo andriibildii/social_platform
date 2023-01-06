@@ -4,14 +4,13 @@ import { loginThunkCreator } from "../../redux/auth-reducer";
 import { useNavigate } from "react-router-dom";
 import { FORM_ERROR } from "final-form";
 
-const Login = (props) => {
+const Login = ({ loginThunkCreator, isAuth, hasError, errorLog }) => {
     const navigate = useNavigate();
-    const { hasError, errorLog } = props;
 
     // w_GAZtd5Wxn!4Vs
 
     const onSubmit = (formData) => {
-        props.loginThunkCreator(
+        loginThunkCreator(
             formData.email,
             formData.password,
             formData.rememberMe
@@ -22,7 +21,7 @@ const Login = (props) => {
         }
     };
 
-    if (props.isAuth) {
+    if (isAuth) {
         return navigate("/profile");
     }
 

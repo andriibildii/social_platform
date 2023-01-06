@@ -1,7 +1,7 @@
 import { authAPI } from "../api/api";
 
-const SET_USER_DATA = "SET_USER_DATA";
-const SET_ERROR = "SET_ERROR";
+const SET_USER_DATA = "social-platform/auth/SET_USER_DATA";
+const SET_ERROR = "social-platform/auth/SET_ERROR";
 
 let initialState = {
     userId: null,
@@ -9,7 +9,7 @@ let initialState = {
     login: null,
     isAuth: false,
     hasError: false,
-    errorLog: '',
+    errorLog: "",
 };
 
 /// REDUCER
@@ -33,7 +33,14 @@ const authReducer = (state = initialState, action) => {
 };
 
 /// ACTION CREATORS
-export const setAuthUserData = (userId, email, login, isAuth, hasError, errorLog) => ({
+export const setAuthUserData = (
+    userId,
+    email,
+    login,
+    isAuth,
+    hasError,
+    errorLog
+) => ({
     type: SET_USER_DATA,
     payload: { userId, email, login, isAuth, hasError, errorLog },
 });
@@ -45,33 +52,34 @@ export const setError = (hasError, errorLog) => ({
 
 // THUNKS
 
-export const authUserDataThunkCreator = () => (dispatch) => {
-    authAPI.getAuth().then((data) => {
-        if (data.resultCode === 0) {
-            const { id, email, login } = data.data;
-            dispatch(setAuthUserData(id, email, login, true, false, ''));
-        }
-    });
+export const authUserDataThunkCreator = () => async (dispatch) => {
+    const response = await authAPI.getAuth();
+    if (response.resultCode === 0) {
+        const { id, email, login } = response.data;
+        dispatch(setAuthUserData(id, email, login, true, false, ""));
+    }
 };
 
 export const loginThunkCreator =
-    (email, password, rememberMe) => (dispatch) => {
-        authAPI.login(email, password, rememberMe).then((res) => {
-            if (res.data.resultCode === 0) {
-                dispatch(authUserDataThunkCreator());
-            }
-            if (res.data.resultCode !== 0) {
-                dispatch(setError(true, res.data.messages[res.data.messages.length - 1]))
-            }
-        });
+    (email, password, rememberMe) => async (dispatch) => {
+        const response = await authAPI.login(email, password, rememberMe);
+        if (response.data.resultCode === 0) {
+            dispatch(authUserDataThunkCreator());
+        } else if (response.data.resultCode !== 0) {
+            dispatch(
+                setError(
+                    true,
+                    response.data.messages[response.data.messages.length - 1]
+                )
+            );
+        }
     };
 
-export const logoutThunkCreator = () => (dispatch) => {
-    authAPI.logout().then((res) => {
-        if (res.data.resultCode === 0) {
-            dispatch(setAuthUserData(null, null, null, false));
-        }
-    });
+export const logoutThunkCreator = () => async (dispatch) => {
+    const response = await authAPI.logout();
+    if (response.data.resultCode === 0) {
+        dispatch(setAuthUserData(null, null, null, false));
+    }
 };
 
 export default authReducer;

@@ -1,21 +1,20 @@
+import { useEffect } from "react";
+import { compose } from "redux";
 import { connect } from "react-redux";
+import UsersItems from "./UsersItems/UsersItems";
+import Preloader from "../../common/preloader/Preloader";
 import {
     getUsersThunkCreator,
     followThunkCreator,
     unfollowThunkCreator,
 } from "../../redux/users-reducer";
-import { useEffect } from "react";
-import UserItem from "./UserItem/UserItem";
-import Preloader from "../../common/preloader/Preloader";
-// import { withAuthRedirect } from "../../hoc/withAuthRedirect";
-import { compose } from "redux";
 import {
     getCurrentPage,
     getFollowingInProgress,
     getIsFetching,
     getPageSize,
     getTotalUsersCount,
-    getUsers
+    getUsers,
 } from "../../redux/users-selectors";
 
 const UsersContainer = ({
@@ -31,6 +30,7 @@ const UsersContainer = ({
     followThunkCreator,
     unfollowThunkCreator,
 }) => {
+
     useEffect(() => {
         getUsersThunkCreator(currentPage, pageSize);
     }, []);
@@ -42,7 +42,7 @@ const UsersContainer = ({
     return (
         <>
             {isFetching && <Preloader />}
-            <UserItem
+            <UsersItems
                 currentPage={currentPage}
                 onPageChanged={onPageChanged}
                 users={users}
@@ -57,17 +57,6 @@ const UsersContainer = ({
         </>
     );
 };
-
-// const mapUsers = (state) => {
-//     return {
-//         users: state.usersPage.users,
-//         pageSize: state.usersPage.pageSize,
-//         totalUsersCount: state.usersPage.totalUsersCount,
-//         currentPage: state.usersPage.currentPage,
-//         isFetching: state.usersPage.isFetching,
-//         followingInProgress: state.usersPage.followingInProgress,
-//     };
-// };
 
 const mapUsers = (state) => {
     return {
@@ -85,6 +74,6 @@ export default compose(
         getUsersThunkCreator,
         followThunkCreator,
         unfollowThunkCreator,
-    }),
+    })
     // withAuthRedirect
 )(UsersContainer);

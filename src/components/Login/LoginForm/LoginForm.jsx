@@ -8,7 +8,6 @@ const LoginForm = ({ onSubmit }) => {
         <Form
             onSubmit={onSubmit}
             render={({ handleSubmit, values, submitError }) => (
-
                 <form onSubmit={handleSubmit}>
                     <div>
                         <Field
