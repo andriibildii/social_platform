@@ -5,7 +5,7 @@ import AddPostForm from "./MyPostsForm/MyPostsForm";
 
 const MyPosts = React.memo(({ posts, addPost }) => {
 
-  console.log("RENDER MY POSTS");
+  // console.log("RENDER MY POSTS");
 
     const addNewPost = (formData) => {
         console.log("new post", formData.newPost);

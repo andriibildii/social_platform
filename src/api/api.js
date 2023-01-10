@@ -45,11 +45,12 @@ export const authAPI = {
     getAuth() {
         return axiosInstance.get(`auth/me`).then((res) => res.data);
     },
-    login(email, password, rememberMe = false) {
+    login(email, password, rememberMe = false, captcha = null) {
         return axiosInstance.post(`auth/login`, {
             email,
             password,
             rememberMe,
+            captcha,
         });
     },
     logout() {
@@ -61,12 +62,34 @@ export const profileAPI = {
     getProfile(userId) {
         return axiosInstance.get(`profile/${userId}`).then((res) => res.data);
     },
+
     getStatus(userId) {
         return axiosInstance
             .get(`profile/status/${userId}`)
             .then((res) => res.data);
     },
+
     updateStatus(status) {
         return axiosInstance.put(`profile/status`, { status: status });
+    },
+
+    saveMainPhoto(photoFile) {
+        const formData = new FormData();
+        formData.append("image", photoFile);
+        return axiosInstance.put(`profile/photo`, formData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+        });
+    },
+
+    saveProfile(profile) {
+        return axiosInstance.put(`profile`, profile);
+    },
+};
+
+export const securityAPI = {
+    getCaptchaUrl() {
+        return axiosInstance.get(`security/get-captcha-url`);
     },
 };

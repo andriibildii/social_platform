@@ -13,3 +13,11 @@ export const getAuthUserId = (state) => {
 export const getAuthInfo = (state) => {
     return state.auth.isAuth;
 };
+
+export const getError = (state) => {
+    return state.profilePage.hasError;
+};
+
+export const getErrorLog = (state) => {
+    return state.profilePage.errorLog;
+};

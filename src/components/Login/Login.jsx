@@ -2,9 +2,14 @@ import LoginForm from "./LoginForm/LoginForm";
 import { connect } from "react-redux";
 import { loginThunkCreator } from "../../redux/auth-reducer";
 import { useNavigate } from "react-router-dom";
-import { FORM_ERROR } from "final-form";
 
-const Login = ({ loginThunkCreator, isAuth, hasError, errorLog }) => {
+const Login = ({
+    loginThunkCreator,
+    isAuth,
+    hasError,
+    errorLog,
+    captchaUrl,
+}) => {
     const navigate = useNavigate();
 
     // w_GAZtd5Wxn!4Vs
@@ -13,12 +18,9 @@ const Login = ({ loginThunkCreator, isAuth, hasError, errorLog }) => {
         loginThunkCreator(
             formData.email,
             formData.password,
-            formData.rememberMe
+            formData.rememberMe,
+            formData.captcha,
         );
-
-        if (hasError && errorLog) {
-            return { [FORM_ERROR]: errorLog };
-        }
     };
 
     if (isAuth) {
@@ -28,7 +30,12 @@ const Login = ({ loginThunkCreator, isAuth, hasError, errorLog }) => {
     return (
         <div>
             <h1>Login</h1>
-            <LoginForm onSubmit={onSubmit} hasError={hasError} />
+            <LoginForm
+                onSubmit={onSubmit}
+                hasError={hasError}
+                errorLog={errorLog}
+                captchaUrl={captchaUrl}
+            />
         </div>
     );
 };
@@ -37,6 +44,7 @@ const mapStateTOProps = (state) => ({
     isAuth: state.auth.isAuth,
     hasError: state.auth.hasError,
     errorLog: state.auth.errorLog,
+    captchaUrl: state.auth.captchaUrl,
 });
 
 export default connect(mapStateTOProps, { loginThunkCreator })(Login);

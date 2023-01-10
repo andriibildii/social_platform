@@ -1,9 +1,11 @@
-import { profileAPI } from "../api/api";
+import { authAPI, profileAPI } from "../api/api";
 
 const ADD_POST = "ADD-POST";
 const SET_USER_PROFILE = "SET_USER_PROFILE";
 const SET_STATUS = "SET_STATUS";
 const DELETE_POST = "DELETE_POST";
+const SAVE_PHOTO_SUCCESS = "SAVE_PHOTO_SUCCESS";
+const SET_ERROR = "SET_ERROR";
 
 let initialState = {
     posts: [
@@ -13,6 +15,8 @@ let initialState = {
     ],
     profile: null,
     status: "",
+    hasError: false,
+    errorLog: "",
 };
 
 const profileReducer = (state = initialState, action) => {
@@ -41,7 +45,7 @@ const profileReducer = (state = initialState, action) => {
         case SET_USER_PROFILE: {
             return {
                 ...state,
-                profile: action.profile,
+                ...action.payload,
             };
         }
         case SET_STATUS: {
@@ -50,6 +54,18 @@ const profileReducer = (state = initialState, action) => {
                 status: action.status,
             };
         }
+        case SAVE_PHOTO_SUCCESS: {
+            return {
+                ...state,
+                profile: { ...state.profile, photos: action.photos },
+            };
+        }
+        case SET_ERROR:
+            return {
+                ...state,
+                hasError: action.hasError,
+                errorLog: action.errorLog,
+            };
         default:
             return state;
     }
@@ -66,9 +82,9 @@ export const deletePost = (postId) => ({
     postId,
 });
 
-const setUserProfile = (profile) => ({
+const setUserProfile = (profile, hasError, errorLog) => ({
     type: SET_USER_PROFILE,
-    profile,
+    payload: { profile, hasError, errorLog },
 });
 
 const setUserStatus = (status) => ({
@@ -76,10 +92,21 @@ const setUserStatus = (status) => ({
     status,
 });
 
+const savePhotoSuccess = (photos) => ({
+    type: SAVE_PHOTO_SUCCESS,
+    photos,
+});
+
+export const setError = (hasError, errorLog) => ({
+    type: SET_ERROR,
+    hasError,
+    errorLog,
+});
+
 // THUNKS
 export const profileThunkCreator = (userId) => async (dispatch) => {
     const response = await profileAPI.getProfile(userId);
-    dispatch(setUserProfile(response));
+    dispatch(setUserProfile(response, "false", ""));
 };
 
 export const getStatusThunkCreator = (userId) => async (dispatch) => {
@@ -93,5 +120,23 @@ export const updateStatusThunkCreator = (status) => async (dispatch) => {
         dispatch(setUserStatus(status));
     }
 };
+
+export const saveMainPhotoThunkCreator = (file) => async (dispatch) => {
+    const response = await profileAPI.saveMainPhoto(file);
+    if (response.data.resultCode === 0) {
+        dispatch(savePhotoSuccess(response.data.data.photos));
+    }
+};
+
+export const saveProfileThunkCreator =
+    (profile) => async (dispatch, getState) => {
+        const userId = getState().auth.userId;
+        const response = await profileAPI.saveProfile(profile);
+        if (response.data.resultCode === 0) {
+            return dispatch(profileThunkCreator(userId));
+        } else {
+            return dispatch(setError(true, response.data.messages[response.data.messages.length - 1]));
+        }
+    };
 
 export default profileReducer;

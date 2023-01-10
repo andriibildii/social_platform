@@ -26,7 +26,7 @@ const ProfileStatus = (props) => {
         <div>
             {!editMode ? (
                 <div>
-                    <span onDoubleClick={activateEditMode}>
+                    <b>Status: </b><span onDoubleClick={activateEditMode}>
                         {initialStatus || "-->add your status<--"}
                     </span>
                 </div>

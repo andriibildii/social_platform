@@ -5,8 +5,9 @@ import {
     profileThunkCreator,
     getStatusThunkCreator,
     updateStatusThunkCreator,
+    saveMainPhotoThunkCreator,
+    saveProfileThunkCreator,
 } from "../../redux/profile-reducer";
-import { withAuthRedirect } from "../../hoc/withAuthRedirect";
 import { withRouter } from "../../hoc/withRouter";
 import { compose } from "redux";
 import { useNavigate } from "react-router-dom";
@@ -15,6 +16,8 @@ import {
     getAuthUserId,
     getProfile,
     getStatus,
+    getError,
+    getErrorLog,
 } from "../../redux/profile-selectors";
 
 const ProfileContainer = ({
@@ -23,16 +26,25 @@ const ProfileContainer = ({
     profileThunkCreator,
     getStatusThunkCreator,
     updateStatusThunkCreator,
+    saveMainPhotoThunkCreator,
+    saveProfileThunkCreator,
+    hasError,
+    errorLog,
     ...props
 }) => {
     const navigate = useNavigate();
     const authorizedUserId = props.authorizedUserId;
-    let userId = props.router.params.userId;
-    if (!userId) {
-        userId = authorizedUserId;
-    }
+    let { userId } = props.router.params;
+
+    const setAuthorizedUser = () => {
+        if (!userId) {
+            userId = authorizedUserId;
+        }
+    };
 
     useEffect(() => {
+        setAuthorizedUser();
+
         if (!userId && !authorizedUserId) {
             navigate("/login");
         }
@@ -42,30 +54,31 @@ const ProfileContainer = ({
         // use Thunk
         profileThunkCreator(userId);
         getStatusThunkCreator(userId);
-    }, [profileThunkCreator, getStatusThunkCreator]);
+    }, [userId]);
 
     return (
         <Profile
             {...props}
+            isOwner={!userId}
             profile={profile}
             status={status}
             updateStatus={updateStatusThunkCreator}
+            saveMainPhoto={saveMainPhotoThunkCreator}
+            saveProfile={saveProfileThunkCreator}
+            hasError={hasError}
+            errorLog={errorLog}
         />
     );
 };
 
-// const mapStateToProps = (state) => ({
-//     profile: state.profilePage.profile,
-//     status: state.profilePage.status,
-//     authorizedUserId: state.auth.userId,
-//     isAuth: state.auth.isAuth,
-// });
-
+// mapStateToProps with selectors
 const mapStateToProps = (state) => ({
     profile: getProfile(state),
     status: getStatus(state),
     authorizedUserId: getAuthUserId(state),
     isAuth: getAuthInfo(state),
+    hasError: getError(state),
+    errorLog: getErrorLog(state),
 });
 
 export default compose(
@@ -73,6 +86,8 @@ export default compose(
         profileThunkCreator,
         getStatusThunkCreator,
         updateStatusThunkCreator,
+        saveMainPhotoThunkCreator,
+        saveProfileThunkCreator,
     }),
     withRouter
     // withAuthRedirect
