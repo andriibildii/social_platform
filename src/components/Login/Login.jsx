@@ -19,7 +19,7 @@ const Login = ({
             formData.email,
             formData.password,
             formData.rememberMe,
-            formData.captcha,
+            formData.captcha
         );
     };
 

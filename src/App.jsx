@@ -1,8 +1,9 @@
 import React, { Suspense } from "react";
-import { Routes, Route, BrowserRouter } from "react-router-dom";
+import { Routes, Route, Redirect, BrowserRouter } from "react-router-dom";
+import { Navigate } from 'react-router-dom';
 import { compose } from "redux";
 import { connect, Provider } from "react-redux";
-import store from "./redux/store-redux";
+import store from "./redux/store";
 import HeaderContainer from "./components/Header/HeaderContainer";
 import NavBar from "./components/NavBar/NavBar";
 import Login from "./components/Login/Login";
@@ -41,6 +42,7 @@ class App extends React.Component {
                 <div className="app-wrapper-content">
                     <Suspense fallback={<Preloader />}>
                         <Routes>
+                            <Route exact path="/" element={<Navigate to="profile" />} />
                             <Route path="profile">
                                 <Route
                                     path=":userId"
@@ -57,6 +59,7 @@ class App extends React.Component {
                             <Route path="music" element={<Music />} />
                             <Route path="settings" element={<Settings />} />
                             <Route path="login" element={<Login />} />
+                            <Route path="*" element={<div>404 PAGE NOT FOUND</div>} />
                         </Routes>
                     </Suspense>
                 </div>
@@ -69,7 +72,7 @@ const mapStateToProps = (state) => ({
     initialized: state.app.initialized,
 });
 
-let AppContainer = compose(connect(mapStateToProps, { initializeApp })(App));
+const AppContainer = compose(connect(mapStateToProps, { initializeApp })(App));
 
 const SocialApp = (props) => {
     return (

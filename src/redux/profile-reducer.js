@@ -115,9 +115,15 @@ export const getStatusThunkCreator = (userId) => async (dispatch) => {
 };
 
 export const updateStatusThunkCreator = (status) => async (dispatch) => {
-    const response = await profileAPI.updateStatus(status);
-    if (response.data.resultCode === 0) {
-        dispatch(setUserStatus(status));
+    try {
+        const response = await profileAPI.updateStatus(status);
+        if (response.data.resultCode === 0) {
+            dispatch(setUserStatus(status));
+        } else {
+            throw response.data.messages[0];
+        }
+    } catch (error) {
+        console.error(error);
     }
 };
 
@@ -135,7 +141,12 @@ export const saveProfileThunkCreator =
         if (response.data.resultCode === 0) {
             return dispatch(profileThunkCreator(userId));
         } else {
-            return dispatch(setError(true, response.data.messages[response.data.messages.length - 1]));
+            return dispatch(
+                setError(
+                    true,
+                    response.data.messages[response.data.messages.length - 1]
+                )
+            );
         }
     };
 
