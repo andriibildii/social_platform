@@ -5,10 +5,11 @@ import {
 } from "../../redux/dialogs-reducer";
 import { withAuthRedirect } from "../../hoc/withAuthRedirect";
 import { compose } from "redux";
+import { getdialogsPage } from "../../redux/dialogs-selectors";
 
 const mapStateToProps = (state) => {
     return {
-        dialogsPage: state.dialogsPage,
+        dialogsPage: getdialogsPage(state),
     };
 };
 
