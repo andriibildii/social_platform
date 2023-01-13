@@ -1,9 +1,10 @@
+import { FC } from "react";
 import { NavLink } from "react-router-dom";
-import style from "./NavBar.module.css";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
+import style from "./NavBar.module.css";
 
-const NavBar = () => {
+const NavBar: FC = () => {
     return (
         <nav className={style.nav}>
             <Card sx={{ minHeight: 796 }}>
