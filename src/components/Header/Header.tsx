@@ -1,9 +1,16 @@
+import { FC } from "react";
 import { NavLink } from "react-router-dom";
 import Card from "@mui/material/Card";
 import Button from '@mui/material/Button';
 import style from "./Header.module.css";
 
-const Header = (props) => {
+type PropsTypes = {
+  isAuth: boolean
+  login: string | null
+  logoutThunkCreator: () => void
+}
+
+const Header: FC<PropsTypes> = (props) => {
     return (
         <header className={style.header}>
             <Card sx={{ minHeight: 50, display: "flex", alignItems: "center", justifyContent: "space-between", paddingLeft: 2, paddingRight: 2 }}>
