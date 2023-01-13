@@ -1,7 +1,8 @@
+import { FC } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 
-const Preloader = () => {
+const Preloader: FC = () => {
     return (
         <div>
             <Box sx={{ minHeight: 796, display: "flex", alignItems: "center", justifyContent: "center" }}>
