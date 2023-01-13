@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { compose } from "redux";
 import { connect } from "react-redux";
 import UsersItems from "./UsersItems/UsersItems";
-import Preloader from "../../common/preloader/Preloader";
+import Preloader from "../../common/Preloader/Preloader";
 import {
     getUsersThunkCreator,
     followThunkCreator,

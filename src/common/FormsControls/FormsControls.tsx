@@ -1,53 +1,40 @@
+import React from 'react';
 import styles from "./FormsControls.module.css";
+import { FieldRenderProps } from "react-final-form";
 
-const FormControl = ({ input, meta: { error, touched }, ...props }) => {
-    const hasError = error && touched;
-    return (
-        <div className={styles.formControl + " " + (hasError && styles.error)}>
-            <div>{props.children}</div>
-            {hasError && <span>{error}</span>}
-        </div>
-    );
-};
+type Props = FieldRenderProps<string, any>;
+type CheckboxInputProps = FieldRenderProps<boolean, any>;
 
-// export const TextArea = (props) => {
-//     const { input, meta, ...restProps } = props;
-//     return (
-//         <FormControl {...props}>
-//             <textarea {...input} {...restProps} />
-//         </FormControl>
-//     );
-// };
+export const Input: React.FC<Props> = ({ input, meta: {error, touched}, ...rest }: Props) => {
+  const hasError = error && touched;
+  return (
+    <div className={styles.formControl + " " + (hasError && styles.error)}>
+      <div>
+        <input type="text" {...input} {...rest} />
+      </div>
+      {hasError && <span>{error}</span>}
+    </div>
+  )
+}
 
-export const Input = ({ input, meta: { error, touched }, ...rest }) => {
-    const hasError = error && touched;
-    return (
-        <div className={styles.formControl + " " + (hasError && styles.error)}>
-            <div>
-                <input type="text" {...input} {...rest} />
-            </div>
-            {hasError && <span>{error}</span>}
-        </div>
-    );
-};
+export const TextArea: React.FC<Props> = ({ input, meta: {error, touched}, ...rest }: Props) => {
+  const hasError = error && touched;
+  return (
+    <div className={styles.formControl + " " + (hasError && styles.error)}>
+      <div>
+        <textarea {...input} {...rest} />
+      </div>
+      {hasError && <span>{error}</span>}
+    </div>
+  )
+}
 
-export const TextArea = ({ input, meta: { error, touched }, ...rest }) => {
-    const hasError = error && touched;
-    return (
-        <div className={styles.formControl + " " + (hasError && styles.error)}>
-            <div>
-                <textarea {...input} {...rest} />
-            </div>
-            {hasError && <span>{error}</span>}
-        </div>
-    );
-};
-
-// export const Input = (props) => {
-//     const { input, meta, ...restProps } = props;
-//     return (
-//         <FormControl {...props}>
-//             <input {...input} {...restProps} />
-//         </FormControl>
-//     );
-// };
+export const CheckboxInput: React.FC<CheckboxInputProps> = ({input: { value, ...input }}: CheckboxInputProps) => {
+  return (
+    <div className={styles.formControl}>
+      <div>
+        <input {...input} type="checkbox" checked={value} />;
+      </div>
+    </div>
+  )
+}

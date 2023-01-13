@@ -1,9 +1,18 @@
+import { FC } from "react";
 import { Form, Field } from "react-final-form";
 import { Input } from "../../../common/FormsControls/FormsControls";
 import { required } from "../../../utils/validators";
+import {LoginFormType} from "../Login";
 import styles from "./LoginForm.module.css";
 
-const LoginForm = ({ onSubmit, hasError, errorLog, captchaUrl }) => {
+type PropsTypes = {
+  onSubmit: (formData: LoginFormType) => void
+  hasError: boolean
+  errorLog: string | null
+  captchaUrl: string | null
+}
+
+const LoginForm: FC<PropsTypes> = ({ onSubmit, hasError, errorLog, captchaUrl }) => {
     return (
         <Form
             onSubmit={onSubmit}
@@ -52,7 +61,7 @@ const LoginForm = ({ onSubmit, hasError, errorLog, captchaUrl }) => {
                     <div>
                         <button>Login</button>
                     </div>
-                    <pre>{JSON.stringify(values, 0, 2)}</pre>
+                    <pre>{JSON.stringify(values, undefined, 2)}</pre>
                 </form>
             )}
         />

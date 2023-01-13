@@ -1,5 +1,5 @@
 import style from "./ProfileInfo.module.css";
-import Preloader from "../../../common/preloader/Preloader";
+import Preloader from "../../../common/Preloader/Preloader";
 import ProfileStatus from "./ProfileStatus/ProfileStatus";
 import userPhoto from "../../../assets/img/image-from-rawpixel-id-6642555-png.png";
 import { useState } from "react";

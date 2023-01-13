@@ -8,7 +8,7 @@ import HeaderContainer from "./components/Header/HeaderContainer";
 import NavBar from "./components/NavBar/NavBar";
 import Login from "./components/Login/Login";
 import { initializeApp } from "./redux/app-reducer";
-import Preloader from "./common/preloader/Preloader";
+import Preloader from "./common/Preloader/Preloader";
 import "./App.css";
 import Grid from "@mui/material/Unstable_Grid2";
 
