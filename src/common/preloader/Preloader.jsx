@@ -1,9 +1,12 @@
-import loader from "../../assets/img/Spinner-1s-200px.svg";
+import CircularProgress from "@mui/material/CircularProgress";
+import Box from "@mui/material/Box";
 
 const Preloader = () => {
     return (
         <div>
-            <img src={loader} />
+            <Box sx={{ minHeight: 796, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <CircularProgress size={80} thickness={4} />
+            </Box>
         </div>
     );
 };

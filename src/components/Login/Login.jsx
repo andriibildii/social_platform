@@ -2,6 +2,8 @@ import LoginForm from "./LoginForm/LoginForm";
 import { connect } from "react-redux";
 import { loginThunkCreator } from "../../redux/auth-reducer";
 import { useNavigate } from "react-router-dom";
+import Card from "@mui/material/Card";
+import styles from "./LoginForm/LoginForm.module.css";
 
 const Login = ({
     loginThunkCreator,
@@ -28,7 +30,8 @@ const Login = ({
     }
 
     return (
-        <div>
+      <Card sx={{ minHeight: 796 }}>
+        <div className={styles.formContainer}>
             <h1>Login</h1>
             <LoginForm
                 onSubmit={onSubmit}
@@ -37,6 +40,7 @@ const Login = ({
                 captchaUrl={captchaUrl}
             />
         </div>
+      </Card>
     );
 };
 

@@ -34,7 +34,7 @@ const LoginForm = ({ onSubmit, hasError, errorLog, captchaUrl }) => {
                             type="checkbox"
                         />
                     </div>
-                    {captchaUrl && <img src={captchaUrl} />}
+                    {captchaUrl && <img src={captchaUrl} alt={'captchaUrl'}/>}
                     {captchaUrl && (
                         <div>
                             <Field
