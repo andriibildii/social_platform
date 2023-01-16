@@ -1,12 +1,35 @@
+import { ChangeEvent, FC, useState } from "react";
 import style from "./ProfileInfo.module.css";
 import Preloader from "../../../common/Preloader/Preloader";
 import ProfileStatus from "./ProfileStatus/ProfileStatus";
+// @ts-ignore
 import userPhoto from "../../../assets/img/image-from-rawpixel-id-6642555-png.png";
-import { useState } from "react";
 import ProfileData from "./ProfileData/ProfileData";
 import ProfileDataForm from "./ProfileDataForm/ProfileDataForm";
+import { ContactsType, PhotosType, ProfileType } from "../../../types/types";
 
-const ProfileInfo = ({
+export type PropsTypes = {
+    profile: ProfileType | null
+    isOwner: boolean
+    saveMainPhoto: (file: any) => void
+    saveProfile: (profile: ProfileType) => PromiseLike<{errorLog: string, hasError: boolean, type: string} | undefined>
+    hasError: boolean,
+    errorLog: string,
+    status: string
+    updateStatus: (status: string) => void
+}
+
+export type FormDataType = {
+    aboutMe: string
+    contacts: ContactsType
+    fullName: string
+    lookingForAJob: boolean
+    lookingForAJobDescription: string
+    photos: PhotosType
+    userId: number
+}
+
+const ProfileInfo: FC<PropsTypes> = ({
     profile,
     isOwner,
     saveMainPhoto,
@@ -21,8 +44,9 @@ const ProfileInfo = ({
         return <Preloader />;
     }
 
-    const setMainPhoto = (e) => {
-        if (e.target.files.length) {
+
+    const setMainPhoto = (e: ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files?.length) {
             saveMainPhoto(e.target.files[0]);
         }
     };
@@ -31,8 +55,11 @@ const ProfileInfo = ({
         setEditMode(true);
     };
 
-    const handleSubmit = (formData) => {
+    const handleSubmit = (formData: FormDataType) => {
+        console.log("formData", formData)
+
         saveProfile(formData).then((value) => {
+            console.log("value", value)
             if (value === undefined) {
                 setEditMode(false);
             }

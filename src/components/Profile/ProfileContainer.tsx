@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, FC } from "react";
 import { connect } from "react-redux";
 import Profile from "./Profile";
 import {
@@ -19,8 +19,36 @@ import {
     getError,
     getErrorLog,
 } from "../../redux/profile-selectors";
+import { AppStateType } from "../../redux/store";
+import { ProfileType } from "../../types/types";
 
-const ProfileContainer = ({
+type MapStateToPropsType = {
+    profile: ProfileType | null
+    status: string
+    authorizedUserId: number | null
+    isAuth: boolean
+    hasError: boolean,
+    errorLog: string,
+}
+
+type MapDispatchToPropsType = {
+    profileThunkCreator: (userId: number | null) => void
+    getStatusThunkCreator: (userId: number | null) => void
+    updateStatusThunkCreator: (status: string) => void
+    saveMainPhotoThunkCreator: (file: any) => void
+    saveProfileThunkCreator: (profile: ProfileType) => void
+}
+
+type OwnPropsType = {
+    router: {
+        params: {
+            userId: number | null
+        }
+    }
+}
+type PropsTypes = MapStateToPropsType & MapDispatchToPropsType & OwnPropsType;
+
+const ProfileContainer: FC<PropsTypes> = ({
     profile,
     status,
     profileThunkCreator,
@@ -34,6 +62,7 @@ const ProfileContainer = ({
 }) => {
     const navigate = useNavigate();
     const authorizedUserId = props.authorizedUserId;
+
     let { userId } = props.router.params;
 
     const setAuthorizedUser = () => {
@@ -74,7 +103,7 @@ const ProfileContainer = ({
 };
 
 // mapStateToProps with selectors
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: AppStateType): MapStateToPropsType => ({
     profile: getProfile(state),
     status: getStatus(state),
     authorizedUserId: getAuthUserId(state),
@@ -84,7 +113,7 @@ const mapStateToProps = (state) => ({
 });
 
 export default compose(
-    connect(mapStateToProps, {
+    connect<MapStateToPropsType, MapDispatchToPropsType, OwnPropsType, AppStateType>(mapStateToProps, {
         profileThunkCreator,
         getStatusThunkCreator,
         updateStatusThunkCreator,

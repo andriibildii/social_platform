@@ -1,6 +1,8 @@
-import {authAPI, ResultCodeForCaptchaEnum, ResultCodesEnum, securityAPI} from "../api/api";
+import {ResultCodeForCaptchaEnum, ResultCodesEnum} from "../api/api";
 import {ThunkAction} from "redux-thunk";
 import {AppStateType} from "./store";
+import { authAPI } from "../api/authAPI";
+import { securityAPI } from "../api/securityAPI";
 
 const SET_USER_DATA = "social-platform/auth/SET_USER_DATA";
 const SET_ERROR = "social-platform/auth/SET_ERROR";

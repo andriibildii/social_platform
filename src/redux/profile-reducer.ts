@@ -1,7 +1,8 @@
-import {profileAPI, ResultCodesEnum} from "../api/api";
+import {ResultCodesEnum} from "../api/api";
 import {PhotosType, PostsType, ProfileType} from "../types/types";
 import {ThunkAction} from "redux-thunk";
 import {AppStateType} from "./store";
+import { profileAPI } from "../api/profileAPI";
 
 const ADD_POST = "ADD-POST";
 const SET_USER_PROFILE = "SET_USER_PROFILE";
@@ -64,7 +65,6 @@ const profileReducer = (state = initialState, action: ActionsTypes): InitialStat
         case SAVE_PHOTO_SUCCESS: {
             return {
                 ...state,
-                // @ts-ignore
                 profile: {...state.profile, photos: action.photos},
             };
         }
@@ -151,7 +151,7 @@ export const profileThunkCreator = (userId: number | null): ThunkType => async (
     dispatch(setUserProfile(response, false, ""));
 };
 
-export const getStatusThunkCreator = (userId: number): ThunkType => async (dispatch) => {
+export const getStatusThunkCreator = (userId: number | null): ThunkType => async (dispatch) => {
     const response = await profileAPI.getStatus(userId);
     dispatch(setUserStatus(response));
 };

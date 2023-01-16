@@ -1,13 +1,23 @@
-import React from "react";
+import React, { FC } from "react";
 import Post from "./Post/Post";
 import style from "./MyPosts.module.css";
 import AddPostForm from "./MyPostsForm/MyPostsForm";
+import { ContactsType, PhotosType, PostsType } from "../../../types/types";
 
-const MyPosts = React.memo(({ posts, addPost }) => {
+type PropsTypes = {
+  posts: Array<PostsType>
+  addPost: (newPostBody: string) => void
+}
+
+type FormDataType = {
+  newPost: string
+}
+
+const MyPosts: FC<PropsTypes> = React.memo(({ posts, addPost }) => {
 
   // console.log("RENDER MY POSTS");
 
-    const addNewPost = (formData) => {
+    const addNewPost = (formData: FormDataType) => {
         console.log("new post", formData.newPost);
         addPost(formData.newPost);
     };

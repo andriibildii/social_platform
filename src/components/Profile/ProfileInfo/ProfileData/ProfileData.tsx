@@ -1,6 +1,13 @@
+import { FC } from "react";
 import Contact from "./Contact/Contact";
+import { ProfileType } from "../../../../types/types";
 
-const ProfileData = ({ profile, isOwner, changeEditMode }) => {
+type PropsTypes = {
+  profile: ProfileType
+  isOwner: boolean
+  changeEditMode: () => void
+}
+const ProfileData: FC<PropsTypes> = ({ profile, isOwner, changeEditMode }) => {
     return (
         <div>
             {isOwner && (
@@ -10,13 +17,13 @@ const ProfileData = ({ profile, isOwner, changeEditMode }) => {
             )}
             <div>
                 <b>Full name: </b>
-                {profile.fullName}
+                {profile?.fullName}
             </div>
             <div>
                 <b>Looking for a job:</b>{" "}
-                {profile.lookingForAJob ? "yes" : "no"}
+                {profile?.lookingForAJob ? "yes" : "no"}
             </div>
-            {profile.lookingForAJob && (
+            {profile?.lookingForAJob && (
                 <div>
                     <b>My professional skills:</b>{" "}
                     {profile.lookingForAJobDescription}

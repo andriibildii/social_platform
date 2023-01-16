@@ -1,11 +1,16 @@
+import { FC } from "react";
 import { Form, Field } from "react-final-form";
 import { required, maxValue } from "../../../../utils/validators";
 import { TextArea } from "../../../../common/FormsControls/FormsControls";
 
-const AddPostForm = ({ onSubmit }) => {
+type PropsTypes = {
+  onSubmit: (newPost: string) => void
+}
+
+const AddPostForm: FC<PropsTypes> = ({ onSubmit }) => {
     const composeValidators =
         (...validators) =>
-        (value) =>
+        (value: number) =>
             validators.reduce(
                 (error, validator) => error || validator(value),
                 undefined
@@ -28,7 +33,7 @@ const AddPostForm = ({ onSubmit }) => {
                     <div>
                         <button>Add post</button>
                     </div>
-                    <pre>{JSON.stringify(values, 0, 2)}</pre>
+                    <pre>{JSON.stringify(values, undefined, 2)}</pre>
                 </form>
             )}
         />

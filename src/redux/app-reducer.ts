@@ -2,16 +2,13 @@ import {authUserDataThunkCreator} from "./auth-reducer";
 import {AppStateType} from "./store";
 import {ThunkAction} from "redux-thunk";
 
+const INITIALIZED_SUCCESS = "SOCIAL_PLATFORM/APP-REDUCER/INITIALIZED_SUCCESS";
 
-const INITIALIZED_SUCCESS = "INITIALIZED_SUCCESS";
-
-type InitialStateType = {
-    initialized: boolean,
-}
-
-const initialState: InitialStateType = {
+const initialState = {
     initialized: false,
 };
+
+type InitialStateType = typeof initialState;
 
 /// REDUCER
 type ActionsTypes = InitializedSuccessType;

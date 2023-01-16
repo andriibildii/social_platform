@@ -4,8 +4,19 @@ import {
     TextArea,
 } from "../../../../common/FormsControls/FormsControls";
 import styles from "../../../Login/LoginForm/LoginForm.module.css";
+import { ProfileType } from "../../../../types/types";
+import { FormDataType } from "../ProfileInfo";
+import { FC } from "react";
 
-const ProfileDataForm = ({
+type PropsTypes = {
+  profile: ProfileType
+  handleSubmit: (formData: FormDataType) => void
+  initialValues: ProfileType | null
+  hasError: boolean,
+  errorLog: string,
+}
+
+const ProfileDataForm: FC<PropsTypes> = ({
     profile,
     handleSubmit,
     initialValues,
@@ -72,7 +83,7 @@ const ProfileDataForm = ({
                             );
                         })}
                     </div>
-                    <pre>{JSON.stringify(values, 0, 2)}</pre>
+                    <pre>{JSON.stringify(values, undefined, 2)}</pre>
                 </form>
             )}
         />
