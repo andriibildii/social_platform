@@ -1,4 +1,4 @@
-import { ResultCodesEnum} from "../api/api";
+import { ResponseType, ResultCodesEnum } from "../api/api";
 import { updateObjectInArray } from "../utils/object-helper";
 import { UsersType } from "../types/types";
 import { BaseThunkType, InferActionsTypes } from "./store";
@@ -14,7 +14,7 @@ const initialState = {
     followingInProgress: [] as Array<number> // array of users ID
 };
 
-type InitialStateType = typeof initialState;
+export type InitialStateType = typeof initialState;
 type ActionsType = InferActionsTypes<typeof actions>
 type ThunkType = BaseThunkType<ActionsType>
 
@@ -84,7 +84,7 @@ const usersReducer = (state = initialState, action: ActionsType): InitialStateTy
 };
 
 /// ACTION CREATORS
-const actions = {
+export const actions = {
     followSuccess: (userId: number) => ({ type: "social-platform/users-reducer/FOLLOW", userId }as const),
     unFollowSuccess: (userId: number) => ({ type: "social-platform/users-reducer/UNFOLLOW", userId }as const),
     setUser: (users: Array<UsersType>) => ({ type: "social-platform/users-reducer/SET_USERS", users }as const),
@@ -99,6 +99,7 @@ const actions = {
 export const getUsersThunkCreator =
   (currentPage: number, pageSize: number): ThunkType => async (dispatch) => {
       dispatch(actions.toggleIsFetching(true));
+      dispatch(actions.toggleIsFetching(true));
       dispatch(actions.setCurrentPage(currentPage));
       const response = await userAPI.getUsers(currentPage, pageSize);
       dispatch(actions.toggleIsFetching(false));
@@ -109,7 +110,7 @@ export const getUsersThunkCreator =
 const _followUnfollowFlow = async (
   dispatch: Dispatch<ActionsType>,
   userId: number,
-  apiMethod: any,
+  apiMethod: (userId: number) => Promise<ResponseType>,
   actionCreator: (userId: number) => ActionsType
 ) => {
     dispatch(actions.toggleFollowingProgress(true, userId));
