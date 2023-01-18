@@ -1,20 +1,21 @@
 import { FC } from "react";
 import { Form, Field } from "react-final-form";
-import { required, maxValue } from "../../../../utils/validators";
+import { maxValue } from "../../../../utils/validators";
 import { TextArea } from "../../../../common/FormsControls/FormsControls";
+import { FormDataType } from "../MyPosts";
 
 type PropsTypes = {
-  onSubmit: (newPost: string) => void
+  onSubmit: (formData: FormDataType) => void
 }
 
 const AddPostForm: FC<PropsTypes> = ({ onSubmit }) => {
-    const composeValidators =
-        (...validators) =>
-        (value: number) =>
-            validators.reduce(
-                (error, validator) => error || validator(value),
-                undefined
-            );
+    // const composeValidators =
+    //     (...validators) =>
+    //     (value: number) =>
+    //         validators.reduce(
+    //             (error, validator) => error || validator(value),
+    //             undefined
+    //         );
 
     return (
         <Form
@@ -27,7 +28,7 @@ const AddPostForm: FC<PropsTypes> = ({ onSubmit }) => {
                             component={TextArea}
                             placeholder="add a new post..."
                             type="text"
-                            validate={composeValidators(required, maxValue(5))}
+                            validate={maxValue(50)}
                         ></Field>
                     </div>
                     <div>

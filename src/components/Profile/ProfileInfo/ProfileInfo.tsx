@@ -12,22 +12,23 @@ export type PropsTypes = {
     profile: ProfileType | null
     isOwner: boolean
     saveMainPhoto: (file: any) => void
-    saveProfile: (profile: ProfileType) => PromiseLike<{errorLog: string, hasError: boolean, type: string} | undefined>
+    saveProfile: (profile: ProfileType) => Promise<{errorLog: string, hasError: boolean, type: string} | undefined>
+    // saveProfile: (profile: ProfileType) => Promise<any>
     hasError: boolean,
     errorLog: string,
     status: string
     updateStatus: (status: string) => void
 }
 
-export type FormDataType = {
-    aboutMe: string
-    contacts: ContactsType
-    fullName: string
-    lookingForAJob: boolean
-    lookingForAJobDescription: string
-    photos: PhotosType
-    userId: number
-}
+// export type FormDataType = {
+//     aboutMe: string
+//     contacts: ContactsType
+//     fullName: string
+//     lookingForAJob: boolean
+//     lookingForAJobDescription: string
+//     photos: PhotosType
+//     userId: number
+// }
 
 const ProfileInfo: FC<PropsTypes> = ({
     profile,
@@ -44,7 +45,6 @@ const ProfileInfo: FC<PropsTypes> = ({
         return <Preloader />;
     }
 
-
     const setMainPhoto = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.files?.length) {
             saveMainPhoto(e.target.files[0]);
@@ -55,7 +55,7 @@ const ProfileInfo: FC<PropsTypes> = ({
         setEditMode(true);
     };
 
-    const handleSubmit = (formData: FormDataType) => {
+    const handleSubmit = (formData: ProfileType) => {
         console.log("formData", formData)
 
         saveProfile(formData).then((value) => {

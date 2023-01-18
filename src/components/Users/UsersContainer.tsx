@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, ComponentType, FC } from "react";
 import { compose } from "redux";
 import { connect } from "react-redux";
 import UsersItems from "./UsersItems/UsersItems";
@@ -16,14 +16,32 @@ import {
     getTotalUsersCount,
     getUsers,
 } from "../../redux/users-selectors";
+import { AppStateType } from "../../redux/store";
+import { UsersType } from "../../types/types";
+import { withAuthRedirect } from "../../hoc/withAuthRedirect";
 
-const UsersContainer = ({
+type MapStateToPropsType = {
+    users: Array<UsersType>
+    pageSize: number
+    totalUsersCount: number
+    currentPage: number
+    isFetching: boolean
+    followingInProgress: Array<number>
+}
+
+type MapDispatchToPropsType = {
+    getUsersThunkCreator: (currentPage: number, pageSize: number) => void
+    followThunkCreator: (userId: number) => void
+    unfollowThunkCreator: (userId: number) => void
+}
+
+type PropsTypes = MapStateToPropsType & MapDispatchToPropsType
+
+const UsersContainer: FC<PropsTypes> = ({
     users,
     pageSize,
     totalUsersCount,
     currentPage,
-    followUser,
-    unFollowUser,
     isFetching,
     followingInProgress,
     getUsersThunkCreator,
@@ -35,7 +53,7 @@ const UsersContainer = ({
         getUsersThunkCreator(currentPage, pageSize);
     }, []);
 
-    const onPageChanged = (page) => {
+    const onPageChanged = (page: number) => {
         getUsersThunkCreator(page, pageSize);
     };
 
@@ -46,8 +64,6 @@ const UsersContainer = ({
                 currentPage={currentPage}
                 onPageChanged={onPageChanged}
                 users={users}
-                unFollowUser={unFollowUser}
-                followUser={followUser}
                 totalUsersCount={totalUsersCount}
                 pageSize={pageSize}
                 followingInProgress={followingInProgress}
@@ -58,7 +74,7 @@ const UsersContainer = ({
     );
 };
 
-const mapUsers = (state) => {
+const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
     return {
         users: getUsers(state),
         pageSize: getPageSize(state),
@@ -69,11 +85,11 @@ const mapUsers = (state) => {
     };
 };
 
-export default compose(
-    connect(mapUsers, {
+export default compose<ComponentType>(
+    connect<MapStateToPropsType, MapDispatchToPropsType, undefined, AppStateType >(mapStateToProps, {
         getUsersThunkCreator,
         followThunkCreator,
         unfollowThunkCreator,
-    })
-    // withAuthRedirect
+    }),
+    withAuthRedirect
 )(UsersContainer);

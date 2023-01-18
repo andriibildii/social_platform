@@ -3,10 +3,10 @@ import Contact from "./Contact/Contact";
 import { ProfileType } from "../../../../types/types";
 
 type PropsTypes = {
-  profile: ProfileType
-  isOwner: boolean
-  changeEditMode: () => void
-}
+    profile: ProfileType;
+    isOwner: boolean;
+    changeEditMode: () => void;
+};
 const ProfileData: FC<PropsTypes> = ({ profile, isOwner, changeEditMode }) => {
     return (
         <div>
@@ -34,7 +34,7 @@ const ProfileData: FC<PropsTypes> = ({ profile, isOwner, changeEditMode }) => {
             </div>
             <div>
                 <b>Contacts:</b>{" "}
-                {Object.keys(profile.contacts).map((key) => {
+                {(Object.keys(profile.contacts) as Array<keyof typeof profile.contacts>).map((key) => {
                     return (
                         <Contact
                             key={key}

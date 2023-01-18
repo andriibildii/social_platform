@@ -1,8 +1,21 @@
+import { FC } from "react";
 import Paginator from "../../../common/Paginator/Paginator";
 import User from "./User/User";
 import Card from "@mui/material/Card";
+import { UsersType } from "../../../types/types";
 
-const UsersItems = ({
+type PropsType = {
+    currentPage: number
+    onPageChanged: (page: number) => void
+    users: Array<UsersType>
+    totalUsersCount: number
+    pageSize: number
+    followingInProgress: Array<number>
+    followThunkCreator: (userId: number) => void
+    unfollowThunkCreator: (userId: number) => void
+}
+
+const UsersItems: FC<PropsType> = ({
     currentPage,
     onPageChanged,
     users,

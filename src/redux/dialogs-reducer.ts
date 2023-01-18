@@ -1,4 +1,4 @@
-const SEND_MESSAGE = "SEND_MESSAGE";
+import { InferActionsTypes } from "./store";
 
 type DialogsType = {
     id: number;
@@ -25,15 +25,15 @@ const initialState = {
     ] as Array<MessagesType>,
 };
 
-type initialStateType = typeof initialState;
+export type InitialStateType = typeof initialState;
+type ActionsType = InferActionsTypes<typeof actions>;
 
-type ActionsTypes = SendMessageCreatorType;
 const dialogsReducer = (
     state = initialState,
-    action: ActionsTypes
-): initialStateType => {
+    action: ActionsType
+): InitialStateType => {
     switch (action.type) {
-        case SEND_MESSAGE:
+        case "social-platform/dialogs-reducer/SEND_MESSAGE":
             return {
                 ...state,
                 messages: [
@@ -49,13 +49,8 @@ const dialogsReducer = (
     }
 };
 
-type SendMessageCreatorType = {
-    type: typeof SEND_MESSAGE;
-    newMessageBody: string;
-};
-export const sendMessageCreator = (newMessageBody: string): SendMessageCreatorType => ({
-    type: SEND_MESSAGE,
-    newMessageBody,
-});
+export const actions = {
+    sendMessageCreator: (newMessageBody: string) => ({ type: "social-platform/dialogs-reducer/SEND_MESSAGE", newMessageBody} as const)
+}
 
 export default dialogsReducer;

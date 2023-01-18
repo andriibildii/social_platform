@@ -33,7 +33,7 @@ export const CheckboxInput: React.FC<CheckboxInputProps> = ({input: { value, ...
   return (
     <div className={styles.formControl}>
       <div>
-        <input {...input} type="checkbox" checked={value} />;
+        <input {...input} type="checkbox" checked={value} />
       </div>
     </div>
   )

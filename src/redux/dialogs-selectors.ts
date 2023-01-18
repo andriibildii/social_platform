@@ -1,6 +1,6 @@
 import { AppStateType } from "./store";
 
-export const getdialogsPage = (state: AppStateType) => {
+export const getDialogsPage = (state: AppStateType) => {
     return state.dialogsPage;
 };
 

@@ -25,7 +25,7 @@ export type GetItemsType = {
 }
 
 export type ResponseType<D = {}, RC = ResultCodesEnum> = {
-    data: D;
-    messages: Array<string>;
-    resultCode: RC;
-};
+    data: D
+    messages: Array<string>
+    resultCode: RC
+}

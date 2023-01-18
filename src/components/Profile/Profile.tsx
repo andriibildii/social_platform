@@ -11,14 +11,13 @@ type PropsTypes = {
     status: string;
     updateStatus: (status: string) => void;
     saveMainPhoto: (file: any) => void;
-    saveProfile: (profile: ProfileType) => void;
+    saveProfile: (profile: ProfileType) => Promise<{errorLog: string, hasError: boolean, type: string} | undefined>
     hasError: boolean;
     errorLog: string;
 };
 
 const Profile: React.FC<PropsTypes> = React.memo(({ ...props }) => {
     // console.log("RENDER PROFILE");
-
 
     return (
         <div className="">
@@ -29,7 +28,6 @@ const Profile: React.FC<PropsTypes> = React.memo(({ ...props }) => {
                     status={props.status}
                     updateStatus={props.updateStatus}
                     saveMainPhoto={props.saveMainPhoto}
-                    // @ts-ignore
                     saveProfile={props.saveProfile}
                     hasError={props.hasError}
                     errorLog={props.errorLog}

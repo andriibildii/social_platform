@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { ComponentType, FC } from "react";
 import LoginForm from "./LoginForm/LoginForm";
 import { connect } from "react-redux";
 import { loginThunkCreator } from "../../redux/auth-reducer";
@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import Card from "@mui/material/Card";
 import styles from "./LoginForm/LoginForm.module.css";
 import { AppStateType } from "../../redux/store";
+import { compose } from "redux";
 
 type MapStatePropsType = {
     isAuth: boolean;
@@ -20,15 +21,15 @@ type MapDispatchPropsType = {
         password: string,
         rememberMe: boolean,
         captcha: string
-    ) => void
-}
+    ) => void;
+};
 
 export type LoginFormType = {
-    email: string
-    password: string
-    rememberMe: boolean
-    captcha: string
-}
+    email: string;
+    password: string;
+    rememberMe: boolean;
+    captcha: string;
+};
 
 type PropsTypes = MapStatePropsType & MapDispatchPropsType;
 
@@ -79,9 +80,9 @@ const mapStateTOProps = (state: AppStateType): MapStatePropsType => ({
     captchaUrl: state.auth.captchaUrl,
 });
 
-export default connect<
-    MapStatePropsType,
-    MapDispatchPropsType,
-    undefined,
-    AppStateType
->(mapStateTOProps, { loginThunkCreator })(Login);
+export default compose<ComponentType>(
+    connect<MapStatePropsType, MapDispatchPropsType, undefined, AppStateType>(
+        mapStateTOProps,
+        { loginThunkCreator }
+    )
+)(Login);

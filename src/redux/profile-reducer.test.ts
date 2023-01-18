@@ -1,7 +1,4 @@
-import profileReducer, {
-    addPostActionCreator,
-    deletePost,
-} from "./profile-reducer";
+import profileReducer, { actions } from "./profile-reducer";
 
 let state = {
     posts: [
@@ -9,11 +6,15 @@ let state = {
         { id: 2, message: "The first", likesCount: 23 },
         { id: 3, message: "OMG! It's so late", likesCount: 5 },
     ],
+    profile: null,
+    status: "",
+    hasError: false,
+    errorLog: "",
 };
 
 test("length of posts should ne increment", () => {
     //arrange
-    let action = addPostActionCreator("Hey Andrii!");
+    let action = actions.addPostActionCreator("Hey Andrii!");
 
     //act
     let newState = profileReducer(state, action);
@@ -24,7 +25,7 @@ test("length of posts should ne increment", () => {
 
 test("message of new post should be correct", () => {
     //arrange
-    let action = addPostActionCreator("Hey Andrii!");
+    let action = actions.addPostActionCreator("Hey Andrii!");
 
     //act
     let newState = profileReducer(state, action);
@@ -35,7 +36,7 @@ test("message of new post should be correct", () => {
 
 test("after deleting length of message should be decrement", () => {
     //arrange
-    let action = deletePost(4);
+    let action = actions.deletePost(4);
 
     //act
     let newState = profileReducer(state, action);
@@ -46,7 +47,7 @@ test("after deleting length of message should be decrement", () => {
 
 test("after deleting length souldn\'t be decrement id ID is incorrect", () => {
     //arrange
-    let action = deletePost(50);
+    let action = actions.deletePost(50);
 
     //act
     let newState = profileReducer(state, action);

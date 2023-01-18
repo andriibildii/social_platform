@@ -1,9 +1,9 @@
-import React, { Suspense } from "react";
+import React, { FC, Suspense } from "react";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import { Navigate } from "react-router-dom";
 import { compose } from "redux";
 import { connect, Provider } from "react-redux";
-import store from "./redux/store";
+import store, { AppStateType } from "./redux/store";
 import HeaderContainer from "./components/Header/HeaderContainer";
 import NavBar from "./components/NavBar/NavBar";
 import Login from "./components/Login/Login";
@@ -19,14 +19,18 @@ const ProfileContainer = React.lazy(() =>
 const DialogsContainer = React.lazy(() =>
     import("./components/Dialogs/DialogsContainerConnect")
 );
-const UsersContainer = React.lazy(() =>
-    import("./components/Users/UsersContainer")
+const UsersContainer = React.lazy(() => import("./components/Users/UsersContainer")
 );
 const News = React.lazy(() => import("./components/News/News"));
 const Music = React.lazy(() => import("./components/Music/Music"));
 const Settings = React.lazy(() => import("./components/Settings/Settings"));
 
-class App extends React.Component {
+type MapPropsType = ReturnType<typeof mapStateToProps>
+type DispatchPropsType = {
+    initializeApp: () => void
+}
+
+class App extends React.Component<MapPropsType & DispatchPropsType> {
     componentDidMount() {
         this.props.initializeApp();
     }
@@ -35,6 +39,8 @@ class App extends React.Component {
         if (!this.props.initialized) {
             return <Preloader />;
         }
+
+
 
         return (
             <div className="app-wrapper">
@@ -51,7 +57,7 @@ class App extends React.Component {
                             <Suspense fallback={<Preloader />}>
                                 <Routes>
                                     <Route
-                                        exact
+                                        // exact
                                         path="/"
                                         element={<Navigate to="profile" />}
                                     />
@@ -85,13 +91,13 @@ class App extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: AppStateType) => ({
     initialized: state.app.initialized,
 });
 
 const AppContainer = compose(connect(mapStateToProps, { initializeApp })(App));
 
-const SocialApp = (props) => {
+const SocialApp: FC = () => {
     return (
         <BrowserRouter>
             <Provider store={store}>

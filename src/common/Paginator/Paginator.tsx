@@ -4,14 +4,14 @@ import { useState } from "react";
 import cn from 'classnames';
 
 type PropsType = {
-    currentPage: number
-    onPageChanged: (pageNumber: number) => void,
     totalItemsCount: number,
     pageSize: number,
+    currentPage?: number
+    onPageChanged?: (pageNumber: number) => void,
     portionSize?: number,
 }
 
-const Paginator: FC<PropsType> = ({ currentPage, onPageChanged, totalItemsCount, pageSize, portionSize = 10,}) => {
+const Paginator: FC<PropsType> = ({ currentPage = 1, onPageChanged = () => {}, totalItemsCount, pageSize, portionSize = 10,}) => {
 
     const [portionNumber, setPortionNumber] = useState<number>(1);
 

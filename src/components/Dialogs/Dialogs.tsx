@@ -1,13 +1,30 @@
+import { FC } from "react";
+// import { useNavigate } from "react-router-dom";
 import DialogItem from "./DialogItem/DialogItem";
 import Messages from "./Messages/Messages";
-import style from "./Dialogs.module.css";
-// import { useNavigate } from "react-router-dom";
-// import { useEffect } from "react";
 import AddMessageForm from "./AddMessageForm/AddMessageForm";
 import Card from "@mui/material/Card";
 import Stack from "@mui/material/Stack";
+import style from "./Dialogs.module.css";
+import { InitialStateType } from "../../redux/dialogs-reducer";
 
-const Dialogs = ({ dialogsPage, sendMessage, isAuth }) => {
+export type MapStateToPropsType = {
+    dialogsPage: InitialStateType
+}
+export type MapDispatchToPropsType = {
+    sendMessage: (newMessageBody: string) => void
+}
+export type OwmPropsType = {
+    isAuth: boolean
+}
+
+export type FormDataType = {
+    newMessage: string
+}
+
+type PropsType = MapStateToPropsType & MapDispatchToPropsType & OwmPropsType;
+
+const Dialogs: FC<PropsType> = ({ dialogsPage, sendMessage, isAuth }) => {
     // const navigate = useNavigate();
     const dialogs = dialogsPage.dialogs;
     const messages = dialogsPage.messages;
@@ -16,7 +33,7 @@ const Dialogs = ({ dialogsPage, sendMessage, isAuth }) => {
     //     !isAuth && navigate("/login");
     // }, [isAuth]);
 
-    const addNewMessage = (formData) => {
+    const addNewMessage = (formData: FormDataType) => {
         console.log("new mess", formData.newMessage);
         sendMessage(formData.newMessage);
     };

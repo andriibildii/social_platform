@@ -1,4 +1,4 @@
-import { useEffect, FC } from "react";
+import { useEffect, FC, ComponentType } from "react";
 import { connect } from "react-redux";
 import Profile from "./Profile";
 import {
@@ -10,7 +10,7 @@ import {
 } from "../../redux/profile-reducer";
 import { withRouter } from "../../hoc/withRouter";
 import { compose } from "redux";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import {
     getAuthInfo,
     getAuthUserId,
@@ -21,6 +21,7 @@ import {
 } from "../../redux/profile-selectors";
 import { AppStateType } from "../../redux/store";
 import { ProfileType } from "../../types/types";
+import { withAuthRedirect } from "../../hoc/withAuthRedirect";
 
 type MapStateToPropsType = {
     profile: ProfileType | null
@@ -36,7 +37,7 @@ type MapDispatchToPropsType = {
     getStatusThunkCreator: (userId: number | null) => void
     updateStatusThunkCreator: (status: string) => void
     saveMainPhotoThunkCreator: (file: any) => void
-    saveProfileThunkCreator: (profile: ProfileType) => void
+    saveProfileThunkCreator: (profile: ProfileType) => Promise<{errorLog: string, hasError: boolean, type: string} | undefined>
 }
 
 type OwnPropsType = {
@@ -60,7 +61,7 @@ const ProfileContainer: FC<PropsTypes> = ({
     errorLog,
     ...props
 }) => {
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     const authorizedUserId = props.authorizedUserId;
 
     let { userId } = props.router.params;
@@ -72,14 +73,13 @@ const ProfileContainer: FC<PropsTypes> = ({
     };
 
     // ?????????????????????????????????????
-
     useEffect(() => {
         setAuthorizedUser();
 
-        if (!userId && !authorizedUserId) {
-            navigate("/login");
-        }
-    }, [userId, authorizedUserId]);
+        // if (!userId && !authorizedUserId) {
+        //     navigate("/login");
+        // }
+    }, [authorizedUserId, userId]);
 
     useEffect(() => {
         // use Thunk
@@ -112,14 +112,14 @@ const mapStateToProps = (state: AppStateType): MapStateToPropsType => ({
     errorLog: getErrorLog(state),
 });
 
-export default compose(
-    connect<MapStateToPropsType, MapDispatchToPropsType, OwnPropsType, AppStateType>(mapStateToProps, {
+export default compose<ComponentType>(
+    connect(mapStateToProps, {
         profileThunkCreator,
         getStatusThunkCreator,
         updateStatusThunkCreator,
         saveMainPhotoThunkCreator,
         saveProfileThunkCreator,
     }),
-    withRouter
-    // withAuthRedirect
+    withRouter,
+    withAuthRedirect
 )(ProfileContainer);

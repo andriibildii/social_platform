@@ -2,14 +2,14 @@ import React, { FC } from "react";
 import Post from "./Post/Post";
 import style from "./MyPosts.module.css";
 import AddPostForm from "./MyPostsForm/MyPostsForm";
-import { ContactsType, PhotosType, PostsType } from "../../../types/types";
+import { PostsType } from "../../../types/types";
 
 type PropsTypes = {
   posts: Array<PostsType>
   addPost: (newPostBody: string) => void
 }
 
-type FormDataType = {
+export type FormDataType = {
   newPost: string
 }
 

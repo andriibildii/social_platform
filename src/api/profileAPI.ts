@@ -24,7 +24,7 @@ export const profileAPI = {
             .then((res) => res.data);
     },
 
-    saveMainPhoto(photoFile: any) {
+    saveMainPhoto(photoFile: File) {
         const formData = new FormData();
         formData.append("image", photoFile);
         return axiosInstance

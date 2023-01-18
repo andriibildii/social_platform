@@ -5,12 +5,11 @@ import {
 } from "../../../../common/FormsControls/FormsControls";
 import styles from "../../../Login/LoginForm/LoginForm.module.css";
 import { ProfileType } from "../../../../types/types";
-import { FormDataType } from "../ProfileInfo";
 import { FC } from "react";
 
 type PropsTypes = {
   profile: ProfileType
-  handleSubmit: (formData: FormDataType) => void
+  handleSubmit: (formData: ProfileType) => void
   initialValues: ProfileType | null
   hasError: boolean,
   errorLog: string,
