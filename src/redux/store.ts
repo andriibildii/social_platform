@@ -18,6 +18,7 @@ const rootReducer = combineReducers({
 
 type RootReducerType = typeof rootReducer; // (globalstate: AppStateType) => AppStateType
 export type AppStateType = ReturnType<RootReducerType>
+export type AppDispatch = typeof store.dispatch
 
 //for user-reducer constant actions
 export type InferActionsTypes<T> = T extends { [keys: string]: (...args: any[]) => infer U } ? U : never

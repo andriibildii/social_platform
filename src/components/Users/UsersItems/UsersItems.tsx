@@ -1,33 +1,58 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import Paginator from "../../../common/Paginator/Paginator";
 import User from "./User/User";
 import Card from "@mui/material/Card";
-import { UsersType } from "../../../types/types";
+import { UsersSearchForm } from "./UsersSearchForm/UsersSearchForm";
+import {
+    FilterType,
+    getUsersThunkCreator,
+    followThunkCreator, unfollowThunkCreator
+} from "../../../redux/users-reducer";
+import { useDispatch, useSelector } from "react-redux";
+import {
+    getCurrentPage,
+    getFollowingInProgress,
+    getPageSize,
+    getTotalUsersCount,
+    getUsers,
+    getUsersFilter,
+} from "../../../redux/users-selectors";
+import { AppDispatch } from "../../../redux/store";
 
-type PropsType = {
-    currentPage: number
-    onPageChanged: (page: number) => void
-    users: Array<UsersType>
-    totalUsersCount: number
-    pageSize: number
-    followingInProgress: Array<number>
-    followThunkCreator: (userId: number) => void
-    unfollowThunkCreator: (userId: number) => void
-}
+export const UsersItems: FC = () => {
+    const users = useSelector(getUsers);
+    const totalUsersCount = useSelector(getTotalUsersCount);
+    const currentPage = useSelector(getCurrentPage);
+    const pageSize = useSelector(getPageSize);
+    const filter = useSelector(getUsersFilter);
+    const followingInProgress = useSelector(getFollowingInProgress);
 
-const UsersItems: FC<PropsType> = ({
-    currentPage,
-    onPageChanged,
-    users,
-    totalUsersCount,
-    pageSize,
-    followingInProgress,
-    unfollowThunkCreator,
-    followThunkCreator,
-}) => {
+    const dispatch: AppDispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(getUsersThunkCreator(currentPage, pageSize, filter));
+    }, []);
+
+    const onPageChanged = (pageNumber: number) => {
+        dispatch(getUsersThunkCreator(pageNumber, pageSize, filter));
+    };
+
+    const onFilterChanged = (filter: FilterType) => {
+        dispatch(getUsersThunkCreator(1, pageSize, filter));
+    };
+
+    const follow = (userId: number) => {
+        dispatch(followThunkCreator(userId));
+    };
+
+    const unfollow = (userId: number) => {
+        dispatch(unfollowThunkCreator(userId));
+    };
+
     return (
         <Card sx={{ minHeight: 796 }}>
             <div>
+                <UsersSearchForm onFilterChanged={onFilterChanged} />
                 <Paginator
                     currentPage={currentPage}
                     onPageChanged={onPageChanged}
@@ -41,8 +66,8 @@ const UsersItems: FC<PropsType> = ({
                             key={user.id}
                             user={user}
                             followingInProgress={followingInProgress}
-                            followThunkCreator={followThunkCreator}
-                            unfollowThunkCreator={unfollowThunkCreator}
+                            followThunkCreator={follow}
+                            unfollowThunkCreator={unfollow}
                         />
                     ))}
                 </div>
@@ -50,5 +75,3 @@ const UsersItems: FC<PropsType> = ({
         </Card>
     );
 };
-
-export default UsersItems;

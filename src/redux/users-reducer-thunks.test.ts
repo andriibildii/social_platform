@@ -28,7 +28,6 @@ test("success follow thunk", async () => {
 
     //act
     // for call thunk you need to give dispatch
-
     await thunk(dispatchMock, getStateMock, {});
 
     //assertions

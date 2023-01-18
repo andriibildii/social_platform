@@ -11,15 +11,23 @@ const initialState = {
     totalUsersCount: 0,
     currentPage: 1,
     isFetching: false,
-    followingInProgress: [] as Array<number> // array of users ID
+    followingInProgress: [] as Array<number>, // array of users ID\
+    filter: {
+        term: "",
+        friend: null as null | boolean,
+    },
 };
 
 export type InitialStateType = typeof initialState;
-type ActionsType = InferActionsTypes<typeof actions>
-type ThunkType = BaseThunkType<ActionsType>
+export type FilterType = typeof initialState.filter;
+type ActionsType = InferActionsTypes<typeof actions>;
+type ThunkType = BaseThunkType<ActionsType>;
 
 /// REDUCER
-const usersReducer = (state = initialState, action: ActionsType): InitialStateType => {
+const usersReducer = (
+    state = initialState,
+    action: ActionsType
+): InitialStateType => {
     switch (action.type) {
         case "social-platform/users-reducer/FOLLOW":
             return {
@@ -55,6 +63,11 @@ const usersReducer = (state = initialState, action: ActionsType): InitialStateTy
                 ...state,
                 currentPage: action.page,
             };
+        case "social-platform/users-reducer/SET_FILTER":
+            return {
+                ...state,
+                ...action.payload,
+            };
 
         case "social-platform/users-reducer/SET_TOTAL_USERS_COUNT":
             return {
@@ -72,10 +85,10 @@ const usersReducer = (state = initialState, action: ActionsType): InitialStateTy
             return {
                 ...state,
                 followingInProgress: action.isFetching
-                  ? [...state.followingInProgress, action.userId]
-                  : state.followingInProgress.filter(
-                    (id) => id !== action.userId
-                  ),
+                    ? [...state.followingInProgress, action.userId]
+                    : state.followingInProgress.filter(
+                          (id) => id !== action.userId
+                      ),
             };
 
         default:
@@ -85,33 +98,61 @@ const usersReducer = (state = initialState, action: ActionsType): InitialStateTy
 
 /// ACTION CREATORS
 export const actions = {
-    followSuccess: (userId: number) => ({ type: "social-platform/users-reducer/FOLLOW", userId }as const),
-    unFollowSuccess: (userId: number) => ({ type: "social-platform/users-reducer/UNFOLLOW", userId }as const),
-    setUser: (users: Array<UsersType>) => ({ type: "social-platform/users-reducer/SET_USERS", users }as const),
-    setCurrentPage: (page: number) => ({ type: "social-platform/users-reducer/SET_CURRENT_PAGE", page}as const),
-    setTotalUsersCount: (totalUsersCount: number) => ({ type: "social-platform/users-reducer/SET_TOTAL_USERS_COUNT", totalUsersCount}as const),
-    toggleIsFetching: (isFetching: boolean) => ({ type: "social-platform/users-reducer/TOGGLE_IS_FETCHING", isFetching}as const),
-    toggleFollowingProgress: (isFetching: boolean, userId: number) => ({ type: "social-platform/users-reducer/TOGGLE_IS_FOLLOWING_PROGRESS", isFetching, userId}as const),
-
-}
+    followSuccess: (userId: number) =>
+        ({ type: "social-platform/users-reducer/FOLLOW", userId } as const),
+    unFollowSuccess: (userId: number) =>
+        ({ type: "social-platform/users-reducer/UNFOLLOW", userId } as const),
+    setUser: (users: Array<UsersType>) =>
+        ({ type: "social-platform/users-reducer/SET_USERS", users } as const),
+    setCurrentPage: (page: number) =>
+        ({
+            type: "social-platform/users-reducer/SET_CURRENT_PAGE",
+            page,
+        } as const),
+    setFilter: (filter: FilterType) =>
+        ({
+            type: "social-platform/users-reducer/SET_FILTER",
+            payload: { filter },
+        } as const),
+    setTotalUsersCount: (totalUsersCount: number) =>
+        ({
+            type: "social-platform/users-reducer/SET_TOTAL_USERS_COUNT",
+            totalUsersCount,
+        } as const),
+    toggleIsFetching: (isFetching: boolean) =>
+        ({
+            type: "social-platform/users-reducer/TOGGLE_IS_FETCHING",
+            isFetching,
+        } as const),
+    toggleFollowingProgress: (isFetching: boolean, userId: number) =>
+        ({
+            type: "social-platform/users-reducer/TOGGLE_IS_FOLLOWING_PROGRESS",
+            isFetching,
+            userId,
+        } as const),
+};
 
 // THUNKS CREATORS & THUNKS
 export const getUsersThunkCreator =
-  (currentPage: number, pageSize: number): ThunkType => async (dispatch) => {
-      dispatch(actions.toggleIsFetching(true));
-      dispatch(actions.toggleIsFetching(true));
-      dispatch(actions.setCurrentPage(currentPage));
-      const response = await userAPI.getUsers(currentPage, pageSize);
-      dispatch(actions.toggleIsFetching(false));
-      dispatch(actions.setUser(response.items));
-      dispatch(actions.setTotalUsersCount(response.totalCount));
-  };
+    (currentPage: number, pageSize: number, filter: FilterType): ThunkType =>
+    async (dispatch) => {
+        dispatch(actions.toggleIsFetching(true));
+        dispatch(actions.toggleIsFetching(true));
+        dispatch(actions.setCurrentPage(currentPage));
+        dispatch(actions.setFilter(filter));
+
+        const response = await userAPI.getUsers(currentPage, pageSize, filter.term, filter.friend);
+
+        dispatch(actions.toggleIsFetching(false));
+        dispatch(actions.setUser(response.items));
+        dispatch(actions.setTotalUsersCount(response.totalCount));
+    };
 
 const _followUnfollowFlow = async (
-  dispatch: Dispatch<ActionsType>,
-  userId: number,
-  apiMethod: (userId: number) => Promise<ResponseType>,
-  actionCreator: (userId: number) => ActionsType
+    dispatch: Dispatch<ActionsType>,
+    userId: number,
+    apiMethod: (userId: number) => Promise<ResponseType>,
+    actionCreator: (userId: number) => ActionsType
 ) => {
     dispatch(actions.toggleFollowingProgress(true, userId));
     const response = await apiMethod(userId);
@@ -121,27 +162,29 @@ const _followUnfollowFlow = async (
     dispatch(actions.toggleFollowingProgress(false, userId));
 };
 
-export const followThunkCreator = (userId: number): ThunkType => async (dispatch) => {
-    await _followUnfollowFlow(
-      dispatch,
-      userId,
-      userAPI.follow.bind(userId),
-      actions.followSuccess
-    );
-};
+export const followThunkCreator =
+    (userId: number): ThunkType =>
+    async (dispatch) => {
+        await _followUnfollowFlow(
+            dispatch,
+            userId,
+            userAPI.follow.bind(userId),
+            actions.followSuccess
+        );
+    };
 
-export const unfollowThunkCreator = (userId: number): ThunkType => async (dispatch) => {
-    await _followUnfollowFlow(
-      dispatch,
-      userId,
-      userAPI.unFollow.bind(userId),
-      actions.unFollowSuccess
-    );
-};
+export const unfollowThunkCreator =
+    (userId: number): ThunkType =>
+    async (dispatch) => {
+        await _followUnfollowFlow(
+            dispatch,
+            userId,
+            userAPI.unFollow.bind(userId),
+            actions.unFollowSuccess
+        );
+    };
 
 export default usersReducer;
-
-
 
 // import { ResultCodesEnum} from "../api/api";
 // import { updateObjectInArray } from "../utils/object-helper";

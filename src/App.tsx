@@ -6,7 +6,7 @@ import { connect, Provider } from "react-redux";
 import store, { AppStateType } from "./redux/store";
 import HeaderContainer from "./components/Header/HeaderContainer";
 import NavBar from "./components/NavBar/NavBar";
-import Login from "./components/Login/Login";
+import { Login } from "./components/Login/Login";
 import { initializeApp } from "./redux/app-reducer";
 import Preloader from "./common/Preloader/Preloader";
 import "./App.css";
@@ -39,9 +39,7 @@ class App extends React.Component<MapPropsType & DispatchPropsType> {
         if (!this.props.initialized) {
             return <Preloader />;
         }
-
-
-
+        
         return (
             <div className="app-wrapper">
                 <Grid container spacing={1}>

@@ -1,28 +1,11 @@
-import { ComponentType, FC } from "react";
+import { FC, useEffect } from "react";
 import LoginForm from "./LoginForm/LoginForm";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { loginThunkCreator } from "../../redux/auth-reducer";
 import { useNavigate } from "react-router-dom";
 import Card from "@mui/material/Card";
 import styles from "./LoginForm/LoginForm.module.css";
-import { AppStateType } from "../../redux/store";
-import { compose } from "redux";
-
-type MapStatePropsType = {
-    isAuth: boolean;
-    hasError: boolean;
-    errorLog: string | null;
-    captchaUrl: string | null;
-};
-
-type MapDispatchPropsType = {
-    loginThunkCreator: (
-        email: string,
-        password: string,
-        rememberMe: boolean,
-        captcha: string
-    ) => void;
-};
+import { AppDispatch, AppStateType } from "../../redux/store";
 
 export type LoginFormType = {
     email: string;
@@ -31,32 +14,32 @@ export type LoginFormType = {
     captcha: string;
 };
 
-type PropsTypes = MapStatePropsType & MapDispatchPropsType;
-
-// @ts-ignore
-const Login: FC<PropsTypes> = ({
-    loginThunkCreator,
-    isAuth,
-    hasError,
-    errorLog,
-    captchaUrl,
-}) => {
+export const Login: FC = () => {
     const navigate = useNavigate();
+    const isAuth = useSelector((state: AppStateType) => state.auth.isAuth);
+    const hasError = useSelector((state: AppStateType) => state.auth.hasError);
+    const errorLog = useSelector((state: AppStateType) => state.auth.errorLog);
+    const captchaUrl = useSelector(
+        (state: AppStateType) => state.auth.captchaUrl
+    );
+    const dispatch: AppDispatch = useDispatch();
 
     // w_GAZtd5Wxn!4Vs
 
     const onSubmit = (formData: LoginFormType) => {
-        loginThunkCreator(
-            formData.email,
-            formData.password,
-            formData.rememberMe,
-            formData.captcha
+        dispatch(
+            loginThunkCreator(
+                formData.email,
+                formData.password,
+                formData.rememberMe,
+                formData.captcha
+            )
         );
     };
 
-    if (isAuth) {
-        return navigate("/profile");
-    }
+    useEffect(() => {
+        isAuth && navigate("/profile");
+    }, [isAuth]);
 
     return (
         <Card sx={{ minHeight: 796 }}>
@@ -72,17 +55,3 @@ const Login: FC<PropsTypes> = ({
         </Card>
     );
 };
-
-const mapStateTOProps = (state: AppStateType): MapStatePropsType => ({
-    isAuth: state.auth.isAuth,
-    hasError: state.auth.hasError,
-    errorLog: state.auth.errorLog,
-    captchaUrl: state.auth.captchaUrl,
-});
-
-export default compose<ComponentType>(
-    connect<MapStatePropsType, MapDispatchPropsType, undefined, AppStateType>(
-        mapStateTOProps,
-        { loginThunkCreator }
-    )
-)(Login);
