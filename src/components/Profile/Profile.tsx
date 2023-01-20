@@ -4,33 +4,52 @@ import ProfileInfo from "./ProfileInfo/ProfileInfo";
 // import style from "./Profile.module.css";
 import Card from "@mui/material/Paper";
 import { ProfileType } from "../../types/types";
+import { getError, getErrorLog, getProfile, getStatus } from "../../redux/profile-selectors";
+import { useDispatch, useSelector } from "react-redux";
+import {
+    saveMainPhotoThunkCreator,
+    saveProfileThunkCreator,
+    updateStatusThunkCreator
+} from "../../redux/profile-reducer";
+import { AppDispatch } from "../../redux/store";
 
 type PropsTypes = {
     isOwner: boolean;
-    profile: ProfileType | null;
-    status: string;
-    updateStatus: (status: string) => void;
-    saveMainPhoto: (file: any) => void;
-    saveProfile: (profile: ProfileType) => Promise<{errorLog: string, hasError: boolean, type: string} | undefined>
-    hasError: boolean;
-    errorLog: string;
 };
 
-const Profile: React.FC<PropsTypes> = React.memo(({ ...props }) => {
+const Profile: React.FC<PropsTypes> = React.memo(({ isOwner }) => {
     // console.log("RENDER PROFILE");
+
+    const profile = useSelector(getProfile);
+    const status = useSelector(getStatus);
+    const hasError = useSelector(getError);
+    const errorLog = useSelector(getErrorLog);
+    const dispatch: AppDispatch = useDispatch();
+
+    const updateStatus = (status: string) => {
+        dispatch(updateStatusThunkCreator(status));
+    }
+
+    const savePhoto = (file: any) => {
+        dispatch(saveMainPhotoThunkCreator(file));
+    }
+
+    const saveProfile = (profile: ProfileType): any => {
+        dispatch(saveProfileThunkCreator(profile))
+    }
 
     return (
         <div className="">
             <Card sx={{ minHeight: 796 }}>
                 <ProfileInfo
-                    isOwner={props.isOwner}
-                    profile={props.profile}
-                    status={props.status}
-                    updateStatus={props.updateStatus}
-                    saveMainPhoto={props.saveMainPhoto}
-                    saveProfile={props.saveProfile}
-                    hasError={props.hasError}
-                    errorLog={props.errorLog}
+                    isOwner={isOwner}
+                    profile={profile}
+                    status={status}
+                    updateStatus={updateStatus}
+                    saveMainPhoto={savePhoto}
+                    saveProfile={saveProfile}
+                    hasError={hasError}
+                    errorLog={errorLog}
                 />
                 <MyPostsContainerConnect />
             </Card>

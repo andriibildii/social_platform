@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useState } from "react";
+import { ChangeEvent, FC, useEffect, useState } from "react";
 import style from "./ProfileInfo.module.css";
 import Preloader from "../../../common/Preloader/Preloader";
 import ProfileStatus from "./ProfileStatus/ProfileStatus";
@@ -7,28 +7,22 @@ import userPhoto from "../../../assets/img/image-from-rawpixel-id-6642555-png.pn
 import ProfileData from "./ProfileData/ProfileData";
 import ProfileDataForm from "./ProfileDataForm/ProfileDataForm";
 import { ContactsType, PhotosType, ProfileType } from "../../../types/types";
+import { AppDispatch } from "../../../redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import { saveProfileThunkCreator } from "../../../redux/profile-reducer";
+import { getError } from "../../../redux/profile-selectors";
 
 export type PropsTypes = {
-    profile: ProfileType | null
-    isOwner: boolean
-    saveMainPhoto: (file: any) => void
-    saveProfile: (profile: ProfileType) => Promise<{errorLog: string, hasError: boolean, type: string} | undefined>
-    // saveProfile: (profile: ProfileType) => Promise<any>
-    hasError: boolean,
-    errorLog: string,
-    status: string
-    updateStatus: (status: string) => void
-}
-
-// export type FormDataType = {
-//     aboutMe: string
-//     contacts: ContactsType
-//     fullName: string
-//     lookingForAJob: boolean
-//     lookingForAJobDescription: string
-//     photos: PhotosType
-//     userId: number
-// }
+    profile: ProfileType | null;
+    isOwner: boolean;
+    saveMainPhoto: (file: any) => void;
+    // saveProfile: (profile: ProfileType) => Promise<{errorLog: string, hasError: boolean, type: string} | undefined>
+    saveProfile: (profile: ProfileType) => Promise<any>
+    hasError: boolean;
+    errorLog: string;
+    status: string;
+    updateStatus: (status: string) => void;
+};
 
 const ProfileInfo: FC<PropsTypes> = ({
     profile,
@@ -55,11 +49,9 @@ const ProfileInfo: FC<PropsTypes> = ({
         setEditMode(true);
     };
 
-    const handleSubmit = (formData: ProfileType) => {
-        console.log("formData", formData)
 
-        saveProfile(formData).then((value) => {
-            console.log("value", value)
+    const handleSubmit = (formData: ProfileType) => {
+         saveProfile(formData).then((value) => {
             if (value === undefined) {
                 setEditMode(false);
             }

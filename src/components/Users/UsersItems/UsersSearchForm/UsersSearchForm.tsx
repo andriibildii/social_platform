@@ -13,7 +13,7 @@ type FriendFormType = "true" | "false" | "null";
 
 type FormType = {
     term: string;
-    friend: "true" | "false" | "null";
+    friend: FriendFormType
 };
 
 type PropsType = {
@@ -35,11 +35,9 @@ export const UsersSearchForm: React.FC<PropsType> = React.memo((props) => {
                     ? true
                     : false,
         };
-
         props.onFilterChanged(filter);
         setSubmitting(false);
     };
-
     return (
         <div>
             <Formik

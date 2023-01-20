@@ -1,70 +1,32 @@
-import { useEffect, FC, ComponentType } from "react";
-import { connect } from "react-redux";
+import { useEffect, FC } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import Profile from "./Profile";
 import {
     profileThunkCreator,
     getStatusThunkCreator,
-    updateStatusThunkCreator,
-    saveMainPhotoThunkCreator,
-    saveProfileThunkCreator,
 } from "../../redux/profile-reducer";
-import { withRouter } from "../../hoc/withRouter";
-import { compose } from "redux";
-// import { useNavigate } from "react-router-dom";
 import {
     getAuthInfo,
     getAuthUserId,
-    getProfile,
-    getStatus,
-    getError,
-    getErrorLog,
 } from "../../redux/profile-selectors";
-import { AppStateType } from "../../redux/store";
-import { ProfileType } from "../../types/types";
-import { withAuthRedirect } from "../../hoc/withAuthRedirect";
+import { AppDispatch } from "../../redux/store";
 
-type MapStateToPropsType = {
-    profile: ProfileType | null
-    status: string
-    authorizedUserId: number | null
-    isAuth: boolean
-    hasError: boolean,
-    errorLog: string,
-}
+const ProfileContainer: FC = () => {
+    const navigate = useNavigate();
+    const params = useParams();
 
-type MapDispatchToPropsType = {
-    profileThunkCreator: (userId: number | null) => void
-    getStatusThunkCreator: (userId: number | null) => void
-    updateStatusThunkCreator: (status: string) => void
-    saveMainPhotoThunkCreator: (file: any) => void
-    saveProfileThunkCreator: (profile: ProfileType) => Promise<{errorLog: string, hasError: boolean, type: string} | undefined>
-}
 
-type OwnPropsType = {
-    router: {
-        params: {
-            userId: number | null
-        }
-    }
-}
-type PropsTypes = MapStateToPropsType & MapDispatchToPropsType & OwnPropsType;
+    const isAuth = useSelector(getAuthInfo);
+    const authorizedUserId = useSelector(getAuthUserId);
 
-const ProfileContainer: FC<PropsTypes> = ({
-    profile,
-    status,
-    profileThunkCreator,
-    getStatusThunkCreator,
-    updateStatusThunkCreator,
-    saveMainPhotoThunkCreator,
-    saveProfileThunkCreator,
-    hasError,
-    errorLog,
-    ...props
-}) => {
-    // const navigate = useNavigate();
-    const authorizedUserId = props.authorizedUserId;
+    const dispatch: AppDispatch = useDispatch();
+    // type DispatchFunc = () => AppDispatch
+    // const useAppDispatch: DispatchFunc = useDispatch;
+    // const dispatch = useAppDispatch()
 
-    let { userId } = props.router.params;
+    let userId: number | null = Number(params.userId);
+
 
     const setAuthorizedUser = () => {
         if (!userId) {
@@ -72,54 +34,43 @@ const ProfileContainer: FC<PropsTypes> = ({
         }
     };
 
+    const getStatus = (userId: number | null) => {
+        dispatch(getStatusThunkCreator(userId))
+    }
+
+    const getProfile = (userId: number | null) => {
+        dispatch(profileThunkCreator(userId))
+    }
+
     // ?????????????????????????????????????
     useEffect(() => {
         setAuthorizedUser();
-
-        // if (!userId && !authorizedUserId) {
-        //     navigate("/login");
-        // }
+        if (!userId && !authorizedUserId) {
+            navigate("/login");
+        }
     }, [authorizedUserId, userId]);
+
+    // auth redirect
+    useEffect(() => {
+        !isAuth && navigate("/login");
+    }, [isAuth]);
+
 
     useEffect(() => {
         // use Thunk
-        profileThunkCreator(userId);
-        getStatusThunkCreator(userId);
+        getProfile(userId);
+        getStatus(userId);
     }, [userId]);
 
     return (
         <Profile
-            {...props}
             isOwner={!userId}
-            profile={profile}
-            status={status}
-            updateStatus={updateStatusThunkCreator}
-            saveMainPhoto={saveMainPhotoThunkCreator}
-            saveProfile={saveProfileThunkCreator}
-            hasError={hasError}
-            errorLog={errorLog}
         />
     );
 };
 
-// mapStateToProps with selectors
-const mapStateToProps = (state: AppStateType): MapStateToPropsType => ({
-    profile: getProfile(state),
-    status: getStatus(state),
-    authorizedUserId: getAuthUserId(state),
-    isAuth: getAuthInfo(state),
-    hasError: getError(state),
-    errorLog: getErrorLog(state),
-});
+export default ProfileContainer;
 
-export default compose<ComponentType>(
-    connect(mapStateToProps, {
-        profileThunkCreator,
-        getStatusThunkCreator,
-        updateStatusThunkCreator,
-        saveMainPhotoThunkCreator,
-        saveProfileThunkCreator,
-    }),
-    withRouter,
-    withAuthRedirect
-)(ProfileContainer);
+
+//     withRouter,
+//     withAuthRedirect
