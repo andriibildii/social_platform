@@ -9,7 +9,7 @@ import ProfileDataForm from "./ProfileDataForm/ProfileDataForm";
 import { ContactsType, PhotosType, ProfileType } from "../../../types/types";
 import { AppDispatch } from "../../../redux/store";
 import { useDispatch, useSelector } from "react-redux";
-import { saveProfileThunkCreator } from "../../../redux/profile-reducer";
+import { saveProfileThunkCreator, SaveProfileThunkType } from "../../../redux/profile-reducer";
 import { getError } from "../../../redux/profile-selectors";
 
 export type PropsTypes = {
@@ -17,7 +17,7 @@ export type PropsTypes = {
     isOwner: boolean;
     saveMainPhoto: (file: any) => void;
     // saveProfile: (profile: ProfileType) => Promise<{errorLog: string, hasError: boolean, type: string} | undefined>
-    saveProfile: (profile: ProfileType) => Promise<any>
+    saveProfile: (profile: ProfileType) => Promise<SaveProfileThunkType>,
     hasError: boolean;
     errorLog: string;
     status: string;
@@ -50,12 +50,11 @@ const ProfileInfo: FC<PropsTypes> = ({
     };
 
 
-    const handleSubmit = (formData: ProfileType) => {
-         saveProfile(formData).then((value) => {
-            if (value === undefined) {
-                setEditMode(false);
-            }
-        });
+    const handleSubmit = async (formData: ProfileType) => {
+        const result = await saveProfile(formData);
+        if (result === undefined) {
+            setEditMode(false);
+        }
     };
 
     return (

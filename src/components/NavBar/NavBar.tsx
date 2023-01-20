@@ -1,76 +1,96 @@
 import { FC } from "react";
 import { NavLink } from "react-router-dom";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
 import style from "./NavBar.module.css";
+import Box from "@mui/material/Box";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemText from "@mui/material/ListItemText";
 
 const NavBar: FC = () => {
     return (
         <nav className={style.nav}>
-            <Card sx={{ minHeight: 796 }}>
-                <CardContent>
-                    <div className={style.item}>
-                        <NavLink
-                            to="/profile"
-                            className={({ isActive }) =>
-                                isActive ? style.active : undefined
-                            }
-                        >
-                            Profile
-                        </NavLink>
-                    </div>
-                    <div className={style.item}>
-                        <NavLink
-                            to="/dialogs"
-                            className={({ isActive }) =>
-                                isActive ? style.active : undefined
-                            }
-                        >
-                            Messages
-                        </NavLink>
-                    </div>
-                    <div className={style.item}>
-                        <NavLink
-                            to="/users"
-                            className={({ isActive }) =>
-                                isActive ? style.active : undefined
-                            }
-                        >
-                            Users
-                        </NavLink>
-                    </div>
-                    <div className={style.item}>
-                        <NavLink
-                            to="/news"
-                            className={({ isActive }) =>
-                                isActive ? style.active : undefined
-                            }
-                        >
-                            News
-                        </NavLink>
-                    </div>
-                    <div className={style.item}>
-                        <NavLink
-                            to="music"
-                            className={({ isActive }) =>
-                                isActive ? style.active : undefined
-                            }
-                        >
-                            Music
-                        </NavLink>
-                    </div>
-                    <div className={style.item}>
-                        <NavLink
-                            to="/settings"
-                            className={({ isActive }) =>
-                                isActive ? style.active : undefined
-                            }
-                        >
-                            Settings
-                        </NavLink>
-                    </div>
-                </CardContent>
-            </Card>
+            <Box sx={{ width: "100%", bgcolor: "background.paper" }}>
+                <List className={style.item}>
+                    <NavLink
+                        to="/profile"
+                        className={({ isActive }) =>
+                            isActive ? style.active : undefined
+                        }
+                    >
+                        <ListItem disablePadding>
+                            <ListItemButton>
+                                <ListItemText primary="Profile" />
+                            </ListItemButton>
+                        </ListItem>
+                    </NavLink>
+
+                    <NavLink
+                        to="/dialogs"
+                        className={({ isActive }) =>
+                            isActive ? style.active : undefined
+                        }
+                    >
+                        <ListItem disablePadding>
+                            <ListItemButton>
+                                <ListItemText primary="Messages" />
+                            </ListItemButton>
+                        </ListItem>
+                    </NavLink>
+
+                    <NavLink
+                        to="/users"
+                        className={({ isActive }) =>
+                            isActive ? style.active : undefined
+                        }
+                    >
+                        <ListItem disablePadding>
+                            <ListItemButton>
+                                <ListItemText primary="Users" />
+                            </ListItemButton>
+                        </ListItem>
+                    </NavLink>
+
+                    <NavLink
+                        to="/news"
+                        className={({ isActive }) =>
+                            isActive ? style.active : undefined
+                        }
+                    >
+                        <ListItem disablePadding>
+                            <ListItemButton>
+                                <ListItemText primary="News" />
+                            </ListItemButton>
+                        </ListItem>
+                    </NavLink>
+
+                    <NavLink
+                        to="music"
+                        className={({ isActive }) =>
+                            isActive ? style.active : undefined
+                        }
+                    >
+                        <ListItem disablePadding>
+                            <ListItemButton>
+                                <ListItemText primary="Music" />
+                            </ListItemButton>
+                        </ListItem>
+                    </NavLink>
+
+                    <NavLink
+                        to="/settings"
+                        className={({ isActive }) =>
+                            isActive ? style.active : undefined
+                        }
+                    >
+                        <ListItem disablePadding>
+                            <ListItemButton>
+                                <ListItemText primary="Settings" />
+                            </ListItemButton>
+                        </ListItem>
+                    </NavLink>
+                </List>
+            </Box>
         </nav>
     );
 };

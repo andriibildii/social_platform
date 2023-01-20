@@ -4,12 +4,17 @@ import ProfileInfo from "./ProfileInfo/ProfileInfo";
 // import style from "./Profile.module.css";
 import Card from "@mui/material/Paper";
 import { ProfileType } from "../../types/types";
-import { getError, getErrorLog, getProfile, getStatus } from "../../redux/profile-selectors";
+import {
+    getError,
+    getErrorLog,
+    getProfile,
+    getStatus,
+} from "../../redux/profile-selectors";
 import { useDispatch, useSelector } from "react-redux";
 import {
     saveMainPhotoThunkCreator,
     saveProfileThunkCreator,
-    updateStatusThunkCreator
+    updateStatusThunkCreator,
 } from "../../redux/profile-reducer";
 import { AppDispatch } from "../../redux/store";
 
@@ -28,15 +33,16 @@ const Profile: React.FC<PropsTypes> = React.memo(({ isOwner }) => {
 
     const updateStatus = (status: string) => {
         dispatch(updateStatusThunkCreator(status));
-    }
+    };
 
     const savePhoto = (file: any) => {
         dispatch(saveMainPhotoThunkCreator(file));
-    }
+    };
 
-    const saveProfile = (profile: ProfileType): any => {
-        dispatch(saveProfileThunkCreator(profile))
-    }
+    const saveProfile = async (profile: ProfileType) => {
+        const promiseResult = await dispatch(saveProfileThunkCreator(profile));
+        return promiseResult;
+    };
 
     return (
         <div className="">

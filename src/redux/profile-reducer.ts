@@ -19,8 +19,8 @@ const initialState = {
 export type InitialStateType = typeof initialState;
 export type ActionsType = InferActionsTypes<typeof actions>;
 type ThunkType = BaseThunkType<ActionsType>;
-type SaveProfileThunkType = ProfileThunkType<
-    Promise<{ errorLog: string; hasError: boolean; type: string } | undefined>,
+export type SaveProfileThunkType = ProfileThunkType<
+    Promise<{ errorLog: string; hasError: boolean; type: string } | void>,
     ActionsType
 >;
 
@@ -161,7 +161,7 @@ export const saveMainPhotoThunkCreator =
     };
 
 export const saveProfileThunkCreator =
-    (profile: ProfileType): ThunkType =>
+    (profile: ProfileType): SaveProfileThunkType =>
     async (dispatch, getState) => {
         const userId = getState().auth.userId;
         const response = await profileAPI.saveProfile(profile);
@@ -169,7 +169,7 @@ export const saveProfileThunkCreator =
         if (response.resultCode === ResultCodesEnum.Success) {
             await dispatch(profileThunkCreator(userId));
         } else {
-            dispatch(
+            return dispatch(
                 actions.setError(
                     true,
                     response.messages[response.messages.length - 1]
