@@ -4,18 +4,30 @@ import { NavLink } from "react-router-dom";
 import userPhoto from "../../../../assets/img/image-from-rawpixel-id-6642555-png.png";
 import style from "./User.module.css";
 import { UsersType } from "../../../../types/types";
+import Button from "@mui/material/Button";
+import Box from '@mui/material/Box';
 
 type PropsType = {
-  user: UsersType
-  followingInProgress: Array<number>
-  followThunkCreator: (userId: number) => void
-  unfollowThunkCreator: (userId: number) => void
-}
+    user: UsersType;
+    followingInProgress: Array<number>;
+    followThunkCreator: (userId: number) => void;
+    unfollowThunkCreator: (userId: number) => void;
+};
 
-const User: FC<PropsType> = ({ user, followingInProgress, followThunkCreator, unfollowThunkCreator }) => {
+const User: FC<PropsType> = ({
+    user,
+    followingInProgress,
+    followThunkCreator,
+    unfollowThunkCreator,
+}) => {
     return (
         <div>
-            <span>
+            <Box sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center'
+            }}>
                 <div>
                     <NavLink to={`/profile/${user.id}`}>
                         <img
@@ -30,36 +42,34 @@ const User: FC<PropsType> = ({ user, followingInProgress, followThunkCreator, un
                 </div>
                 <div>
                     {user.followed ? (
-                        <button
+                        <Button
                             disabled={followingInProgress.some(
                                 (id) => id === user.id
                             )}
                             onClick={() => {
                                 unfollowThunkCreator(user.id);
                             }}
+                            variant="outlined"
                         >
                             Unfollow
-                        </button>
+                        </Button>
                     ) : (
-                        <button
+                        <Button
                             disabled={followingInProgress.some(
                                 (id) => id === user.id
                             )}
                             onClick={() => {
                                 followThunkCreator(user.id);
                             }}
+                            variant="outlined"
                         >
                             Follow
-                        </button>
+                        </Button>
                     )}
                 </div>
-            </span>
-            <span>
-                <span>
-                    <div>{user.name}</div>
-                    <div>{user.status}</div>
-                </span>
-            </span>
+                <div>{user.name}</div>
+                <div>{user.status}</div>
+            </Box>
         </div>
     );
 };

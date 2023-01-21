@@ -3,6 +3,8 @@ import MyPostsContainerConnect from "./MyPosts/MyPostsContainerConnect";
 import ProfileInfo from "./ProfileInfo/ProfileInfo";
 // import style from "./Profile.module.css";
 import Card from "@mui/material/Paper";
+import Box from "@mui/material/Box";
+import { Grid } from "@mui/material";
 import { ProfileType } from "../../types/types";
 import {
     getError,
@@ -46,19 +48,39 @@ const Profile: React.FC<PropsTypes> = React.memo(({ isOwner }) => {
 
     return (
         <div className="">
-            <Card sx={{ minHeight: 796 }}>
-                <ProfileInfo
-                    isOwner={isOwner}
-                    profile={profile}
-                    status={status}
-                    updateStatus={updateStatus}
-                    saveMainPhoto={savePhoto}
-                    saveProfile={saveProfile}
-                    hasError={hasError}
-                    errorLog={errorLog}
-                />
-                <MyPostsContainerConnect />
-            </Card>
+            <Box sx={{ width: "100%" }}>
+                <Grid
+                    container
+                    direction="row"
+                    justifyContent="center"
+                    alignItems="center"
+                    columnSpacing={1}
+                    rowSpacing={1}
+                >
+                    <Grid item sm={11} xl={12}>
+                        <Card>
+                            <ProfileInfo
+                                isOwner={isOwner}
+                                profile={profile}
+                                status={status}
+                                updateStatus={updateStatus}
+                                saveMainPhoto={savePhoto}
+                                saveProfile={saveProfile}
+                                hasError={hasError}
+                                errorLog={errorLog}
+                            />
+                        </Card>
+                    </Grid>
+                    <Grid item xs={11} xl={12}>
+                        <Card>
+                            <MyPostsContainerConnect />
+                        </Card>
+                    </Grid>
+                </Grid>
+                {/*<Card sx={{ minHeight: 796 }}>*/}
+
+                {/*</Card>*/}
+            </Box>
         </div>
     );
 });

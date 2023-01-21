@@ -10,7 +10,7 @@ import ListItemText from "@mui/material/ListItemText";
 const NavBar: FC = () => {
     return (
         <nav className={style.nav}>
-            <Box sx={{ width: "100%", bgcolor: "background.paper" }}>
+            <Box sx={{ width: "100%", minWidth: 60 }}>
                 <List className={style.item}>
                     <NavLink
                         to="/profile"

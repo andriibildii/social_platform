@@ -3,6 +3,7 @@ import LoginForm from "./LoginForm/LoginForm";
 import { useDispatch, useSelector } from "react-redux";
 import { loginThunkCreator } from "../../redux/auth-reducer";
 import { useNavigate } from "react-router-dom";
+import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import styles from "./LoginForm/LoginForm.module.css";
 import { AppDispatch, AppStateType } from "../../redux/store";
@@ -42,7 +43,12 @@ export const Login: FC = () => {
     }, [isAuth]);
 
     return (
-        <Card sx={{ minHeight: 796 }}>
+        <Box
+            sx={{ minHeight: 796 }}
+            display="flex"
+            justifyContent="center"
+            alignItems="flex-start"
+        >
             <div className={styles.formContainer}>
                 <h1>Login</h1>
                 <LoginForm
@@ -52,6 +58,6 @@ export const Login: FC = () => {
                     captchaUrl={captchaUrl}
                 />
             </div>
-        </Card>
+        </Box>
     );
 };

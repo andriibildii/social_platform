@@ -3,24 +3,26 @@ import { FC } from "react";
 import DialogItem from "./DialogItem/DialogItem";
 import Messages from "./Messages/Messages";
 import AddMessageForm from "./AddMessageForm/AddMessageForm";
-import Card from "@mui/material/Card";
+import Card from "@mui/material/Paper";
+import Box from "@mui/material/Box";
+import { Grid } from "@mui/material";
 import Stack from "@mui/material/Stack";
 import style from "./Dialogs.module.css";
 import { InitialStateType } from "../../redux/dialogs-reducer";
 
 export type MapStateToPropsType = {
-    dialogsPage: InitialStateType
-}
+    dialogsPage: InitialStateType;
+};
 export type MapDispatchToPropsType = {
-    sendMessage: (newMessageBody: string) => void
-}
+    sendMessage: (newMessageBody: string) => void;
+};
 export type OwmPropsType = {
-    isAuth: boolean
-}
+    isAuth: boolean;
+};
 
 export type FormDataType = {
-    newMessage: string
-}
+    newMessage: string;
+};
 
 type PropsType = MapStateToPropsType & MapDispatchToPropsType & OwmPropsType;
 
@@ -39,37 +41,45 @@ const Dialogs: FC<PropsType> = ({ dialogsPage, sendMessage, isAuth }) => {
     };
 
     return (
-        <Card sx={{ minHeight: 796 }}>
-            <div className={style.dialogs}>
-                <Stack
-                    direction="row"
-                    alignItems="stretch"
-                    justifyContent="flex-start"
-                    spacing={1}
-                >
-                    <div className={style.dialogsItems}>
-                        {dialogs.map((dialog) => (
-                            <DialogItem
-                                name={dialog.name}
-                                id={dialog.id}
-                                key={dialog.id}
-                            />
-                        ))}
-                    </div>
-                    <div className={style.messages}>
-                        <div>
-                            {messages.map((messageItem) => (
-                                <Messages
-                                    message={messageItem.message}
-                                    key={messageItem.id}
-                                />
-                            ))}
+        <Box>
+            <Grid
+                container
+                direction="row"
+                columnSpacing={1}
+                rowSpacing={1}
+            >
+                <Grid item xs={12} md={4}>
+                    <Card>
+                        <div className={style.dialogs}>
+                            <div className={style.dialogsItems}>
+                                {dialogs.map((dialog) => (
+                                    <DialogItem
+                                        name={dialog.name}
+                                        id={dialog.id}
+                                        key={dialog.id}
+                                    />
+                                ))}
+                            </div>
                         </div>
-                        <AddMessageForm onSubmit={addNewMessage} />
-                    </div>
-                </Stack>
-            </div>
-        </Card>
+                    </Card>
+                </Grid>
+                <Grid item xs={12} md={8}>
+                    <Card>
+                        <div className={style.messages}>
+                            <div>
+                                {messages.map((messageItem) => (
+                                    <Messages
+                                        message={messageItem.message}
+                                        key={messageItem.id}
+                                    />
+                                ))}
+                            </div>
+                            <AddMessageForm onSubmit={addNewMessage} />
+                        </div>
+                    </Card>
+                </Grid>
+            </Grid>
+        </Box>
     );
 };
 

@@ -21,9 +21,6 @@ const ProfileContainer: FC = () => {
     const authorizedUserId = useSelector(getAuthUserId);
 
     const dispatch: AppDispatch = useDispatch();
-    // type DispatchFunc = () => AppDispatch
-    // const useAppDispatch: DispatchFunc = useDispatch;
-    // const dispatch = useAppDispatch()
 
     let userId: number | null = Number(params.userId);
 
