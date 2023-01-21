@@ -1,5 +1,5 @@
-import { FC, useEffect, useState } from "react";
-import { ChatMessageType, wsChannel } from "../../../ChatPage";
+import { FC } from "react";
+import { ChatMessageType } from "../../../ChatPage";
 
 export const Message: FC<{message: ChatMessageType}> = ({message}) => {
 

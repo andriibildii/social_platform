@@ -1,24 +1,51 @@
-import { FC, useState } from "react";
-import { wsChannel } from "../../ChatPage";
+import { FC, useEffect, useState } from "react";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
 
-export const ChatAddMessageForm: FC = () => {
+export const ChatAddMessageForm: FC<{ wsChannel: WebSocket | null }> = ({
+    wsChannel,
+}) => {
     const [message, setMessage] = useState("");
+    const [readyStatus, setReadyStatus] = useState<"pending" | "ready">(
+        "pending"
+    );
+
+    useEffect(() => {
+        const openHandler = () => {
+            setReadyStatus("ready");
+        };
+        wsChannel?.addEventListener("open", openHandler);
+        return () => {
+            wsChannel?.removeEventListener("open", openHandler);
+        };
+    }, [wsChannel]);
 
     const sendMessage = () => {
         if (!message) return;
-        wsChannel.send(message);
+        wsChannel?.send(message);
         setMessage("");
     };
     return (
         <>
             <div>
-                <textarea
+                <TextField
                     onChange={(e) => setMessage(e.currentTarget.value)}
                     value={message}
-                ></textarea>
+                    label="Type your message..."
+                    multiline
+                    fullWidth
+                    rows={2}
+                    margin={"normal"}
+                ></TextField>
             </div>
             <div>
-                <button onClick={sendMessage}>Add message</button>
+                <Button
+                    variant="contained"
+                    disabled={wsChannel === null || readyStatus !== "ready"}
+                    onClick={sendMessage}
+                >
+                    Send message
+                </Button>
             </div>
         </>
     );
