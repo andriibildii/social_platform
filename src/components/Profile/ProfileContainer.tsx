@@ -16,7 +16,6 @@ const ProfileContainer: FC = () => {
     const navigate = useNavigate();
     const params = useParams();
 
-
     const isAuth = useSelector(getAuthInfo);
     const authorizedUserId = useSelector(getAuthUserId);
 

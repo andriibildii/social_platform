@@ -24,6 +24,7 @@ const UsersContainer = React.lazy(() => import("./components/Users/UsersContaine
 const News = React.lazy(() => import("./components/News/News"));
 const Music = React.lazy(() => import("./components/Music/Music"));
 const Settings = React.lazy(() => import("./components/Settings/Settings"));
+const ChatPage = React.lazy(() => import("./components/ChatPage/ChatPage"));
 
 type MapPropsType = ReturnType<typeof mapStateToProps>
 type DispatchPropsType = {
@@ -75,6 +76,7 @@ class App extends React.Component<MapPropsType & DispatchPropsType> {
                                     <Route path="music" element={<Music />} />
                                     <Route path="settings" element={<Settings />} />
                                     <Route path="login" element={<Login />} />
+                                    <Route path="chat" element={<ChatPage />} />
                                     <Route
                                         path="*"
                                         element={<div>404 PAGE NOT FOUND</div>}
