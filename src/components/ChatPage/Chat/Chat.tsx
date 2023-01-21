@@ -29,7 +29,10 @@ const Chat: FC = () => {
 
         return () => {
             ws.removeEventListener("close", closeHandler);
-            ws.close();
+            if(ws.readyState === 1) {
+                ws.close();
+            }
+
         };
     }, []);
 
