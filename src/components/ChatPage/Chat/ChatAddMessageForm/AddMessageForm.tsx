@@ -1,12 +1,13 @@
 import { FC, useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../../../redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, AppStateType } from "../../../../redux/store";
 import { sendMessage } from "../../../../redux/chat-reducer";
 
 export const AddMessageForm: FC = () => {
     const [message, setMessage] = useState("");
+    const status = useSelector((state: AppStateType) => state.chat.status);
 
     const dispatch = useDispatch<AppDispatch>();
 
@@ -15,6 +16,7 @@ export const AddMessageForm: FC = () => {
         dispatch(sendMessage(message));
         setMessage("");
     };
+
     return (
         <>
             <div>
@@ -31,7 +33,7 @@ export const AddMessageForm: FC = () => {
             <div>
                 <Button
                     variant="contained"
-                    disabled={false}
+                    disabled={status !== 'ready'}
                     onClick={sendMessageHandler}
                 >
                     Send message
