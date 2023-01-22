@@ -1,28 +1,18 @@
 import { FC, useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../../../redux/store";
+import { sendMessage } from "../../../../redux/chat-reducer";
 
-export const ChatAddMessageForm: FC<{ wsChannel: WebSocket | null }> = ({
-    wsChannel,
-}) => {
+export const AddMessageForm: FC = () => {
     const [message, setMessage] = useState("");
-    const [readyStatus, setReadyStatus] = useState<"pending" | "ready">(
-        "pending"
-    );
 
-    useEffect(() => {
-        const openHandler = () => {
-            setReadyStatus("ready");
-        };
-        wsChannel?.addEventListener("open", openHandler);
-        return () => {
-            wsChannel?.removeEventListener("open", openHandler);
-        };
-    }, [wsChannel]);
+    const dispatch = useDispatch<AppDispatch>();
 
-    const sendMessage = () => {
+    const sendMessageHandler = () => {
         if (!message) return;
-        wsChannel?.send(message);
+        dispatch(sendMessage(message));
         setMessage("");
     };
     return (
@@ -41,8 +31,8 @@ export const ChatAddMessageForm: FC<{ wsChannel: WebSocket | null }> = ({
             <div>
                 <Button
                     variant="contained"
-                    disabled={wsChannel === null || readyStatus !== "ready"}
-                    onClick={sendMessage}
+                    disabled={false}
+                    onClick={sendMessageHandler}
                 >
                     Send message
                 </Button>
