@@ -1,92 +1,107 @@
-import { Field, Form } from "react-final-form";
-import {
-    Input,
-    TextArea,
-} from "../../../../common/FormsControls/FormsControls";
-import styles from "../../../Login/LoginForm/LoginForm.module.css";
-import { ProfileType } from "../../../../types/types";
 import { FC } from "react";
+import { Formik, Field, Form, FormikHelpers } from "formik";
+import { ProfileType } from "../../../../types/types";
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
+import AlertTitle from "@mui/material/AlertTitle";
+import Alert from "@mui/material/Alert";
+import { TextField, CheckboxWithLabel } from "formik-mui";
+import styles from "../../../Login/LoginForm/LoginForm.module.css";
 
 type PropsTypes = {
-  profile: ProfileType
-  handleSubmit: (formData: ProfileType) => void
-  initialValues: ProfileType | null
-  hasError: boolean,
-  errorLog: string,
-}
+    profile: ProfileType;
+    handleSubmit: (formData: ProfileType) => void;
+    initialValue: ProfileType;
+    hasError: boolean;
+    errorLog: string;
+};
 
-const ProfileDataForm: FC<PropsTypes> = ({
+export const ProfileDataForm: FC<PropsTypes> = ({
     profile,
     handleSubmit,
-    initialValues,
+    initialValue,
     hasError,
     errorLog,
 }) => {
     return (
-        <Form
-            initialValues={initialValues}
-            onSubmit={handleSubmit}
-            render={({ handleSubmit, values }) => (
-                <form onSubmit={handleSubmit}>
-                    <div>
-                        <button>save</button>
-                    </div>
-                    {hasError && errorLog && (
-                        <div className={styles.error}>{errorLog}</div>
-                    )}
-                    <div>
-                        <b>Full name:</b>
+        <>
+            <Formik
+                initialValues={initialValue}
+                onSubmit={(
+                    values: ProfileType,
+                    { setSubmitting }: FormikHelpers<ProfileType>
+                ) => {
+                    console.log(values);
+                    handleSubmit(values);
+                    setSubmitting(false);
+                }}
+            >
+                <Form>
+                    <Stack
+                        direction="column"
+                        justifyContent="flex-start"
+                        alignItems="flex-start"
+                        spacing={2}
+                    >
+                        <Button
+                            type="submit"
+                            color="primary"
+                            variant="contained"
+                        >
+                            save
+                        </Button>
+                        {hasError && errorLog && (
+                            <Alert severity="error">
+                                <AlertTitle>Error</AlertTitle>
+                                <strong>{errorLog}</strong>
+                            </Alert>
+                        )}
                         <Field
-                            placeholder="Full name"
+                            component={TextField}
+                            id="fullName"
                             name="fullName"
-                            component={Input}
+                            label="Full name"
+                            type="text"
                         />
-                    </div>
-                    <div>
-                        <b>Looking for a job: </b>
                         <Field
-                            placeholder=""
-                            name="lookingForAJob"
-                            component={Input}
-                            type="checkbox"
-                        />
-                    </div>
-                    <div>
-                        <b>My professional skills: </b>
-                        <Field
-                            placeholder="My professional skills"
+                            component={TextField}
+                            id="lookingForAJobDescription"
                             name="lookingForAJobDescription"
-                            component={TextArea}
+                            label="My professional skills"
+                            type="text"
                         />
-                    </div>
-                    <div>
-                        <b>About me: </b>
                         <Field
-                            placeholder="About me"
+                            component={TextField}
+                            id="aboutMe"
                             name="aboutMe"
-                            component={TextArea}
+                            label="About me"
+                            type="text"
                         />
-                    </div>
+                        <Field
+                            component={CheckboxWithLabel}
+                            type="checkbox"
+                            id="lookingForAJob"
+                            name="lookingForAJob"
+                            Label={{ label: "Looking for a job?" }}
+                        />
+                    </Stack>
                     <div>
                         <b>Contacts:</b>{" "}
                         {Object.keys(profile.contacts).map((key) => {
                             return (
                                 <div className={styles.contact} key={key}>
-                                    <b>{key}: </b>{" "}
                                     <Field
                                         placeholder={key}
                                         name={"contacts." + key}
-                                        component={Input}
+                                        label={key}
+                                        component={TextField}
                                     />
                                 </div>
                             );
                         })}
                     </div>
-                    <pre>{JSON.stringify(values, undefined, 2)}</pre>
-                </form>
-            )}
-        />
+                </Form>
+            </Formik>
+        </>
     );
 };
-
-export default ProfileDataForm;
