@@ -1,8 +1,8 @@
 import React, { FC } from "react";
 import { useSelector } from "react-redux";
 import Post from "./Post/Post";
-import { AppStateType } from "../../../redux/store";
 import { AddPostForm } from "./MyPostsForm/MyPostsForm";
+import { AppStateType } from "../../../redux/store";
 import style from "./MyPosts.module.css";
 
 export const MyPosts: FC = React.memo(() => {

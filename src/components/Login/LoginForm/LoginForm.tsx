@@ -1,71 +1,126 @@
-import { FC } from "react";
-import { Form, Field } from "react-final-form";
-import { Input } from "../../../common/FormsControls/FormsControls";
-import { required } from "../../../utils/validators";
-import {LoginFormType} from "../Login";
-import styles from "./LoginForm.module.css";
+import React from "react";
+import { useFormik } from "formik";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, AppStateType } from "../../../redux/store";
+import { loginThunkCreator } from "../../../redux/auth-reducer";
+import * as yup from "yup";
+import { Button, TextField, AlertTitle, Box, Alert, Checkbox, FormControlLabel, Stack } from "@mui/material";
+import styles from './LoginForm.module.css'
 
-type PropsTypes = {
-  onSubmit: (formData: LoginFormType) => void
-  hasError: boolean
-  errorLog: string | null
-  captchaUrl: string | null
+type LoginFormType = {
+    email: string
+    password: string
+    rememberMe: boolean
+    captcha: string
 }
+const validationSchema = yup.object({
+    email: yup
+        .string()
+        .email("Enter a valid email")
+        .required("Email is required"),
+    password: yup.string().required("Password is required"),
+    rememberMe: yup.boolean(),
+    captcha: yup.string(),
+});
 
-const LoginForm: FC<PropsTypes> = ({ onSubmit, hasError, errorLog, captchaUrl }) => {
+export const LoginForm = () => {
+    const captchaUrl = useSelector((state: AppStateType) => state.auth.captchaUrl);
+    const hasError = useSelector((state: AppStateType) => state.auth.hasError);
+    const errorLog = useSelector((state: AppStateType) => state.auth.errorLog);
+    const dispatch: AppDispatch = useDispatch();
+
+    const onSubmit = (values: LoginFormType) => {
+        dispatch(
+            loginThunkCreator(
+                values.email,
+                values.password,
+                values.rememberMe,
+                values.captcha
+            )
+        );
+    };
+
+    const formik = useFormik({
+        initialValues: {
+            email: "",
+            password: "",
+            rememberMe: false,
+            captcha: "",
+        },
+        validationSchema: validationSchema,
+        onSubmit: (values) => {
+            onSubmit(values);
+        },
+    });
+
     return (
-        <Form
-            onSubmit={onSubmit}
-            render={({ handleSubmit, values }) => (
-                <form onSubmit={handleSubmit}>
-                    <div>
-                        <Field
-                            name="email"
-                            component={Input}
-                            type="text"
-                            placeholder="email"
-                            validate={required}
-                        />
-                    </div>
-                    <div>
-                        <Field
-                            name="password"
-                            component={Input}
-                            type="password"
-                            placeholder="password"
-                            validate={required}
-                        />
-                    </div>
-                    <div>
-                        <Field
-                            name="rememberMe"
-                            component={Input}
-                            type="checkbox"
-                        />
-                    </div>
-                    {captchaUrl && <img src={captchaUrl} alt={'captchaUrl'}/>}
-                    {captchaUrl && (
+        <Box sx={{ width: '50%'}} >
+            <form onSubmit={formik.handleSubmit}>
+                <Stack spacing={2}>
+                    <TextField
+                        fullWidth
+                        id="email"
+                        name="email"
+                        label="Email"
+                        onChange={formik.handleChange}
+                        error={
+                            formik.touched.email && Boolean(formik.errors.email)
+                        }
+                        helperText={formik.touched.email && formik.errors.email}
+                    />
+                    <TextField
+                        fullWidth
+                        id="password"
+                        name="password"
+                        label="Password"
+                        type="password"
+                        onChange={formik.handleChange}
+                        error={
+                            formik.touched.password &&
+                            Boolean(formik.errors.password)
+                        }
+                        helperText={
+                            formik.touched.password && formik.errors.password
+                        }
+                    />
+                    <FormControlLabel
+                        id="rememberMe"
+                        name="rememberMe"
+                        onChange={formik.handleChange}
+                        control={<Checkbox />}
+                        label="Remember me"
+                    />
+
+                    {hasError && captchaUrl && (
+                        <img src={captchaUrl} alt={"captchaUrl"} className={styles.captchaImage}/>
+                    )}
+                    {hasError && captchaUrl && (
                         <div>
-                            <Field
+                            <TextField
+                                id="captcha"
                                 name="captcha"
                                 placeholder="Symbols from image"
-                                component={Input}
                                 type="captcha"
-                                validate={required}
+                                onChange={formik.handleChange}
                             />
                         </div>
                     )}
                     {hasError && errorLog && (
-                        <div className={styles.error}>{errorLog}</div>
+                        <Alert severity="error">
+                            <AlertTitle>Error</AlertTitle>
+                            <strong>{errorLog}</strong>
+                        </Alert>
                     )}
-                    <div>
-                        <button>Login</button>
-                    </div>
-                    <pre>{JSON.stringify(values, undefined, 2)}</pre>
-                </form>
-            )}
-        />
+                    <Button
+                        color="primary"
+                        variant="contained"
+                        fullWidth
+                        type="submit"
+                    >
+                        Login
+                    </Button>
+                </Stack>
+            </form>
+        </Box>
     );
 };
-
-export default LoginForm;

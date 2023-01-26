@@ -8,11 +8,8 @@ import ProfileData from "./ProfileData/ProfileData";
 import { ProfileDataForm } from "./ProfileDataForm/ProfileDataForm";
 import { ProfileType } from "../../../types/types";
 import { SaveProfileThunkType } from "../../../redux/profile-reducer";
-import Stack from "@mui/material/Stack";
-import { IconButton } from "@mui/material";
+import { Stack, IconButton, Grid, Box } from "@mui/material";
 import { PhotoCamera } from "@mui/icons-material";
-import Grid from "@mui/material/Unstable_Grid2";
-import Box from "@mui/material/Box";
 
 export type PropsTypes = {
     profile: ProfileType | null;
@@ -66,10 +63,10 @@ const ProfileInfo: FC<PropsTypes> = ({
                     rowSpacing={1}
                     // columnSpacing={{ xs: 1, sm: 2, md: 3 }}
                 >
-                    <Grid xs={2}>
+                    <Grid xs={12} md={2}>
                         <img src={profile.photos.large || userPhoto} />
                     </Grid>
-                    <Grid xs={10}>
+                    <Grid xs={12} md={10}>
                         {editMode ? (
                             <>
                                 {isOwner && (

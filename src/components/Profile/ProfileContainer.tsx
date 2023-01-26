@@ -1,6 +1,6 @@
 import { useEffect, FC } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Profile from "./Profile";
 import {
     profileThunkCreator,

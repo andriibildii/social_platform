@@ -101,12 +101,11 @@ export const UsersItems: FC = () => {
         <Box sx={{ width: "100%" }}>
             <Grid
                 container
-                // direction="row"
                 justifyContent="center"
                 alignItems="center"
                 rowSpacing={1}
             >
-                <Grid item xs={12} md={12}>
+                <Grid item xs={10} md={12}>
                     <Card
                         sx={{
                             display: "flex",
@@ -117,7 +116,7 @@ export const UsersItems: FC = () => {
                         <UsersSearchForm onFilterChanged={onFilterChanged} />
                     </Card>
                 </Grid>
-                <Grid item xs={12} md={12}>
+                <Grid item xs={10} md={12}>
                     <Card
                         sx={{
                             display: "flex",
@@ -134,7 +133,7 @@ export const UsersItems: FC = () => {
                         />
                     </Card>
                 </Grid>
-                <Grid item md={12}>
+                <Grid item xs={10} md={12}>
                     <Box
                         sx={{
                             display: "flex",
@@ -150,7 +149,7 @@ export const UsersItems: FC = () => {
                             columnGap={1}
                         >
                             {users.map((user) => (
-                                <Grid xs={5}>
+                                <Grid xs={10} md={5}>
                                     <Card
                                         sx={{
                                             // width: "280px",

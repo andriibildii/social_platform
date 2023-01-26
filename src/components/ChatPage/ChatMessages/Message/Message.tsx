@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { ChatMessageAPIType } from "../../../../../api/chatAPI";
+import { ChatMessageAPIType } from "../../../../api/chatAPI";
 
 export const Message: FC<{ message: ChatMessageAPIType }> = React.memo(
     ({ message }) => {

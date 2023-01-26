@@ -1,9 +1,8 @@
-import { FC, useEffect, useState } from "react";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
+import { FC, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, AppStateType } from "../../../../redux/store";
-import { sendMessage } from "../../../../redux/chat-reducer";
+import { sendMessage } from "../../../redux/chat-reducer";
+import { AppDispatch, AppStateType } from "../../../redux/store";
+import { Button, TextField } from "@mui/material";
 
 export const AddMessageForm: FC = () => {
     const [message, setMessage] = useState("");

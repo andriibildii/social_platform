@@ -1,30 +1,27 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import ProfileInfo from "./ProfileInfo/ProfileInfo";
-import Card from "@mui/material/Paper";
-import Box from "@mui/material/Box";
-import { Grid } from "@mui/material";
-import { ProfileType } from "../../types/types";
+import { MyPosts } from "./MyPosts/MyPosts";
+import {
+    saveMainPhotoThunkCreator,
+    saveProfileThunkCreator,
+    updateStatusThunkCreator,
+} from "../../redux/profile-reducer";
 import {
     getError,
     getErrorLog,
     getProfile,
     getStatus,
 } from "../../redux/profile-selectors";
-import { useDispatch, useSelector } from "react-redux";
-import {
-    saveMainPhotoThunkCreator,
-    saveProfileThunkCreator,
-    updateStatusThunkCreator,
-} from "../../redux/profile-reducer";
+import { ProfileType } from "../../types/types";
 import { AppDispatch } from "../../redux/store";
-import { MyPosts } from "./MyPosts/MyPosts";
+import { Grid, Card, Box} from "@mui/material";
 
 type PropsTypes = {
     isOwner: boolean;
 };
 
 const Profile: React.FC<PropsTypes> = React.memo(({ isOwner }) => {
-    // console.log("RENDER PROFILE");
 
     const profile = useSelector(getProfile);
     const status = useSelector(getStatus);
@@ -47,7 +44,7 @@ const Profile: React.FC<PropsTypes> = React.memo(({ isOwner }) => {
 
     return (
         <div className="">
-            <Box sx={{ width: "100%"  }}>
+            <Box sx={{ width: "100%"}}>
                 <Grid
                     container
                     direction="row"
@@ -56,7 +53,7 @@ const Profile: React.FC<PropsTypes> = React.memo(({ isOwner }) => {
                     columnSpacing={1}
                     rowSpacing={1}
                 >
-                    <Grid item sm={11} xl={12}>
+                    <Grid item xs={9} xl={12}>
                         <Card>
                             <ProfileInfo
                                 isOwner={isOwner}
@@ -70,7 +67,7 @@ const Profile: React.FC<PropsTypes> = React.memo(({ isOwner }) => {
                             />
                         </Card>
                     </Grid>
-                    <Grid item xs={11} xl={12}>
+                    <Grid item xs={9} xl={12}>
                         <Card>
                             <MyPosts />
                         </Card>

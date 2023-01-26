@@ -26,8 +26,15 @@ const DialogsContainer: FC = () => {
 
     return (
         <Box>
-            <Grid container direction="row" columnSpacing={1} rowSpacing={1}>
-                <Grid item xs={12} md={4}>
+            <Grid
+                container
+                direction="row"
+                justifyContent="center"
+                alignItems="center"
+                columnSpacing={1}
+                rowSpacing={1}
+            >
+                <Grid item xs={9} md={4}>
                     <Card>
                         <div className={style.dialogs}>
                             <div className={style.dialogsItems}>
@@ -42,7 +49,7 @@ const DialogsContainer: FC = () => {
                         </div>
                     </Card>
                 </Grid>
-                <Grid item xs={12} md={8}>
+                <Grid item xs={9} md={8}>
                     <Card>
                         <div className={style.messages}>
                             <div>

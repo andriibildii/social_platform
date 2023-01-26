@@ -1,8 +1,7 @@
 import { useDispatch } from "react-redux";
 import { Formik, Field, Form, FormikHelpers } from "formik";
-import Button from "@mui/material/Button";
-import Stack from '@mui/material/Stack';
 import { TextField } from "formik-mui";
+import { Button, Stack } from "@mui/material";
 import { actions } from "../../../../redux/profile-reducer";
 import { AppDispatch } from "../../../../redux/store";
 import SendIcon from "@mui/icons-material/Send";
