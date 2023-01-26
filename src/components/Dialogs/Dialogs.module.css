@@ -15,6 +15,11 @@
 .messages {
 	padding: 10px;
 }
+.messages .form {
+	margin-top: 10px;
+}
 
 .messages .message {
 }
+
+

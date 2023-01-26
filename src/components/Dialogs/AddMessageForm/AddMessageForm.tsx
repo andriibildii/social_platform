@@ -1,3 +1,4 @@
+/*
 import { FC } from "react";
 import { Form, Field } from "react-final-form";
 import { maxValue } from "../../../utils/validators";
@@ -42,3 +43,76 @@ const AddMessageForm: FC<PropsType> = ({ onSubmit }) => {
 };
 
 export default AddMessageForm;
+*/
+
+import { useDispatch } from "react-redux";
+import { Formik, Field, Form, FormikHelpers } from "formik";
+import Button from "@mui/material/Button";
+import Stack from "@mui/material/Stack";
+import { TextField } from "formik-mui";
+import SendIcon from "@mui/icons-material/Send";
+import * as Yup from "yup";
+import { AppDispatch } from "../../../redux/store";
+import { actions } from "../../../redux/dialogs-reducer";
+
+type ValuesType = {
+    newMessage: string;
+};
+
+const DisplayingErrorPostsSchema = Yup.object().shape({
+    newPost: Yup.string().min(2, "Too Short!").max(10, "Too Long!"),
+});
+
+export const AddMessageForm = () => {
+    const dispatch = useDispatch<AppDispatch>();
+
+    const addNewMessage = (newMessageBody: string) => {
+        dispatch(actions.sendMessageCreator(newMessageBody));
+    };
+
+    return (
+        <div>
+            <Formik
+                initialValues={{
+                    newMessage: "",
+                }}
+                validationSchema={DisplayingErrorPostsSchema}
+                onSubmit={(
+                    values: ValuesType,
+                    { setSubmitting }: FormikHelpers<ValuesType>
+                ) => {
+                    addNewMessage(values.newMessage)
+                    setSubmitting(false);
+                }}
+            >
+                <Form>
+                    <Stack
+                        direction="column"
+                        justifyContent="flex-start"
+                        alignItems="flex-start"
+                        spacing={0.5}
+                    >
+                        <Field
+                            id="newMessage"
+                            name="newMessage"
+                            label="add new message..."
+                            type="text"
+                            component={TextField}
+                            multiline
+                            rows={2}
+                            fullWidth
+                        />
+                        <Button
+                            type="submit"
+                            color="primary"
+                            variant="contained"
+                        >
+                            Send - <SendIcon />
+                        </Button>
+                    </Stack>
+                    <Stack></Stack>
+                </Form>
+            </Formik>
+        </div>
+    );
+};
