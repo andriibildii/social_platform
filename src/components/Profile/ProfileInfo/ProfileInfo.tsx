@@ -11,6 +11,8 @@ import { SaveProfileThunkType } from "../../../redux/profile-reducer";
 import Stack from "@mui/material/Stack";
 import { IconButton } from "@mui/material";
 import { PhotoCamera } from "@mui/icons-material";
+import Grid from "@mui/material/Unstable_Grid2";
+import Box from "@mui/material/Box";
 
 export type PropsTypes = {
     profile: ProfileType | null;
@@ -57,54 +59,68 @@ const ProfileInfo: FC<PropsTypes> = ({
     };
 
     return (
-        <div>
-            <div className={style.descriptionBlock}>
-                <img src={profile.photos.large || userPhoto} />
-                {editMode ? (
-                    <>
-                        {isOwner && (
-                            <Stack
-                                direction="row"
-                                alignItems="center"
-                                spacing={2}
-                            >
-                                <IconButton
-                                    color="primary"
-                                    aria-label="upload picture"
-                                    component="label"
-                                >
-                                    <input
-                                        hidden
-                                        accept="image/*"
-                                        type="file"
-                                        onChange={setMainPhoto}
-                                    />
-                                    <PhotoCamera />
-                                </IconButton>{" "}
-                                Change Photo
-                            </Stack>
-                        )}
+        <div className={style.descriptionBlock}>
+            <Box sx={{ width: "100%" }}>
+                <Grid
+                    container
+                    rowSpacing={1}
+                    // columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+                >
+                    <Grid xs={2}>
+                        <img src={profile.photos.large || userPhoto} />
+                    </Grid>
+                    <Grid xs={10}>
+                        {editMode ? (
+                            <>
+                                {isOwner && (
+                                    <Stack
+                                        direction="row"
+                                        alignItems="center"
+                                        spacing={2}
+                                    >
+                                        <IconButton
+                                            color="primary"
+                                            aria-label="upload picture"
+                                            component="label"
+                                        >
+                                            <input
+                                                hidden
+                                                accept="image/*"
+                                                type="file"
+                                                onChange={setMainPhoto}
+                                            />
+                                            <PhotoCamera />
+                                        </IconButton>{" "}
+                                        Change Photo
+                                    </Stack>
+                                )}
 
-                        <ProfileDataForm
-                            profile={profile}
-                            handleSubmit={handleSubmit}
-                            initialValue={profile}
-                            hasError={hasError}
-                            errorLog={errorLog}
+                                <ProfileDataForm
+                                    profile={profile}
+                                    handleSubmit={handleSubmit}
+                                    initialValue={profile}
+                                    hasError={hasError}
+                                    errorLog={errorLog}
+                                />
+                            </>
+                        ) : (
+                            <ProfileData
+                                profile={profile}
+                                isOwner={isOwner}
+                                changeEditMode={changeEditModeToggle}
+                            />
+                        )}
+                    </Grid>
+                    <Grid xs={12}>
+                        <ProfileStatus
+                            status={props.status}
+                            updateStatus={props.updateStatus}
                         />
-                    </>
-                ) : (
-                    <ProfileData
-                        profile={profile}
-                        isOwner={isOwner}
-                        changeEditMode={changeEditModeToggle}
-                    />
-                )}
-                <ProfileStatus
-                    status={props.status}
-                    updateStatus={props.updateStatus}
-                />
-            </div>
+                    </Grid>
+                </Grid>
+            </Box>
+
+            <div></div>
         </div>
     );
 };

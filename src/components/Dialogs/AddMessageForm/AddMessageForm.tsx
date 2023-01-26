@@ -60,7 +60,7 @@ type ValuesType = {
 };
 
 const DisplayingErrorPostsSchema = Yup.object().shape({
-    newPost: Yup.string().min(2, "Too Short!").max(10, "Too Long!"),
+    newMessage: Yup.string().max(20, "Too Long!"),
 });
 
 export const AddMessageForm = () => {
