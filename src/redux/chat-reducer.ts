@@ -3,16 +3,16 @@ import { chatAPI, ChatMessageAPIType, StatusType } from "../api/chatAPI";
 import { Dispatch } from "redux";
 import {v1} from 'uuid';
 
-let initialState = {
-    messages: [] as ChatMessageType[],
-    status: "pending" as StatusType,
-};
-
 /// TYPES
 type InitialStateType = typeof initialState;
 type ActionsType = InferActionsTypes<typeof actions>;
 type ThunkType = BaseThunkType<ActionsType>;
 export type ChatMessageType = ChatMessageAPIType & {id: string}
+
+let initialState = {
+    messages: [] as ChatMessageType[],
+    status: "pending" as StatusType,
+};
 
 /// REDUCER
 const chatReducer = (
