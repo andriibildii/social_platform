@@ -5,21 +5,25 @@ export type ChatMessageAPIType = {
     userName: string;
 };
 
-export type StatusType = 'pending' | 'ready' | 'error'
 type MessagesReceivedSubscribersType = (messages: ChatMessageAPIType[]) => void;
+export type StatusType = "pending" | "ready" | "error";
 type StatusChangedSubscribersType = (status: StatusType) => void;
-type eventsNamesType = "messages-received" | "status-changed";
 
 let ws: WebSocket | null = null;
+
 const subscribers = {
     "messages-received": [] as MessagesReceivedSubscribersType[],
     "status-changed": [] as StatusChangedSubscribersType[],
 };
 
+const notifySubscribersStatus = (status: StatusType) => {
+    subscribers["status-changed"].forEach((s) => s(status));
+};
+
 const closeHandler = () => {
     // for reconnect we should recall function createChannel()
     console.log("CLOSE WS");
-    notifySubscribersStatus('pending');
+    notifySubscribersStatus("pending");
     setTimeout(createChannel, 3000);
 };
 
@@ -31,13 +35,13 @@ const messageHandler = (e: MessageEvent) => {
 };
 
 const openHandler = () => {
-    notifySubscribersStatus('ready');
-}
+    notifySubscribersStatus("ready");
+};
 
 const errorHandler = () => {
-    notifySubscribersStatus('error');
-    console.error('REFRESH PAGE')
-}
+    notifySubscribersStatus("error");
+    console.error("REFRESH PAGE");
+};
 
 const cleanUp = () => {
     ws?.removeEventListener("close", closeHandler);
@@ -46,22 +50,37 @@ const cleanUp = () => {
     ws?.removeEventListener("error", errorHandler);
 };
 
-const notifySubscribersStatus = (status: StatusType) => {
-    subscribers["status-changed"].forEach(s => s(status));
-}
-
 function createChannel() {
-    // if ws !== null
-    cleanUp();
-    ws?.close();
+    if (ws !== null) {
+        cleanUp();
+        ws?.close();
+    }
+
     ws = new WebSocket(
         "wss://social-network.samuraijs.com/handlers/ChatHandler.ashx"
     );
-    notifySubscribersStatus('pending');
+    notifySubscribersStatus("pending");
     ws.addEventListener("close", closeHandler);
     ws.addEventListener("message", messageHandler);
     ws.addEventListener("open", openHandler);
     ws.addEventListener("error", errorHandler);
+
+    // if (ws !== null) {
+    //     setTimeout(() => {
+    //         cleanUp()
+    //         ws?.close();
+    //     }, 500)
+    // }
+    //
+    // setTimeout(() => {
+    //     ws = new WebSocket(
+    //       "wss://social-network.samuraijs.com/handlers/ChatHandler.ashx"
+    //     );
+    //     ws.addEventListener("error", errorHandler);
+    //     ws.addEventListener("open", openHandler);
+    //     ws.addEventListener("message", messageHandler);
+    //     ws.addEventListener("close", closeHandler);
+    // }, 1000)
 }
 
 export const chatAPI = {
@@ -72,7 +91,6 @@ export const chatAPI = {
         subscribers["messages-received"] = [];
         subscribers["status-changed"] = [];
         cleanUp();
-        // ws?.close();
         if (ws?.readyState === 1) {
             return ws?.close();
         }
@@ -87,7 +105,9 @@ export const chatAPI = {
     },
 
     unsubscribeFromNewMessages(callback: MessagesReceivedSubscribersType) {
-        subscribers["messages-received"] = subscribers["messages-received"].filter((s) => s !== callback);
+        subscribers["messages-received"] = subscribers[
+            "messages-received"
+        ].filter((s) => s !== callback);
     },
 
     subscribeOnStatusChanging(callback: StatusChangedSubscribersType) {
@@ -100,7 +120,9 @@ export const chatAPI = {
     },
 
     unsubscribeFromStatusChanging(callback: StatusChangedSubscribersType) {
-        subscribers["status-changed"] = subscribers["status-changed"].filter((s) => s !== callback);
+        subscribers["status-changed"] = subscribers["status-changed"].filter(
+            (s) => s !== callback
+        );
     },
 
     sendMessage(message: string) {

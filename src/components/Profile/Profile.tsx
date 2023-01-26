@@ -1,7 +1,5 @@
 import React from "react";
-import MyPostsContainerConnect from "./MyPosts/MyPostsContainerConnect";
 import ProfileInfo from "./ProfileInfo/ProfileInfo";
-// import style from "./Profile.module.css";
 import Card from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import { Grid } from "@mui/material";
@@ -19,6 +17,7 @@ import {
     updateStatusThunkCreator,
 } from "../../redux/profile-reducer";
 import { AppDispatch } from "../../redux/store";
+import { MyPosts } from "./MyPosts/MyPosts";
 
 type PropsTypes = {
     isOwner: boolean;
@@ -48,7 +47,7 @@ const Profile: React.FC<PropsTypes> = React.memo(({ isOwner }) => {
 
     return (
         <div className="">
-            <Box sx={{ width: "100%" }}>
+            <Box sx={{ width: "100%"  }}>
                 <Grid
                     container
                     direction="row"
@@ -73,13 +72,10 @@ const Profile: React.FC<PropsTypes> = React.memo(({ isOwner }) => {
                     </Grid>
                     <Grid item xs={11} xl={12}>
                         <Card>
-                            <MyPostsContainerConnect />
+                            <MyPosts />
                         </Card>
                     </Grid>
                 </Grid>
-                {/*<Card sx={{ minHeight: 796 }}>*/}
-
-                {/*</Card>*/}
             </Box>
         </div>
     );

@@ -10,7 +10,7 @@ import ListItemText from "@mui/material/ListItemText";
 const NavBar: FC = () => {
     return (
         <nav className={style.nav}>
-            <Box sx={{ width: "100%", minWidth: 60 }}>
+            <Box sx={{ width: "100%", minWidth: 30 }}>
                 <List className={style.item}>
                     <NavLink
                         to="/profile"
@@ -34,6 +34,19 @@ const NavBar: FC = () => {
                         <ListItem disablePadding>
                             <ListItemButton>
                                 <ListItemText primary="Messages" />
+                            </ListItemButton>
+                        </ListItem>
+                    </NavLink>
+
+                    <NavLink
+                      to="/chat"
+                      className={({ isActive }) =>
+                        isActive ? style.active : undefined
+                      }
+                    >
+                        <ListItem disablePadding>
+                            <ListItemButton>
+                                <ListItemText primary="Community Chat" />
                             </ListItemButton>
                         </ListItem>
                     </NavLink>
