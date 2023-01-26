@@ -1,6 +1,7 @@
 import { FC } from "react";
 import Contact from "./Contact/Contact";
 import { ProfileType } from "../../../../types/types";
+import Button from "@mui/material/Button";
 
 type PropsTypes = {
     profile: ProfileType;
@@ -12,37 +13,49 @@ const ProfileData: FC<PropsTypes> = ({ profile, isOwner, changeEditMode }) => {
         <div>
             {isOwner && (
                 <div>
-                    <button onClick={changeEditMode}>edit</button>
+                    <Button
+                        onClick={changeEditMode}
+                        color="primary"
+                        variant="outlined"
+                    >
+                        edit
+                    </Button>
                 </div>
             )}
             <div>
-                <b>Full name: </b>
-                {profile?.fullName}
-            </div>
-            <div>
-                <b>Looking for a job:</b>{" "}
-                {profile?.lookingForAJob ? "yes" : "no"}
-            </div>
-            {profile?.lookingForAJob && (
                 <div>
-                    <b>My professional skills:</b>{" "}
-                    {profile.lookingForAJobDescription}
+                    <b>Full name: </b>
+                    {profile?.fullName}
                 </div>
-            )}
-            <div>
-                <b>About me:</b> {profile.aboutMe}
-            </div>
-            <div>
-                <b>Contacts:</b>{" "}
-                {(Object.keys(profile.contacts) as Array<keyof typeof profile.contacts>).map((key) => {
-                    return (
-                        <Contact
-                            key={key}
-                            contactTitle={key}
-                            contactValue={profile.contacts[key]}
-                        />
-                    );
-                })}
+                <div>
+                    <b>Looking for a job:</b>{" "}
+                    {profile?.lookingForAJob ? "yes" : "no"}
+                </div>
+                {profile?.lookingForAJob && (
+                    <div>
+                        <b>My professional skills:</b>{" "}
+                        {profile.lookingForAJobDescription}
+                    </div>
+                )}
+                <div>
+                    <b>About me:</b> {profile.aboutMe}
+                </div>
+                <div>
+                    <b>Contacts:</b>{" "}
+                    {(
+                        Object.keys(profile.contacts) as Array<
+                            keyof typeof profile.contacts
+                        >
+                    ).map((key) => {
+                        return (
+                            <Contact
+                                key={key}
+                                contactTitle={key}
+                                contactValue={profile.contacts[key]}
+                            />
+                        );
+                    })}
+                </div>
             </div>
         </div>
     );

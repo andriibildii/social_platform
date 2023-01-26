@@ -6,18 +6,27 @@ import ProfileStatus from "./ProfileStatus/ProfileStatus";
 import userPhoto from "../../../assets/img/image-from-rawpixel-id-6642555-png.png";
 import ProfileData from "./ProfileData/ProfileData";
 import ProfileDataForm from "./ProfileDataForm/ProfileDataForm";
+import { ProfileDataFormFormik } from "./ProfileDataForm/ProfileDataFormFormik";
+
 import { ContactsType, PhotosType, ProfileType } from "../../../types/types";
 import { AppDispatch } from "../../../redux/store";
 import { useDispatch, useSelector } from "react-redux";
-import { saveProfileThunkCreator, SaveProfileThunkType } from "../../../redux/profile-reducer";
+import {
+    saveProfileThunkCreator,
+    SaveProfileThunkType,
+} from "../../../redux/profile-reducer";
 import { getError } from "../../../redux/profile-selectors";
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
+import { IconButton } from "@mui/material";
+import { PhotoCamera } from "@mui/icons-material";
 
 export type PropsTypes = {
     profile: ProfileType | null;
     isOwner: boolean;
     saveMainPhoto: (file: any) => void;
     // saveProfile: (profile: ProfileType) => Promise<{errorLog: string, hasError: boolean, type: string} | undefined>
-    saveProfile: (profile: ProfileType) => Promise<SaveProfileThunkType>,
+    saveProfile: (profile: ProfileType) => Promise<SaveProfileThunkType>;
     hasError: boolean;
     errorLog: string;
     status: string;
@@ -49,7 +58,6 @@ const ProfileInfo: FC<PropsTypes> = ({
         setEditMode(true);
     };
 
-
     const handleSubmit = async (formData: ProfileType) => {
         const result = await saveProfile(formData);
         if (result === undefined) {
@@ -61,16 +69,25 @@ const ProfileInfo: FC<PropsTypes> = ({
         <div>
             <div className={style.descriptionBlock}>
                 <img src={profile.photos.large || userPhoto} />
-                {isOwner && <input type={"file"} onChange={setMainPhoto} />}
-
                 {editMode ? (
-                    <ProfileDataForm
-                        profile={profile}
-                        handleSubmit={handleSubmit}
-                        initialValues={profile}
-                        hasError={hasError}
-                        errorLog={errorLog}
-                    />
+                    <>
+                        {isOwner && (
+                          <Stack direction="row" alignItems="center" spacing={2}>
+                              <IconButton color="primary" aria-label="upload picture" component="label">
+                                  <input hidden accept="image/*" type="file" onChange={setMainPhoto}/>
+                                  <PhotoCamera />
+                              </IconButton> Change Photo
+                          </Stack>
+                        )}
+
+                        <ProfileDataFormFormik
+                            profile={profile}
+                            handleSubmit={handleSubmit}
+                            initialValue={profile}
+                            hasError={hasError}
+                            errorLog={errorLog}
+                        />
+                    </>
                 ) : (
                     <ProfileData
                         profile={profile}
