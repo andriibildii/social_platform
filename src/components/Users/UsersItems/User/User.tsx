@@ -37,6 +37,7 @@ const User: FC<PropsType> = ({
                                     : userPhoto
                             }
                             className={style.userImage}
+                            alt='user'
                         />
                     </NavLink>
                 </div>

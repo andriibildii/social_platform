@@ -1,8 +1,6 @@
 import { ChangeEvent, FC, useState } from "react";
-import style from "./ProfileInfo.module.css";
 import Preloader from "../../../common/Preloader/Preloader";
 import ProfileStatus from "./ProfileStatus/ProfileStatus";
-// @ts-ignore
 import userPhoto from "../../../assets/img/image-from-rawpixel-id-6642555-png.png";
 import ProfileData from "./ProfileData/ProfileData";
 import { ProfileDataForm } from "./ProfileDataForm/ProfileDataForm";
@@ -10,6 +8,7 @@ import { ProfileType } from "../../../types/types";
 import { SaveProfileThunkType } from "../../../redux/profile-reducer";
 import { Stack, IconButton, Grid, Box } from "@mui/material";
 import { PhotoCamera } from "@mui/icons-material";
+import style from "./ProfileInfo.module.css";
 
 export type PropsTypes = {
     profile: ProfileType | null;
@@ -58,15 +57,11 @@ const ProfileInfo: FC<PropsTypes> = ({
     return (
         <div className={style.descriptionBlock}>
             <Box sx={{ width: "100%" }}>
-                <Grid
-                    container
-                    rowSpacing={1}
-                    // columnSpacing={{ xs: 1, sm: 2, md: 3 }}
-                >
-                    <Grid xs={12} md={2}>
+                <Grid container rowSpacing={1}>
+                    <Grid xs={12} sm={3} lg={2}>
                         <img src={profile.photos.large || userPhoto} />
                     </Grid>
-                    <Grid xs={12} md={10}>
+                    <Grid xs={12} md={12} lg={10} className={style.profileInfo}>
                         {editMode ? (
                             <>
                                 {isOwner && (
@@ -91,7 +86,6 @@ const ProfileInfo: FC<PropsTypes> = ({
                                         Change Photo
                                     </Stack>
                                 )}
-
                                 <ProfileDataForm
                                     profile={profile}
                                     handleSubmit={handleSubmit}

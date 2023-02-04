@@ -32,7 +32,7 @@ export const AddMessageForm: FC = () => {
             <div>
                 <Button
                     variant="contained"
-                    disabled={status !== 'ready'}
+                    disabled={status !== "ready"}
                     onClick={sendMessageHandler}
                 >
                     Send message

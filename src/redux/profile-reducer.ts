@@ -2,7 +2,6 @@ import { ResultCodesEnum } from "../api/api";
 import { PhotosType, PostsType, ProfileType } from "../types/types";
 import { BaseThunkType, InferActionsTypes, ProfileThunkType } from "./store";
 import { profileAPI } from "../api/profileAPI";
-import { ThunkDispatch } from "redux-thunk/src/types";
 
 const initialState = {
     posts: [

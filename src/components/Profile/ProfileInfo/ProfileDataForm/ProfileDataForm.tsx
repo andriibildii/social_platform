@@ -31,14 +31,12 @@ export const ProfileDataForm: FC<PropsTypes> = ({
                     values: ProfileType,
                     { setSubmitting }: FormikHelpers<ProfileType>
                 ) => {
-                    console.log(values);
                     handleSubmit(values);
                     setSubmitting(false);
                 }}
             >
                 <Form>
                     <Stack
-                        direction="column"
                         justifyContent="flex-start"
                         alignItems="flex-start"
                         spacing={2}
@@ -51,7 +49,7 @@ export const ProfileDataForm: FC<PropsTypes> = ({
                             save
                         </Button>
                         {hasError && errorLog && (
-                            <Alert severity="error">
+                            <Alert severity="error" style={{ width: "94%" }}>
                                 <AlertTitle>Error</AlertTitle>
                                 <strong>{errorLog}</strong>
                             </Alert>

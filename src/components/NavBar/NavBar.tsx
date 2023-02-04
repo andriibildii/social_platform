@@ -39,10 +39,10 @@ const NavBar: FC = () => {
                     </NavLink>
 
                     <NavLink
-                      to="/chat"
-                      className={({ isActive }) =>
-                        isActive ? style.active : undefined
-                      }
+                        to="/chat"
+                        className={({ isActive }) =>
+                            isActive ? style.active : undefined
+                        }
                     >
                         <ListItem disablePadding>
                             <ListItemButton>

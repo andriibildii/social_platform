@@ -15,14 +15,13 @@ import {
 } from "../../redux/profile-selectors";
 import { ProfileType } from "../../types/types";
 import { AppDispatch } from "../../redux/store";
-import { Grid, Card, Box} from "@mui/material";
+import { Grid, Card, Box } from "@mui/material";
 
 type PropsTypes = {
     isOwner: boolean;
 };
 
 const Profile: React.FC<PropsTypes> = React.memo(({ isOwner }) => {
-
     const profile = useSelector(getProfile);
     const status = useSelector(getStatus);
     const hasError = useSelector(getError);
@@ -44,7 +43,7 @@ const Profile: React.FC<PropsTypes> = React.memo(({ isOwner }) => {
 
     return (
         <div className="">
-            <Box sx={{ width: "100%"}}>
+            <Box sx={{ width: "100%" }}>
                 <Grid
                     container
                     direction="row"
@@ -53,7 +52,7 @@ const Profile: React.FC<PropsTypes> = React.memo(({ isOwner }) => {
                     columnSpacing={1}
                     rowSpacing={1}
                 >
-                    <Grid item xs={9} xl={12}>
+                    <Grid item xs={10} xl={12}>
                         <Card>
                             <ProfileInfo
                                 isOwner={isOwner}
@@ -67,7 +66,7 @@ const Profile: React.FC<PropsTypes> = React.memo(({ isOwner }) => {
                             />
                         </Card>
                     </Grid>
-                    <Grid item xs={9} xl={12}>
+                    <Grid item xs={10} xl={12}>
                         <Card>
                             <MyPosts />
                         </Card>

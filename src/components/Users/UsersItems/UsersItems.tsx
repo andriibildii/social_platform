@@ -28,9 +28,9 @@ import { useSearchParams } from "react-router-dom";
 type QueryParamsType = { term?: string; page?: string; friend?: string };
 
 export const UsersItems: FC = () => {
-    const [searchParams, setSearchParams] = useSearchParams();
+    const [searchParams] = useSearchParams();
     const navigate = useNavigate();
-    const location = useLocation();
+    // const location = useLocation();
     const users = useSelector(getUsers);
     const totalUsersCount = useSelector(getTotalUsersCount);
     const currentPage = useSelector(getCurrentPage);

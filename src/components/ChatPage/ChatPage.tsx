@@ -23,15 +23,17 @@ const ChatPage: FC = () => {
     return (
         <div>
             <Grid
-              container
-              direction="row"
-              justifyContent="center"
-              alignItems="center"
-              columnSpacing={1}
-              rowSpacing={1}
+                container
+                direction="row"
+                justifyContent="center"
+                alignItems="center"
+                columnSpacing={1}
+                rowSpacing={1}
             >
                 <Grid item xs={9} xl={12}>
-                    {status === "error" && <div>Error, please refresh the page</div>}
+                    {status === "error" && (
+                        <div>Error, please refresh the page</div>
+                    )}
                     <Messages />
                 </Grid>
                 <Grid item xs={9} xl={12}>

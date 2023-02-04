@@ -39,28 +39,30 @@ export const AddPostForm = () => {
             >
                 <Form>
                     <Stack
-                      direction="column"
-                      justifyContent="flex-start"
-                      alignItems="flex-start"
-                      spacing={0.5}
+                        direction="column"
+                        justifyContent="flex-start"
+                        alignItems="flex-start"
+                        spacing={0.5}
                     >
                         <Field
-                          id="newPost"
-                          name="newPost"
-                          label="add new post..."
-                          type="text"
-                          component={TextField}
-                          multiline
-                          rows={2}
-                          fullWidth
+                            id="newPost"
+                            name="newPost"
+                            label="add new post..."
+                            type="text"
+                            component={TextField}
+                            multiline
+                            rows={2}
+                            fullWidth
                         />
-                        <Button type="submit" color="primary" variant="contained">
+                        <Button
+                            type="submit"
+                            color="primary"
+                            variant="contained"
+                        >
                             Send - <SendIcon />
                         </Button>
                     </Stack>
-                    <Stack>
-
-                    </Stack>
+                    <Stack></Stack>
                 </Form>
             </Formik>
         </div>

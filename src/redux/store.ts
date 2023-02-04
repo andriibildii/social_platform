@@ -1,5 +1,5 @@
 import { Action, applyMiddleware, combineReducers, compose, createStore } from "redux";
-import thunkMiddleware, { ThunkAction, ThunkDispatch } from "redux-thunk";
+import thunkMiddleware, { ThunkAction } from "redux-thunk";
 import profileReducer from "./profile-reducer";
 import dialogsReducer from "./dialogs-reducer";
 import sidebarReducer from "./sidebar-reducer";
