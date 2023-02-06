@@ -55,7 +55,6 @@ export const UsersItems: FC = () => {
     useEffect(() => {
         /// with using useSearchParams()
         const parsed1 = Object.fromEntries([...searchParams]);
-        console.log("useSearchParams", parsed1);
 
         /// with using useLocation() and new URLSearchParams
         // const search = location.search;
@@ -149,11 +148,10 @@ export const UsersItems: FC = () => {
                             columnGap={1}
                         >
                             {users.map((user) => (
-                                <Grid xs={10} md={5}>
+                                <Grid item xs={10} md={5} key={user.id}>
                                     <Card
                                         sx={{
-                                            // width: "280px",
-                                            height: '210px',
+                                            height: "210px",
                                             display: "flex",
                                             justifyContent: "center",
                                             alignItems: "center",

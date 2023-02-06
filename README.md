@@ -1,5 +1,7 @@
 # Social Platform
 
+![Hero](./src/assets/img/Screenshot.png "Hero")
+
 This project was created by:
 - ReactJS
 - TypeScript
