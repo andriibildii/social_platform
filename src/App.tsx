@@ -1,4 +1,4 @@
-import React, { FC, Suspense, useEffect, useLayoutEffect } from "react";
+import React, { FC, Suspense, useLayoutEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import { Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -26,7 +26,7 @@ const Music = React.lazy(() => import("./components/Music/Music"));
 const Settings = React.lazy(() => import("./components/Settings/Settings"));
 const ChatPage = React.lazy(() => import("./components/ChatPage/ChatPage"));
 
-const App = () => {
+const App: FC = () => {
     const initialized = useSelector(
       (state: AppStateType) => state.app.initialized
     );

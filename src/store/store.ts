@@ -30,6 +30,7 @@ export type BaseThunkType<A extends Action = Action, R = Promise<void>> = ThunkA
 export type ProfileThunkType<R, A extends Action = Action> = ThunkAction<R, AppStateType, unknown, A>;
 // export type BaseThunkType<A extends Action = Action, R = Promise<void>> = (dispatch: ThunkDispatch<AppStateType, unknown, A>, getState: () => AppStateType, extraArgument: unknown) => R
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 

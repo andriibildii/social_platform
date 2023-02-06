@@ -32,7 +32,7 @@ const Profile: React.FC<PropsTypes> = React.memo(({ isOwner }) => {
         dispatch(updateStatusThunkCreator(status));
     };
 
-    const savePhoto = (file: any) => {
+    const savePhoto = (file: File) => {
         dispatch(saveMainPhotoThunkCreator(file));
     };
 

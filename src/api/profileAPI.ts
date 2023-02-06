@@ -1,5 +1,5 @@
 import { PhotosType, ProfileType } from "../types/types";
-import { axiosInstance, ResultCodesEnum, ResponseType } from "./api";
+import { axiosInstance, ResponseType } from "./api";
 
 type SavePhotosResponseDataType = {
     photos: PhotosType

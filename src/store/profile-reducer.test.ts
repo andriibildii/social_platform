@@ -1,6 +1,6 @@
 import profileReducer, { actions } from "./profile-reducer";
 
-let state = {
+const state = {
     posts: [
         { id: 1, message: "Hello mates!", likesCount: 0 },
         { id: 2, message: "The first", likesCount: 23 },
@@ -14,10 +14,10 @@ let state = {
 
 test("length of posts should ne increment", () => {
     //arrange
-    let action = actions.addPostActionCreator("Hey Andrii!");
+    const action = actions.addPostActionCreator("Hey Andrii!");
 
     //act
-    let newState = profileReducer(state, action);
+    const newState = profileReducer(state, action);
 
     //assertions
     expect(newState.posts.length).toBe(4);
@@ -25,10 +25,10 @@ test("length of posts should ne increment", () => {
 
 test("message of new post should be correct", () => {
     //arrange
-    let action = actions.addPostActionCreator("Hey Andrii!");
+    const action = actions.addPostActionCreator("Hey Andrii!");
 
     //act
-    let newState = profileReducer(state, action);
+    const newState = profileReducer(state, action);
 
     //assertions
     expect(newState.posts[3].message).toBe("Hey Andrii!");
@@ -36,21 +36,21 @@ test("message of new post should be correct", () => {
 
 test("after deleting length of message should be decrement", () => {
     //arrange
-    let action = actions.deletePost(4);
+    const action = actions.deletePost(4);
 
     //act
-    let newState = profileReducer(state, action);
+    const newState = profileReducer(state, action);
 
     //assertions
     expect(newState.posts.length).toBe(3);
 });
 
-test("after deleting length souldn\'t be decrement id ID is incorrect", () => {
+test("after deleting length shouldn't be decrement id ID is incorrect", () => {
     //arrange
-    let action = actions.deletePost(50);
+    const action = actions.deletePost(50);
 
     //act
-    let newState = profileReducer(state, action);
+    const newState = profileReducer(state, action);
 
     //assertions
     expect(newState.posts.length).toBe(3);

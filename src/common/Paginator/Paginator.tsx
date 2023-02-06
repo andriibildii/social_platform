@@ -6,7 +6,6 @@ import Button from "@mui/material/Button";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import Stack from "@mui/material/Stack";
-import Pagination from "@mui/material/Pagination";
 
 type PropsType = {
     totalItemsCount: number;
@@ -18,7 +17,7 @@ type PropsType = {
 
 const Paginator: FC<PropsType> = ({
     currentPage = 1,
-    onPageChanged = () => {},
+    onPageChanged,
     totalItemsCount,
     pageSize,
     portionSize = 10,
@@ -70,8 +69,8 @@ const Paginator: FC<PropsType> = ({
                             p >= leftPortionPageNumber &&
                             p <= rightPortionPageNumber
                     )
-                    .map((page) => (
-                        <div>
+                    .map((page, index) => (
+                        <div key={index}>
                             <span
                                 className={cn(
                                     {
@@ -83,7 +82,7 @@ const Paginator: FC<PropsType> = ({
                                 key={page}
                                 // className={currentPage === page ? style.selectedPage : ""}
                                 onClick={() => {
-                                    onPageChanged(page);
+                                    onPageChanged && onPageChanged(page);
                                 }}
                             >
                                 {page}

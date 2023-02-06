@@ -30,7 +30,7 @@ export const Messages: FC = () => {
             style={{ height: "400px", overflowY: "auto" }}
             onScroll={scrollHandler}
         >
-            {messages.map((message, index) => (
+            {messages.map((message) => (
                 <Message key={message.id} message={message} />
             ))}
             <div ref={messageRef}></div>

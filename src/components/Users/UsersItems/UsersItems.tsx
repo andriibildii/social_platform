@@ -21,16 +21,16 @@ import {
     getUsersFilter,
 } from "../../../store/users-selectors";
 import { AppDispatch } from "../../../store/store";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useSearchParams } from "react-router-dom";
 // import * as queryString from 'querystring';
 
 type QueryParamsType = { term?: string; page?: string; friend?: string };
 
 export const UsersItems: FC = () => {
-    const [searchParams, setSearchParams] = useSearchParams();
+    const [searchParams] = useSearchParams();
     const navigate = useNavigate();
-    const location = useLocation();
+    // const location = useLocation();
     const users = useSelector(getUsers);
     const totalUsersCount = useSelector(getTotalUsersCount);
     const currentPage = useSelector(getCurrentPage);
@@ -39,9 +39,10 @@ export const UsersItems: FC = () => {
     const followingInProgress = useSelector(getFollowingInProgress);
 
     const dispatch: AppDispatch = useDispatch();
+
     useEffect(() => {
         const query: QueryParamsType = {};
-        if (!!filter.term) query.term = filter.term;
+        if (filter.term) query.term = filter.term;
         if (filter.friend !== null) query.friend = String(filter.friend);
         if (currentPage !== 1) query.page = String(currentPage);
         const queryString = "?" + new URLSearchParams(query).toString();
@@ -63,10 +64,10 @@ export const UsersItems: FC = () => {
 
         let actualPage = currentPage;
         let actualFilter = filter;
-        if (!!parsed1.page) actualPage = Number(parsed1.page);
-        if (!!parsed1.term)
+        if (parsed1.page) actualPage = Number(parsed1.page);
+        if (parsed1.term)
             actualFilter = { ...actualFilter, term: parsed1.term };
-        if (!!parsed1.friend)
+        if (parsed1.friend)
             actualFilter = {
                 ...actualFilter,
                 friend:

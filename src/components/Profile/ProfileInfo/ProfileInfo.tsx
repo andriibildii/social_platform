@@ -13,7 +13,7 @@ import style from "./ProfileInfo.module.css";
 export type PropsTypes = {
     profile: ProfileType | null;
     isOwner: boolean;
-    saveMainPhoto: (file: any) => void;
+    saveMainPhoto: (file: File) => void;
     // saveProfile: (profile: ProfileType) => Promise<{errorLog: string, hasError: boolean, type: string} | undefined>
     saveProfile: (profile: ProfileType) => Promise<SaveProfileThunkType>;
     hasError: boolean;

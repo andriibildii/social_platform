@@ -8,7 +8,7 @@ import { TextField, Select } from "formik-mui";
 import { MenuItem } from "@mui/material";
 import Stack from "@mui/material/Stack";
 
-const usersSearchFormValidate = (values: any) => {
+const usersSearchFormValidate = () => {
     const errors = {};
     return errors;
 };

@@ -1,6 +1,5 @@
 import { FC } from "react";
 import { NavLink } from "react-router-dom";
-// @ts-ignore
 import userPhoto from "../../../../assets/img/image-from-rawpixel-id-6642555-png.png";
 import style from "./User.module.css";
 import { UsersType } from "../../../../types/types";

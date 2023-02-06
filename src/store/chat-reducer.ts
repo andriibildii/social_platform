@@ -9,7 +9,7 @@ type ActionsType = InferActionsTypes<typeof actions>;
 type ThunkType = BaseThunkType<ActionsType>;
 export type ChatMessageType = ChatMessageAPIType & {id: string}
 
-let initialState = {
+const initialState = {
     messages: [] as ChatMessageType[],
     status: "pending" as StatusType,
 };
@@ -93,7 +93,7 @@ export const stopMessagesListener = (): ThunkType => async (dispatch) => {
 
 export const sendMessage =
     (message: string): ThunkType =>
-    async (dispatch) => {
+    async () => {
         chatAPI.sendMessage(message);
     };
 
