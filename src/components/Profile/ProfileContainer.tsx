@@ -1,13 +1,13 @@
 import { useEffect, FC } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { AppDispatch } from "../../redux/store";
+import { AppDispatch } from "../../store/store";
 import Profile from "./Profile";
 import {
     profileThunkCreator,
     getStatusThunkCreator,
-} from "../../redux/profile-reducer";
-import { getAuthInfo, getAuthUserId } from "../../redux/profile-selectors";
+} from "../../store/profile-reducer";
+import { getAuthInfo, getAuthUserId } from "../../store/profile-selectors";
 
 const ProfileContainer: FC = () => {
     const navigate = useNavigate();

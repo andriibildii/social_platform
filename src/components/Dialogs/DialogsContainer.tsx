@@ -8,7 +8,7 @@ import Card from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import { Grid } from "@mui/material";
 import style from "./Dialogs.module.css";
-import { AppStateType } from "../../redux/store";
+import { AppStateType } from "../../store/store";
 
 const DialogsContainer: FC = () => {
     const navigate = useNavigate();

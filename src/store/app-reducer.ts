@@ -35,7 +35,7 @@ export const actions = {
 // THUNKS
 type ThunkType = ThunkAction<void, AppStateType, unknown, ActionsType>;
 export const initializeApp = (): ThunkType => (dispatch) => {
-    let promise = dispatch(authUserDataThunkCreator());
+    const promise = dispatch(authUserDataThunkCreator());
     promise.then(() => {
         dispatch(actions.initializedSuccess());
     });

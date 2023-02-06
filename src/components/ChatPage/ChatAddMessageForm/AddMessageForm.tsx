@@ -1,7 +1,7 @@
 import { FC, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { sendMessage } from "../../../redux/chat-reducer";
-import { AppDispatch, AppStateType } from "../../../redux/store";
+import { sendMessage } from "../../../store/chat-reducer";
+import { AppDispatch, AppStateType } from "../../../store/store";
 import { Button, TextField } from "@mui/material";
 
 export const AddMessageForm: FC = () => {
@@ -32,7 +32,7 @@ export const AddMessageForm: FC = () => {
             <div>
                 <Button
                     variant="contained"
-                    disabled={status !== "ready"}
+                    disabled={status !== 'ready'}
                     onClick={sendMessageHandler}
                 >
                     Send message

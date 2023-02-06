@@ -1,5 +1,4 @@
 import { FC } from "react";
-import style from "../../ProfileInfo.module.css";
 import Grid from "@mui/material/Unstable_Grid2";
 import Box from "@mui/material/Box";
 import { styled } from "@mui/material/styles";

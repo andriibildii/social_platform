@@ -1,6 +1,5 @@
 import React, { ChangeEvent, FC, useEffect, useState } from "react";
 import { TextField, Tooltip } from "@mui/material";
-import { Status } from "./Status";
 
 type PropsTypes = {
     status: string;
@@ -11,7 +10,6 @@ const ProfileStatus: FC<PropsTypes> = (props) => {
     const initialStatus = props.status;
     const [status, setStatus] = useState(initialStatus);
     const [editMode, setEditMode] = useState(false);
-
 
     const activateEditMode = () => {
         setEditMode(true);
@@ -33,13 +31,14 @@ const ProfileStatus: FC<PropsTypes> = (props) => {
     return (
         <div>
             {!editMode ? (
-                <Tooltip title="Click twice to change the status" arrow>
-                    <Status
-                        activateEditMode={activateEditMode}
-                        initialStatus={initialStatus}
-
-                    />
-                </Tooltip>
+                <>
+                    <b>Status: </b>
+                    <Tooltip title="Click twice to change the status" arrow>
+                        <span onDoubleClick={activateEditMode}>
+                            {initialStatus || "-->add your status<--"}
+                        </span>
+                    </Tooltip>
+                </>
             ) : (
                 <div>
                     <TextField

@@ -1,7 +1,7 @@
 import React, { FC, useEffect, useRef, useState } from "react";
 import { Message } from "./Message/Message";
 import { useSelector } from "react-redux";
-import { AppStateType } from "../../../redux/store";
+import { AppStateType } from "../../../store/store";
 
 export const Messages: FC = () => {
     const messages = useSelector((state: AppStateType) => state.chat.messages);

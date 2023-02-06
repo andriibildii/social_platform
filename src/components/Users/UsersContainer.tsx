@@ -3,7 +3,7 @@ import {useSelector } from "react-redux";
 import { UsersItems } from "./UsersItems/UsersItems";
 import Preloader from "../../common/Preloader/Preloader";
 
-import { getIsFetching} from "../../redux/users-selectors";
+import { getIsFetching} from "../../store/users-selectors";
 
 const UsersContainer: FC = () => {
     const isFetching = useSelector(getIsFetching);

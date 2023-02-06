@@ -1,17 +1,21 @@
 import React from "react";
-import { create, act } from "react-test-renderer";
+import {create, act} from "react-test-renderer";
 import ProfileStatus from "./ProfileStatus";
 
 describe("ProfileStatus Component", () => {
     test("status from props should be in state", () => {
-        const testRenderer = create(<ProfileStatus status="test-status" />);
+        const testRenderer = create(
+            <ProfileStatus status="test-status" />
+        );
         // function component don’t have instances
         const testInstance = testRenderer.root;
         // expect(testInstance.findByDisplayValue(state.status)).toBe("test-status");
     });
 
     test("after creating span should be displayed", () => {
-        const testRenderer = create(<ProfileStatus status="test-status" />);
+        const testRenderer = create(
+            <ProfileStatus status="test-status" />
+        );
         const testInstance = testRenderer.root;
         const span = testInstance.findByType("span");
         // expect(span.children.length).toBe(1);
@@ -19,7 +23,9 @@ describe("ProfileStatus Component", () => {
     });
 
     test("after creating input should't be displayed", () => {
-        const testRenderer = create(<ProfileStatus status="test-status" />);
+        const testRenderer = create(
+            <ProfileStatus status="test-status" />
+        );
         const testInstance = testRenderer.root;
 
         expect(() => {
@@ -28,7 +34,9 @@ describe("ProfileStatus Component", () => {
     });
 
     test("after creating span should have correct status", () => {
-        const testRenderer = create(<ProfileStatus status="test-status" />);
+        const testRenderer = create(
+            <ProfileStatus status="test-status" />
+        );
         const testInstance = testRenderer.root;
         const span = testInstance.findByType("span");
 
@@ -36,7 +44,9 @@ describe("ProfileStatus Component", () => {
     });
 
     test("input should be displayed in editMode instead of span", () => {
-        const testRenderer = create(<ProfileStatus status="test-status" />);
+        const testRenderer = create(
+            <ProfileStatus status="test-status" />
+        );
         const testInstance = testRenderer.root;
         const span = testInstance.findByType("span");
 
@@ -52,10 +62,12 @@ describe("ProfileStatus Component", () => {
     test("callback should be called", () => {
         const mockCallback = jest.fn();
         const testRenderer = create(
-            <ProfileStatus status="test-status" updateStatus={mockCallback} />
+            <ProfileStatus status="test-status" updateStatus={mockCallback}/>
         );
         const testInstance = testRenderer.root;
         testInstance.deactivateEditMode();
         expect(mockCallback.mock.calls.length).toBe(1);
+
+
     });
 });

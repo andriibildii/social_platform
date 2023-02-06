@@ -5,7 +5,7 @@ import userPhoto from "../../../assets/img/image-from-rawpixel-id-6642555-png.pn
 import ProfileData from "./ProfileData/ProfileData";
 import { ProfileDataForm } from "./ProfileDataForm/ProfileDataForm";
 import { ProfileType } from "../../../types/types";
-import { SaveProfileThunkType } from "../../../redux/profile-reducer";
+import { SaveProfileThunkType } from "../../../store/profile-reducer";
 import { Stack, IconButton, Grid, Box } from "@mui/material";
 import { PhotoCamera } from "@mui/icons-material";
 import style from "./ProfileInfo.module.css";
@@ -58,10 +58,10 @@ const ProfileInfo: FC<PropsTypes> = ({
         <div className={style.descriptionBlock}>
             <Box sx={{ width: "100%" }}>
                 <Grid container rowSpacing={1}>
-                    <Grid xs={12} sm={3} lg={2}>
+                    <Grid item xs={12} sm={3} lg={2}>
                         <img src={profile.photos.large || userPhoto} />
                     </Grid>
-                    <Grid xs={12} md={12} lg={10} className={style.profileInfo}>
+                    <Grid item xs={12} md={12} lg={10} className={style.profileInfo}>
                         {editMode ? (
                             <>
                                 {isOwner && (
@@ -102,7 +102,7 @@ const ProfileInfo: FC<PropsTypes> = ({
                             />
                         )}
                     </Grid>
-                    <Grid xs={12}>
+                    <Grid item xs={12}>
                         <ProfileStatus
                             status={props.status}
                             updateStatus={props.updateStatus}

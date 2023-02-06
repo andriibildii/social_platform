@@ -189,8 +189,8 @@ export default usersReducer;
 // import { ResultCodesEnum} from "../api/api";
 // import { updateObjectInArray } from "../utils/object-helper";
 // import { UsersType } from "../types/types";
-// import {Dispatch} from "redux";
-// import { ThunkAction } from "redux-thunk";
+// import {Dispatch} from "store";
+// import { ThunkAction } from "store-thunk";
 // import { AppStateType } from "./store";
 // import { userAPI } from "../api/userAPI";
 //

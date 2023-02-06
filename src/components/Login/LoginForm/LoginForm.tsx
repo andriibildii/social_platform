@@ -1,27 +1,18 @@
 import React from "react";
 import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, AppStateType } from "../../../redux/store";
-import { loginThunkCreator } from "../../../redux/auth-reducer";
+import { AppDispatch, AppStateType } from "../../../store/store";
+import { loginThunkCreator } from "../../../store/auth-reducer";
 import * as yup from "yup";
-import {
-    Button,
-    TextField,
-    AlertTitle,
-    Box,
-    Alert,
-    Checkbox,
-    FormControlLabel,
-    Stack,
-} from "@mui/material";
-import styles from "./LoginForm.module.css";
+import { Button, TextField, AlertTitle, Box, Alert, Checkbox, FormControlLabel, Stack } from "@mui/material";
+import styles from './LoginForm.module.css'
 
 type LoginFormType = {
-    email: string;
-    password: string;
-    rememberMe: boolean;
-    captcha: string;
-};
+    email: string
+    password: string
+    rememberMe: boolean
+    captcha: string
+}
 const validationSchema = yup.object({
     email: yup
         .string()
@@ -33,9 +24,7 @@ const validationSchema = yup.object({
 });
 
 export const LoginForm = () => {
-    const captchaUrl = useSelector(
-        (state: AppStateType) => state.auth.captchaUrl
-    );
+    const captchaUrl = useSelector((state: AppStateType) => state.auth.captchaUrl);
     const hasError = useSelector((state: AppStateType) => state.auth.hasError);
     const errorLog = useSelector((state: AppStateType) => state.auth.errorLog);
     const dispatch: AppDispatch = useDispatch();
@@ -65,7 +54,7 @@ export const LoginForm = () => {
     });
 
     return (
-        <Box sx={{ width: "50%" }}>
+        <Box sx={{ width: '50%'}} >
             <form onSubmit={formik.handleSubmit}>
                 <Stack spacing={2}>
                     <TextField
@@ -103,11 +92,7 @@ export const LoginForm = () => {
                     />
 
                     {hasError && captchaUrl && (
-                        <img
-                            src={captchaUrl}
-                            alt={"captchaUrl"}
-                            className={styles.captchaImage}
-                        />
+                        <img src={captchaUrl} alt={"captchaUrl"} className={styles.captchaImage}/>
                     )}
                     {hasError && captchaUrl && (
                         <div>

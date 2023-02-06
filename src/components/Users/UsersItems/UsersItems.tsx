@@ -10,7 +10,7 @@ import {
     getUsersThunkCreator,
     followThunkCreator,
     unfollowThunkCreator,
-} from "../../../redux/users-reducer";
+} from "../../../store/users-reducer";
 import { useDispatch, useSelector } from "react-redux";
 import {
     getCurrentPage,
@@ -19,8 +19,8 @@ import {
     getTotalUsersCount,
     getUsers,
     getUsersFilter,
-} from "../../../redux/users-selectors";
-import { AppDispatch } from "../../../redux/store";
+} from "../../../store/users-selectors";
+import { AppDispatch } from "../../../store/store";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useSearchParams } from "react-router-dom";
 // import * as queryString from 'querystring';
@@ -28,9 +28,9 @@ import { useSearchParams } from "react-router-dom";
 type QueryParamsType = { term?: string; page?: string; friend?: string };
 
 export const UsersItems: FC = () => {
-    const [searchParams] = useSearchParams();
+    const [searchParams, setSearchParams] = useSearchParams();
     const navigate = useNavigate();
-    // const location = useLocation();
+    const location = useLocation();
     const users = useSelector(getUsers);
     const totalUsersCount = useSelector(getTotalUsersCount);
     const currentPage = useSelector(getCurrentPage);

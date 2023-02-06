@@ -6,15 +6,15 @@ import {
     saveMainPhotoThunkCreator,
     saveProfileThunkCreator,
     updateStatusThunkCreator,
-} from "../../redux/profile-reducer";
+} from "../../store/profile-reducer";
 import {
     getError,
     getErrorLog,
     getProfile,
     getStatus,
-} from "../../redux/profile-selectors";
+} from "../../store/profile-selectors";
 import { ProfileType } from "../../types/types";
-import { AppDispatch } from "../../redux/store";
+import { AppDispatch } from "../../store/store";
 import { Grid, Card, Box } from "@mui/material";
 
 type PropsTypes = {

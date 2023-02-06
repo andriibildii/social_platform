@@ -1,12 +1,13 @@
 import { FC } from "react";
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, AppStateType } from "../../redux/store";
+import { AppDispatch, AppStateType } from "../../store/store";
 import Card from "@mui/material/Card";
 import Button from "@mui/material/Button";
 import style from "./Header.module.css";
 import { Avatar } from "@mui/material";
-import { logoutThunkCreator } from "../../redux/auth-reducer";
+import { logoutThunkCreator } from "../../store/auth-reducer";
+import logo from '../../assets/img/logo.svg';
 
 const Header: FC = () => {
     const isAuth = useSelector((state: AppStateType) => state.auth.isAuth);
@@ -21,7 +22,7 @@ const Header: FC = () => {
         <header className={style.header}>
             <Card
                 sx={{
-                    minHeight: 50,
+                    minHeight: 60,
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "space-between",
@@ -29,8 +30,8 @@ const Header: FC = () => {
                     paddingRight: 2,
                 }}
             >
-                <Avatar
-                    src="https://images.rawpixel.com/image_png_1000/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvcm0zNzNiYXRjaDQtNjIucG5n.png"
+                <img
+                    src={logo}
                     alt="logo"
                 />
                 <div className={style.loginBlock}>

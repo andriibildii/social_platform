@@ -1,7 +1,7 @@
 import { FC, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { AppStateType } from "../../redux/store";
+import { AppStateType } from "../../store/store";
 import { LoginForm } from "./LoginForm/LoginForm";
 import { Container } from "@mui/material";
 import styles from "./LoginForm/LoginForm.module.css";
@@ -9,8 +9,6 @@ import styles from "./LoginForm/LoginForm.module.css";
 export const Login: FC = () => {
     const navigate = useNavigate();
     const isAuth = useSelector((state: AppStateType) => state.auth.isAuth);
-
-    // w_GAZtd5Wxn!4Vs
 
     useEffect(() => {
         isAuth && navigate("/profile");

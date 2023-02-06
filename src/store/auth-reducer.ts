@@ -3,7 +3,7 @@ import { BaseThunkType, InferActionsTypes } from "./store";
 import { authAPI } from "../api/authAPI";
 import { securityAPI } from "../api/securityAPI";
 
-let initialState = {
+const initialState = {
     userId: null as number | null,
     email: null as string | null,
     login: null as string | null,

@@ -1,8 +1,8 @@
 import { Field, Form, Formik } from "formik";
 import React from "react";
-import { FilterType } from "../../../../redux/users-reducer";
+import { FilterType } from "../../../../store/users-reducer";
 import { useSelector } from "react-redux";
-import { getUsersFilter } from "../../../../redux/users-selectors";
+import { getUsersFilter } from "../../../../store/users-selectors";
 import Button from "@mui/material/Button";
 import { TextField, Select } from "formik-mui";
 import { MenuItem } from "@mui/material";
@@ -109,7 +109,7 @@ export const UsersSearchForm: React.FC<PropsType> = React.memo((props) => {
 
 // import React, { FC } from "react";
 // import { Field, Form, Formik } from "formik";
-// import { FilterType } from "../../../../redux/users-reducer";
+// import { FilterType } from "../../../../store/users-reducer";
 
 // const usersSearchFormValidate = (values: any) => {
 //   const errors = {}
