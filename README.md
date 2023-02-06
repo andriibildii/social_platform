@@ -2,6 +2,7 @@
 
 This project was created by:
 - ReactJS
+- TypeScript
 - React Redux
 - Axios
 - Jest
