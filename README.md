@@ -1,6 +1,13 @@
 # Social Platform
 
 ![Hero](./src/assets/img/Screenshot.png "Hero")
+------------
+
+[Deployed App](https://social-platform-bildii.netlify.app "Deployed App")
+
+[https://login-register-app-react.netlify.app](https://social-platform-bildii.netlify.app)
+
+------------
 
 This project was created by:
 - ReactJS
